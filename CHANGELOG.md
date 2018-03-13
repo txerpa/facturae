@@ -5,3 +5,6 @@
     - FacturaeRoot.sign_verify(signed_root) to verify the already created signature
 - Add basic signature tests with a dummy self-signed cert
 - Provide Travis-CI integration to validate tests and autodeploy to Pypi on tag
+
+# 0.1.0
+- Forked instance from totaler/facturae repo
