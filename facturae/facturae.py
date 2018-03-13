@@ -39,10 +39,15 @@ class FacturaeRoot(XmlModel):
         string_signed_root = ElementTree.tostring(signed_root, encoding='utf8',
                                                   method='xml').replace("\n","")
 
-        #verified_data = XMLVerifier().verify(data=signed_root,
-        #                                     require_x509=False).signed_xml
 
         return string_signed_root
+
+    def sign_verify(self, signed_root):
+        """
+        Verify the provided signature
+        """
+        return XMLVerifier().verify(data=signed_root,
+                                            require_x509=False).signed_xml
 
 
 # 1
