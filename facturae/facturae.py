@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from libcomxml.core import XmlModel, XmlField
-
+from .utils import FacturaeUtils
+from signxml import XMLSigner, XMLVerifier
+from xml.etree import ElementTree
 
 class FacturaeRoot(XmlModel):
     _sort_order = ('root', 'fileheader', 'parties', 'invoices')
@@ -17,6 +19,29 @@ class FacturaeRoot(XmlModel):
         self.parties = Parties()
         self.invoices = Invoices()
         super(FacturaeRoot, self).__init__('Facturae', 'root')
+
+    def sign(self, certificate, password):
+        """
+        Sign an InvoiceRoot using the provided PKCS12 certificate
+
+        :param certificate: must be the pkcs12 certificate
+        :param password: must be the password of the certificate
+        """
+
+        pkcs12_key, pkcs12_cert = FacturaeUtils.extract_from_pkcs12(
+                                                pk=certificate, passwd=password)
+
+        root = ElementTree.fromstring(xml)
+        signed_root = XMLSigner().sign(root, key=pkcs12_key, cert=pkcs12_cert)
+
+        string_signed_root = ElementTree.tostring(signed_root, encoding='utf8',
+                                                  method='xml')
+
+        #verified_data = XMLVerifier().verify(data=signed_root,
+        #                                     require_x509=False).signed_xml
+
+        return string_signed_root
+
 
 # 1
 
