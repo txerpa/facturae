@@ -28,6 +28,8 @@ class FacturaeRoot(XmlModel):
         :param password: must be the password of the certificate
         """
 
+        xml = str(self)
+
         pkcs12_key, pkcs12_cert = FacturaeUtils.extract_from_pkcs12(
                                                 pk=certificate, passwd=password)
 
@@ -35,7 +37,7 @@ class FacturaeRoot(XmlModel):
         signed_root = XMLSigner().sign(root, key=pkcs12_key, cert=pkcs12_cert)
 
         string_signed_root = ElementTree.tostring(signed_root, encoding='utf8',
-                                                  method='xml')
+                                                  method='xml').replace("\n","")
 
         #verified_data = XMLVerifier().verify(data=signed_root,
         #                                     require_x509=False).signed_xml
