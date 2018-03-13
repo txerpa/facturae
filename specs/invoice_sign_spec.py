@@ -10,6 +10,16 @@ import specs as test_data
 import logging
 #logging.basicConfig(level=logging.DEBUG)
 
+
+def clean_cert_str(cert):
+    """
+    Clean'up an string representation of a certificate
+    """
+    return cert.replace("-----BEGIN CERTIFICATE-----","").\
+                replace("-----END CERTIFICATE-----","").\
+                replace("\n","")
+
+
 with description('Invoice'):
     with before.each:
         self.invoice = facturae.FacturaeRoot()
@@ -26,7 +36,7 @@ with description('Invoice'):
 
         assert test_data.CERTIFICATE and test_data.CERTIFICATE_PASSWD and test_data.CERTIFICATE_PUBLIC
         self.certificate = open(test_data.CERTIFICATE).read()
-        self.certificate_public = open(test_data.CERTIFICATE_PUBLIC).read().replace("-----BEGIN CERTIFICATE-----","").replace("-----END CERTIFICATE-----","").replace("\n","")
+        self.certificate_public = clean_cert_str(open(test_data.CERTIFICATE_PUBLIC).read())
         self.password = test_data.CERTIFICATE_PASSWD
 
 
