@@ -10,8 +10,8 @@ with open('requirements-dev.txt', 'r') as f:
     TESTS_REQUIRES = f.readlines()
 
 setup(
-    name='facturae_gisce',
-    version=__version__
+    name='facturae',
+    version=__version__,
     url='http://www.gisce.net',
     author='GISCE-TI, S.L.',
     author_email='devel@gisce.net',
