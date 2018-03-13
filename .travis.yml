@@ -1,0 +1,17 @@
+language: python
+python:
+  - '2.7'
+
+before_install:
+  - 'pip install -r requirements.txt'
+  - 'pip install -r requirements-dev.txt'
+
+script: 'mamba .' 
+
+deploy:
+  provider: pypi
+  user: gisce
+  password:
+    secure: y8J+iwnMA40GFE+GzNwCGWbEb7OOLydATsEuSQAFzWTyQ1PlJN+CugKKKK19YDsS6OBc42NgGeiySOvFwwhFZK3d+uAYaE8CeU6VBMCVx8p+UfpbuQZ5yVB0ysG8Xl4EFiUzPgkfufJMzzZYgRY314yBB5wkEc2Vr71ltQyojE8sR7fptR6XcIQoxwCq6jIG4xeRUGRsz6j9Tjk2EfqwoMzGJsuO6bbVOD5NxvoNijsKfRBzbRDrYPAeZq1bNXxJ3DkHzavssj0hScepRs25mrw0ikt2KAJ9ssAni7ngPVy5QnPtgON60Ox2q8nRk15D1KZPs5W4c2YVJnnCM3KbRE6xi0RfehaRvZvtGNCTug41XwVDv+vccO7WescSpi9ULHVFgNENP+8xa8+p1mtGRDdko13nprCXPEvq7jTVMw3QaQ39x3KBjWXIbg8OeMxFGQomlX3He8WEY0DuBi3PZT36gZJ1sLaw6pVy0uncq1Dgn/eSnUbTuIv1RvKmvdczYn9fsKVaq7HeCWK0Vd4epj3Jl29mDw4UVHqcu6GRp1b6SYgjV0vkPZHk9yQI3/d2d6lWLaDgf/LYDyVT76lSW4Ixvv6r85X0ft2hxlRKIpkOK6hUcFphv8ll+uaQdrZvLsGnEWnCmluGgxGJ1aPPtbMc/iyBmvDTT7EGIPWlG6Y=
+  on:
+    tags: true
