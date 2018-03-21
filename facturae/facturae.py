@@ -715,7 +715,7 @@ class InvoiceLine(XmlModel):
         self.sequencenumber = XmlField('SequenceNumber')
         self.deliverynotesreference = DeliveryNotesReference()
         self.itemdescription = XmlField('ItemDescription')
-        self.quantity = XmlField('Quantity')
+        self.quantity = XmlField('Quantity', rep=lambda x: '%.8f' % x)
         self.unitofmeasure = XmlField('UnitOfMeasure')
         self.unitpricewithouttax = XmlField('UnitPriceWithoutTax',
                                             rep=lambda x: '%.8f' % x)
