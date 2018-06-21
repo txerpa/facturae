@@ -786,7 +786,7 @@ class SpecialTaxableEvent(XmlModel):
     def __init__(self):
         self.specialtaxableevent = XmlField('SpecialTaxableEvent')
         self.specialtaxableeventcode = XmlField('SpecialTaxableEventCode')
-        self.specialtaxableevenreason = XmlField('SpecialTaxableEventReason')
+        self.specialtaxableeventreason = XmlField('SpecialTaxableEventReason')
         super(SpecialTaxableEvent, self).__init__('SpecialTaxableEvent',
                                                   'specialtaxableevent')
 
