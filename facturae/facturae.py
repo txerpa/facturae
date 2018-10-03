@@ -781,7 +781,7 @@ class LineItemPeriod(XmlModel):
 class SpecialTaxableEvent(XmlModel):
 
     _sort_order = ('specialtaxableevent', 'specialtaxableeventcode',
-                   'specialtaxableevenreason')
+                   'specialtaxableeventreason')
 
     def __init__(self):
         self.specialtaxableevent = XmlField('SpecialTaxableEvent')
