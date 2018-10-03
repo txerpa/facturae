@@ -3,7 +3,15 @@
 from libcomxml.core import XmlModel, XmlField
 from .utils import FacturaeUtils
 from signxml import XMLSigner, XMLVerifier
-from xml.etree import ElementTree
+# from xml.etree import ElementTree
+
+try:
+    from lxml import etree
+except ImportError:
+    try:
+        import xml.etree.cElementTree as etree
+    except ImportError:
+        import xml.etree.ElementTree as etree
 
 class FacturaeRoot(XmlModel):
     _sort_order = ('root', 'fileheader', 'parties', 'invoices')
