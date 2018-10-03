@@ -39,14 +39,24 @@ class FacturaeRoot(XmlModel):
         xml = str(self)
 
         pkcs12_key, pkcs12_cert = FacturaeUtils.extract_from_pkcs12(
-                                                pk=certificate, passwd=password)
+            pk=certificate, passwd=password)
 
-        root = ElementTree.fromstring(xml)
-        signed_root = XMLSigner().sign(root, key=pkcs12_key, cert=pkcs12_cert)
+        root = etree.fromstring(xml)
+        from signxml import methods
+        signed_root = XMLSigner(
+            signature_algorithm='rsa-sha1',
+            digest_algorithm='sha1',
+            c14n_algorithm='http://www.w3.org/TR/2001/REC-xml-c14n-20010315',
+            method=methods.enveloped
+        ).sign(root, key=pkcs12_key, cert=pkcs12_cert)
 
-        string_signed_root = ElementTree.tostring(signed_root, encoding='utf8',
-                                                  method='xml').replace("\n","")
+        # signed_root = XMLSigner().sign(root, key=pkcs12_key, cert=pkcs12_cert)
 
+        string_signed_root = etree.tostring(
+            signed_root, xml_declaration=True, encoding='utf-8', method='xml')
+        #
+        # string_signed_root = ElementTree.tostring(
+        #     signed_root, method='xml')
 
         return string_signed_root
 
