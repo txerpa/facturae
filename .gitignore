@@ -4,3 +4,4 @@
 *.pyc
 .bzrignore
 .idea
+facturae.egg-info/

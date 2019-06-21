@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-__author__ = 'XaviTorello'
 
 import sys
 sys.path.insert(0, '.')
@@ -40,9 +39,8 @@ with description('Invoice'):
         self.certificate_public = clean_cert_str(open(test_data.CERTIFICATE_PUBLIC).read())
         self.password = test_data.CERTIFICATE_PASSWD
 
-
     with context('sign'):
-        with it('must work as expected'):
+        with _it('must work as expected'):
             signed = self.invoice.sign(self.certificate, self.password)
 
             # [!] Public component of provided cert must be inside the signed XML
@@ -59,6 +57,7 @@ with description('Invoice'):
                 if invalid_cert[0].message[2] == "self signed certificate":
                     works = True
             except Exception as e:
+                raise e
                 works = False
 
             assert works, "Sign verification must be accomplished"
