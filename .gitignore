@@ -3,3 +3,4 @@
 .settings
 *.pyc
 .bzrignore
+.idea
