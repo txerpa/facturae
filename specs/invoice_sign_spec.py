@@ -40,7 +40,7 @@ with description('Invoice'):
         self.password = test_data.CERTIFICATE_PASSWD
 
     with context('sign'):
-        with _it('must work as expected'):
+        with it('must work as expected'):
             signed = self.invoice.sign(self.certificate, self.password)
 
             # [!] Public component of provided cert must be inside the signed XML
