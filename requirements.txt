@@ -1,3 +1,4 @@
+lxml
 libcomxml
 signxml
 crypto
