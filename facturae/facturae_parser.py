@@ -138,6 +138,8 @@ class FacturaeParser(object):
                 invoice_res.update({
                     'InvoiceNumber': invoice_header.InvoiceNumber.text if invoice_header.find(
                         'InvoiceNumber') is not None else False,
+                    'InvoiceSeriesCode': invoice_header.InvoiceSeriesCode.text if invoice_header.find(
+                        'InvoiceSeriesCode') is not None else False,
                     'InvoiceDocumentType': invoice_header.InvoiceDocumentType.text if invoice_header.find(
                         'InvoiceDocumentType') is not None else False,
                     'InvoiceClass': invoice_header.InvoiceClass.text if invoice_header.find(
