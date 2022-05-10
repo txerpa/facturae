@@ -5,6 +5,7 @@ from .utils import FacturaeUtils
 from signxml import XMLSigner, XMLVerifier
 from xml.etree import ElementTree
 
+
 class FacturaeRoot(XmlModel):
     _sort_order = ('root', 'fileheader', 'parties', 'invoices')
 
