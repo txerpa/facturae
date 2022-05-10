@@ -122,13 +122,15 @@ class Parties(XmlModel):
 class Party(XmlModel):
 
     _sort_order = ('party', 'taxidentification',
-                   'administrativecentres', 'legalentity')
+                   'administrativecentres', 'legalentity',
+                   'individual')
 
     def __init__(self, tag):
         self.party = XmlField(tag)
         self.taxidentification = TaxIdentification()
         self.administrativecentres = AdministrativeCentres()
         self.legalentity = LegalEntity()
+        self.individual = Individual()
         super(Party, self).__init__(tag, 'party')
 
 # 2.1.1
@@ -153,7 +155,8 @@ class TaxIdentification(XmlModel):
 class LegalEntity(XmlModel):
 
     _sort_order = ('legalentity', 'corporatename',
-                   'tradename', 'addressinspain')
+                   'tradename', 'addressinspain',
+                   'contactdetails')
 
     def __init__(self):
         self.legalentity = XmlField('LegalEntity')
@@ -163,6 +166,27 @@ class LegalEntity(XmlModel):
         self.contactdetails = ContactDetails()
         super(LegalEntity, self).__init__('LegalEntity',
                                           'legalentity')
+
+
+# 2.1.4.2
+
+
+class Individual(XmlModel):
+
+    _sort_order = ('individual', 'namei',
+                   'firstsurname', 'secondsurname',
+                   'addressinspain')
+
+    def __init__(self):
+        self.individual = XmlField('Individual')
+        self.namei = XmlField('Name')
+        self.firstsurname = XmlField('FirstSurname')
+        self.secondsurname = XmlField('SecondSurname')
+        self.addressinspain = AddressInSpain()
+        self.contactdetails = ContactDetails()
+        super(Individual, self).__init__('Individual',
+                                         'individual')
+
 
 # 2.1.4.1.4.1
 
