@@ -1,4 +1,5 @@
 from lxml import etree
+import os
 
 
 class FacturaeValidationError(Exception):
@@ -12,8 +13,9 @@ class FacturaeValidationError(Exception):
 class FacturaeValidator(object):
 
     def validate_xml(self, xml_string):
+        path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../xsd/Facturaev3_2_1.xsd")
         facturae_schema = etree.XMLSchema(
-            etree.parse(open('xsd/Facturaev3_2_1.xsd', 'r'))
+            etree.parse(open(path, 'r'))
         )
         try:
             facturae_schema.assertValid(etree.fromstring(xml_string))
