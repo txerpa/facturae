@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-
+from lxml import etree
 from libcomxml.core import XmlModel, XmlField
 from .utils import FacturaeUtils
-from signxml import XMLSigner, XMLVerifier
+from signxml import XMLVerifier
 from xml.etree import ElementTree
 
 
@@ -21,6 +21,17 @@ class FacturaeRoot(XmlModel):
         self.invoices = Invoices()
         super(FacturaeRoot, self).__init__('Facturae', 'root')
 
+    def clean(self):
+        """
+        Remove blank spaces and carriage returns
+        :return: str
+        """
+        xml_facturae = str(self)
+        # tree = etree.fromstring(xml_facturae, etree.XMLParser(remove_blank_text=True))
+        tree = ElementTree.fromstring(xml_facturae, parser=etree.XMLParser(remove_blank_text=True))
+        xml_facturae = ElementTree.tostring(tree, encoding='unicode').replace("\n", "")
+        return xml_facturae
+
     def sign(self, certificate, password):
         """
         Sign an InvoiceRoot using the provided PKCS12 certificate
@@ -28,19 +39,8 @@ class FacturaeRoot(XmlModel):
         :param certificate: must be the pkcs12 certificate
         :param password: must be the password of the certificate
         """
-
         xml = str(self)
-
-        pkcs12_key, pkcs12_cert = FacturaeUtils.extract_from_pkcs12(
-                                                pk=certificate, passwd=password)
-
-        root = ElementTree.fromstring(xml)
-        signed_root = XMLSigner().sign(root, key=pkcs12_key, cert=pkcs12_cert)
-
-        string_signed_root = ElementTree.tostring(signed_root, encoding='utf8',
-                                                  method='xml').replace("\n","")
-
-
+        string_signed_root = FacturaeUtils.sign_pkcs12(xml, certificate, password)
         return string_signed_root
 
     def sign_verify(self, signed_root):
@@ -57,7 +57,7 @@ class FacturaeRoot(XmlModel):
 class FileHeader(XmlModel):
 
     _sort_order = ('root', 'schemaversion', 'modality',
-                   'invoiceissuertype', 'batch')
+                   'invoiceissuertype', 'thirdparty', 'batch')
 
     def __init__(self):
         self.root = XmlField('FileHeader')
@@ -65,7 +65,9 @@ class FileHeader(XmlModel):
         self.modality = XmlField('Modality')
         self.invoiceissuertype = XmlField('InvoiceIssuerType')
         self.batch = Batch()
+        self.thirdparty = Party('ThirdParty')
         super(FileHeader, self).__init__('FileHeader', 'root')
+
 
 # 1.5
 
