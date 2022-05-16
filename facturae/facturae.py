@@ -159,13 +159,14 @@ class LegalEntity(XmlModel):
 
     _sort_order = ('legalentity', 'corporatename',
                    'tradename', 'addressinspain',
-                   'contactdetails')
+                   'overseasaddress', 'contactdetails')
 
     def __init__(self):
         self.legalentity = XmlField('LegalEntity')
         self.corporatename = XmlField('CorporateName')
         self.tradename = XmlField('TradeName')
         self.addressinspain = AddressInSpain()
+        self.overseasaddress = OverseasAddress()
         self.contactdetails = ContactDetails()
         super(LegalEntity, self).__init__('LegalEntity',
                                           'legalentity')
@@ -178,7 +179,7 @@ class Individual(XmlModel):
 
     _sort_order = ('individual', 'namei',
                    'firstsurname', 'secondsurname',
-                   'addressinspain')
+                   'addressinspain', 'overseasaddress')
 
     def __init__(self):
         self.individual = XmlField('Individual')
@@ -186,6 +187,7 @@ class Individual(XmlModel):
         self.firstsurname = XmlField('FirstSurname')
         self.secondsurname = XmlField('SecondSurname')
         self.addressinspain = AddressInSpain()
+        self.overseasaddress = OverseasAddress()
         self.contactdetails = ContactDetails()
         super(Individual, self).__init__('Individual',
                                          'individual')
@@ -208,6 +210,25 @@ class AddressInSpain(XmlModel):
         self.countrycode = XmlField('CountryCode')
         super(AddressInSpain, self).__init__('AddressInSpain',
                                              'addressinspain')
+
+
+# 2.1.4.1.4.2
+
+
+class OverseasAddress(XmlModel):
+
+    _sort_order = ('overseasaddress', 'address', 'postcode',
+                   'town', 'province', 'countrycode')
+
+    def __init__(self):
+        self.overseasaddress = XmlField('OverseasAddress')
+        self.address = XmlField('Address', rep=lambda x: x[:80])
+        self.postcodeandtown = XmlField('PostCodeAndTown', rep=lambda x: x[:50])
+        self.province = XmlField('Province', rep=lambda x: x[:20])
+        self.countrycode = XmlField('CountryCode')
+        super(OverseasAddress, self).__init__('OverseasAddress',
+                                              'overseasaddress')
+
 
 # 2.1.4.1.5
 
