@@ -435,7 +435,7 @@ class ExchangeRateDetails(XmlModel):
 
     def __init__(self):
         self.exchangeratedetails = XmlField('ExchangeRateDetails')
-        self.exchangerate = XmlField('ExchangeRate')
+        self.exchangerate = XmlField('ExchangeRate', rep=lambda x: '%.8f' % x)
         self.exchangeratedate = XmlField('ExchangeRateDate')
         super(ExchangeRateDetails, self).__init__('ExchangeRateDetails',
                                                   'exchangeratedetails')
@@ -561,8 +561,8 @@ class Discount(XmlModel):
     def __init__(self):
         self.discount = XmlField('Discount')
         self.discountreason = XmlField('DiscountReason')
-        self.discountrate = XmlField('DiscountRate')
-        self.discountamount = XmlField('DiscountAmount')
+        self.discountrate = XmlField('DiscountRate', rep=lambda x: '%.8f' % x)
+        self.discountamount = XmlField('DiscountAmount', rep=lambda x: '%.8f' % x)
         super(Discount, self).__init__('Discount', 'discount')
 
 # 3.1.5.3
