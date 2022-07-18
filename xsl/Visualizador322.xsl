@@ -2,9 +2,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:m="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://schemas.xmlsoap.org/soap/envelope/">
 	<xsl:output method="html" indent="yes"/>
 	<xsl:decimal-format grouping-separator="." decimal-separator=","/>
-	<xsl:template match="/">	
+	<xsl:template match="/">
 		<html>
-			<head>				
+			<head>
 				<title>Resumen del lote</title>
 				<style type="text/css">
 					BODY
@@ -68,26 +68,26 @@
 						TEXT-ALIGN: center
 					}
 				</style>
-				
-				<script>					
+
+				<script>
 					function mostrarCapa(capa)
-					{						
+					{
 						var datos = document.getElementById(capa).style.display;
 						if (datos != "none")
 						{
 							document.getElementById(capa + "Link").innerHTML = "Mostrar más datos";
-							document.getElementById(capa).style.display="none";							
+							document.getElementById(capa).style.display="none";
 						}
 						else
 						{
 							document.getElementById(capa + "Link").innerHTML = "Ocultar";
-							document.getElementById(capa).style.display="";							
+							document.getElementById(capa).style.display="";
 						}
-					}	
+					}
 					function mostrarFactura(numFactura)
 					{
 						var datos = document.getElementById(numFactura).style.display;
-						if (datos != "none")						
+						if (datos != "none")
 						{
 							document.getElementById("lote").style.display="";
 							document.getElementById("importesLote").style.display="";
@@ -110,21 +110,21 @@
 							document.getElementById("listadoFacturas").style.display="none";
 							document.getElementById("factura" + numFactura).style.display="";
 							document.getElementById(numFactura).style.display="";
-						}						
+						}
 					}
 					function mostrarDetalle(numFactura,desDetalle)
 					{
 						var datos = document.getElementById(numFactura + "_" + desDetalle).style.display;
-						if (datos != "none")						
-						{							
+						if (datos != "none")
+						{
 							document.getElementById("emisor").style.display="";
-							document.getElementById("receptor").style.display="";							
+							document.getElementById("receptor").style.display="";
 							if (document.getElementById("cesionario")!=null)
 							{
 								document.getElementById("cesionario").style.display="";
 							}
 							document.getElementById("factura" + numFactura).style.display="";
-							document.getElementById(numFactura).style.display="";	
+							document.getElementById(numFactura).style.display="";
 							document.getElementById(numFactura + "_" + desDetalle).style.display="none";
 						}
 						else
@@ -143,11 +143,11 @@
 							}
 							document.getElementById("listadoFacturas").style.display="none";
 							document.getElementById("factura" + numFactura).style.display="none";
-							document.getElementById(numFactura).style.display="none";	
+							document.getElementById(numFactura).style.display="none";
 							document.getElementById(numFactura + "_" + desDetalle).style.display="";
 						}
 					}
-					
+
 					function descUnidadMedida(valor)
 					{
 						var descripcion = '';
@@ -175,7 +175,7 @@
 								break;
 							case '08':
 								descripcion = 'Barriles-BA';
-								break;		
+								break;
 							case '09':
 								descripcion = 'Bidones-JY';
 								break;
@@ -217,7 +217,7 @@
 								break;
 							case '22':
 								descripcion = 'Kilómetros-KMT';
-								break;	
+								break;
 							case '23':
 								descripcion = 'Latas-CA';
 								break;
@@ -238,7 +238,7 @@
 								break;
 							case '29':
 								descripcion = 'Raciones';
-								break;		
+								break;
 							case '30':
 								descripcion = 'Rollos-RO';
 								break;
@@ -256,14 +256,14 @@
 								break;
 							case '35':
 								descripcion = 'Vatio-WTT';
-								break;							
+								break;
 							default:
 								descripcion = valor;
 								break;
 						}
-						return descripcion;													
+						return descripcion;
 					}
-					
+
 					function descTipoPersona(valor)
 					{
 						var descripcion = '';
@@ -273,14 +273,14 @@
 								break;
 							case 'J':
 								descripcion = 'Jurídica';
-								break;								
+								break;
 							default:
 								descripcion = valor;
 								break;
 						}
-						return descripcion;						
+						return descripcion;
 					}
-					
+
 					function descTipoResidencia(valor)
 					{
 						var descripcion = '';
@@ -293,14 +293,14 @@
 								break;
 							case 'U':
 								descripcion = 'Residente en la Unión Europea';
-								break;			
+								break;
 							default:
 								descripcion = valor;
 								break;
 						}
-						return descripcion;						
+						return descripcion;
 					}
-					
+
 					function descTipoRol(valor)
 					{
 						var descripcion = '';
@@ -331,14 +331,14 @@
 								break;
 							case '09':
 								descripcion = 'Emisor';
-								break;			
+								break;
 							default:
 								descripcion = valor;
 								break;
 						}
-						return descripcion;	
-					}				
-					
+						return descripcion;
+					}
+
 					function descFormaPago(valor)
 					{
 						var descripcion = '';
@@ -399,14 +399,14 @@
 								break;
 							case '19':
 								descripcion = 'Pago mediante tarjeta';
-								break;	
+								break;
 							default:
 								descripcion = valor;
 								break;
 						}
-						return descripcion;	
+						return descripcion;
 					}
-					
+
 					function descTipoImpuesto(valor)
 					{
 						var descripcion = '';
@@ -467,7 +467,7 @@
 								break;
 							case '19':
 								descripcion = 'REIPSI';
-								break;	
+								break;
 							case '20':
 								descripcion = 'IPS';
 								break;
@@ -496,9 +496,9 @@
 								descripcion = valor;
 								break;
 						}
-						return descripcion;	
+						return descripcion;
 					}
-					
+
 					function descLengua(valor)
 					{
 						var descripcion = '';
@@ -526,7 +526,7 @@
 								break;
 							case 'el':
 								descripcion = 'Griego moderno';
-								break;		
+								break;
 							case 'en':
 								descripcion = 'Inglés';
 								break;
@@ -568,7 +568,7 @@
 								break;
 							case 'lt':
 								descripcion = 'Lituano';
-								break;	
+								break;
 							case 'mk':
 								descripcion = 'Macedonio';
 								break;
@@ -589,7 +589,7 @@
 								break;
 							case 'ro':
 								descripcion = 'Rumano';
-								break;		
+								break;
 							case 'ru':
 								descripcion = 'Ruso';
 								break;
@@ -613,32 +613,32 @@
 								break;
 							case 'uk':
 								descripcion = 'Ucraniano';
-								break;	
+								break;
 							default:
 								descripcion = valor;
 								break;
 						}
-						return descripcion;													
+						return descripcion;
 					}
 
 				</script>
-			</head>		
+			</head>
 			<xsl:apply-templates select="//m:Facturae"/>
 		</html>
 	</xsl:template>
 	<!-- Versión 3.2.1 -->
-	<xsl:template match="m:Facturae">				
-			<body>					
-					<div id="principal">					
-					<center>						
-						<table border="0" width="90%" cellpadding="0" cellspacing="0">				
+	<xsl:template match="m:Facturae">
+			<body>
+					<div id="principal">
+					<center>
+						<table border="0" width="90%" cellpadding="0" cellspacing="0">
 							<tr  id="lote" style="display:none">
 								<td width="100%">
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										<tr>
 											<td align="center" colspan="2">
 												<font class="titulo1">RESUMEN DEL LOTE</font>
-											</td>											
+											</td>
 										</tr>
 										<tr>
 											<td colspan="3"> </td>
@@ -665,7 +665,7 @@
 																			</xsl:when>
 																			<xsl:when test='FileHeader/Modality="L"' >
 																				LOTE
-																			</xsl:when>																			
+																			</xsl:when>
 																			<xsl:otherwise>
 																				<xsl:value-of select="FileHeader/Modality"/>
 																			</xsl:otherwise>
@@ -689,7 +689,7 @@
 																			</xsl:when>
 																			<xsl:when test='FileHeader/InvoiceIssuerType="TE"' >
 																				TERCERO
-																			</xsl:when>														
+																			</xsl:when>
 																			<xsl:otherwise>
 																				<xsl:value-of select="FileHeader/InvoiceIssuerType"/>
 																			</xsl:otherwise>
@@ -703,13 +703,13 @@
 																</tr>
 															</table>
 														</td>
-													</tr>	
+													</tr>
 												</table>
-											</td>											
-										</tr>										
+											</td>
+										</tr>
 									</table>
 								</td>
-							</tr>							
+							</tr>
 							<xsl:for-each select="Invoices/Invoice">
 								<xsl:variable name="nFactura" select="InvoiceHeader/InvoiceNumber"/>
 								<tr  id="factura{$nFactura}">
@@ -724,7 +724,7 @@
 												<td align="right">
 													<a href="#" onclick="mostrarFactura('{$nFactura}')">DETALLE DEL LOTE</a>
 												</td>
-											</tr>											
+											</tr>
 										</table>
 									</td>
 								</tr>
@@ -749,20 +749,20 @@
 											<td> </td>
 										</tr>
 										<tr>
-											<td align="right">	
+											<td align="right">
 												<xsl:if test='FileHeader/Batch/InvoiceCurrencyCode!="EUR"' >
-													<table border="1" cellpadding="0" cellspacing="0" width="60%">									
+													<table border="1" cellpadding="0" cellspacing="0" width="60%">
 														<tr>
 															<td width="50%" valign="top" align="center">
-																   
+
 															</td>
 															<td width="25%" valign="top" align="center">
 																<font class="titulopeque">IMPORTE</font>
-															</td>											
+															</td>
 															<td width="25%" valign="top" align="center">
 																<font class="titulopeque">CONTRAVALOR</font>
-															</td>											
-														</tr>										
+															</td>
+														</tr>
 														<tr>
 															<td width="50%" valign="top" align="right">
 																<font class="titulopeque">IMPORTE TOTAL FACTURAS     </font>
@@ -833,7 +833,7 @@
 														</tr>
 													</table>
 												</xsl:if>
-												<xsl:if test='//m:Facturae/FileHeader/Batch/InvoiceCurrencyCode="EUR"' >								
+												<xsl:if test='//m:Facturae/FileHeader/Batch/InvoiceCurrencyCode="EUR"' >
 													<table border="0" cellpadding="0" cellspacing="0" width="100%">
 														<tr>
 															<td width="80%" align="right">
@@ -882,21 +882,21 @@
 															</td>
 														</tr>
 													</table>
-												</xsl:if>	
+												</xsl:if>
 											</td>
-										</tr>	
+										</tr>
 										<tr>
 											<td> </td>
-										</tr>										
+										</tr>
 									</table>
 								</td>
-							</tr>							
+							</tr>
 							<tr id="emisor">
 								 <td width="100%">
 									<table border="0" cellpadding="0" cellspacing="0" width="100%">
 										<tr>
 											 <td width="100%">
-												<table border="0" cellpadding="0" cellspacing="0" width="100%">													
+												<table border="0" cellpadding="0" cellspacing="0" width="100%">
 													<tr>
 														<td colspan="3">
 															<hr/>
@@ -910,82 +910,82 @@
 														</td>
 														<td align="right">
 															<a id="datosEmisorLink" href="javascript:mostrarCapa('datosEmisor')">Mostrar más datos</a>
-														</td>        	
+														</td>
 													</tr>
 													<tr>
-														<td colspan="3"> </td>        	
+														<td colspan="3"> </td>
 													</tr>
 													<xsl:if test='Parties/SellerParty/LegalEntity!=""' >
-														<tr>											
+														<tr>
 															<td width="50%" colspan="2">
 																<font class="titulopeque">
 																	RAZÓN SOCIAL:
 																</font>
-																   
+
 																<xsl:value-of select="Parties/SellerParty/LegalEntity/CorporateName"/>
 															</td>
 															<td width="50%">
 																<font class="titulopeque">
 																	NIF/CIF:
 																</font>
-																   
+
 																<xsl:value-of select="Parties/SellerParty/TaxIdentification/TaxIdentificationNumber"/>
 															</td>
 														</tr>
 													</xsl:if>
 													<xsl:if test='Parties/SellerParty/Individual!=""' >
-														<tr>											
+														<tr>
 															<td width="50%" colspan="2">
 																<font class="titulopeque">
 																	NOMBRE Y APELLIDOS:
 																</font>
-																   
-																<xsl:value-of select="Parties/SellerParty/Individual/Name"/> 
-																<xsl:value-of select="Parties/SellerParty/Individual/FirstSurname"/> 
-																<xsl:value-of select="Parties/SellerParty/Individual/SecondSurname"/> 
-															</td> 
+
+																<xsl:value-of select="Parties/SellerParty/Individual/Name"/>
+																<xsl:value-of select="Parties/SellerParty/Individual/FirstSurname"/>
+																<xsl:value-of select="Parties/SellerParty/Individual/SecondSurname"/>
+															</td>
 															<td width="50%">
 																<font class="titulopeque">
 																	NIF/CIF:
 																</font>
-																   											
+
 																<xsl:value-of select="Parties/SellerParty/TaxIdentification/TaxIdentificationNumber"/>
 															</td>
 														</tr>
 													</xsl:if>
 												</table>
 											</td>
-										</tr>	
+										</tr>
 										<tr id="datosEmisor" style="display:none">
 											<td width="100%">
-												<table border="0" cellpadding="0" cellspacing="0" width="100%">							
-													<tr>											
+												<table border="0" cellpadding="0" cellspacing="0" width="100%">
+													<tr>
 														<td width="50%" colspan="2">
 															<font class="titulopeque">
 																TIPO PERSONA:
 															</font>
-															   
+
 															<script>
 																document.write(descTipoPersona('<xsl:value-of select="Parties/SellerParty/TaxIdentification/PersonTypeCode"/>'));
-															</script>															
-														</td> 
+															</script>
+														</td>
 														<td width="50%">
 															<font class="titulopeque">
 																TIPO RESIDENCIA:
 															</font>
-															   
+
 															<script>
 																document.write(descTipoResidencia('<xsl:value-of select="Parties/SellerParty/TaxIdentification/ResidenceTypeCode"/>'));
-															</script>															
-														</td>       	
+															</script>
+														</td>
 													</tr>
 													<xsl:if test='Parties/SellerParty/PartyIdentification!=""' >
-														<tr>											
+														<tr>
 															<td width="50%" colspan="2">
 															<font class="titulopeque">
 																IDENTIFICACIÓN:
 															</font>
-															   										
+
 																<xsl:value-of select="Parties/SellerParty/PartyIdentification"/>
 															</td>
 														</tr>
@@ -1000,7 +1000,7 @@
 															<td valign="top" width="40%">
 																<xsl:if test='Parties/SellerParty/LegalEntity/AddressInSpain!=""' >
 																	<xsl:value-of select="Parties/SellerParty/LegalEntity/AddressInSpain/Address"/><br/>
-																	<xsl:value-of select="Parties/SellerParty/LegalEntity/AddressInSpain/PostCode"/>  
+																	<xsl:value-of select="Parties/SellerParty/LegalEntity/AddressInSpain/PostCode"/>
 																	<xsl:value-of select="Parties/SellerParty/LegalEntity/AddressInSpain/Town"/><br/>
 																	<xsl:value-of select="Parties/SellerParty/LegalEntity/AddressInSpain/Province"/><br/>
 																	<xsl:value-of select="Parties/SellerParty/LegalEntity/AddressInSpain/CountryCode"/>
@@ -1017,107 +1017,107 @@
 																	<font class="titulopeque">
 																		NOMBRE COMERCIAL:
 																	</font>
-																	   										
+
 																	<xsl:value-of select="Parties/SellerParty/LegalEntity/TradeName"/>
-																</td>        	
-															</xsl:if>        	
+																</td>
+															</xsl:if>
 														</tr>
 														<xsl:if test='Parties/SellerParty/LegalEntity/RegistrationData!=""' >
-															<tr>											
+															<tr>
 																<td width="30%" colspan="3">
 																<font class="titulopeque">
 																	DATOS REGISTRALES:
 																</font>
 																</td>
 															</tr>
-															<tr>								
+															<tr>
 																<td colspan="3">
 																	<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Libro:</font>   
+																				<font class="titulopeque">Libro:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/RegistrationData/Book"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Registro mercantil:</font>   
+																				<font class="titulopeque">Registro mercantil:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/RegistrationData/RegisterOfCompaniesLocation"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Hoja:</font>   
+																				<font class="titulopeque">Hoja:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/RegistrationData/Sheet"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Folio:</font>   
+																				<font class="titulopeque">Folio:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/RegistrationData/Folio"/>
 																			</td>
 																		</tr>
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Sección:</font>   
+																				<font class="titulopeque">Sección:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/RegistrationData/Section"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Tomo:</font>   
+																				<font class="titulopeque">Tomo:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/RegistrationData/Volume"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Otros:</font>   
+																				<font class="titulopeque">Otros:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/RegistrationData/AdditionalRegistrationData"/>
-																			</td>															
+																			</td>
 																		</tr>
 																	</table>
-																</td>        	
-															</tr>	
+																</td>
+															</tr>
 														</xsl:if>
 														<xsl:if test='Parties/SellerParty/LegalEntity/ContactDetails!=""' >
-															<tr>											
+															<tr>
 																<td width="30%" colspan="3">
 																<font class="titulopeque">
 																	DATOS DE CONTACTO:
 																</font>
 																</td>
 															</tr>
-															<tr>								
+															<tr>
 																<td colspan="3">
 																	<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Teléfono:</font>   
+																				<font class="titulopeque">Teléfono:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/ContactDetails/Telephone"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Fax:</font>   
+																				<font class="titulopeque">Fax:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/ContactDetails/TeleFax"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Web:</font>   
+																				<font class="titulopeque">Web:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/ContactDetails/WebAddress"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Email:</font>   
+																				<font class="titulopeque">Email:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/ContactDetails/ElectronicMail"/>
 																			</td>
 																		</tr>
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Personas contacto:</font>   
+																				<font class="titulopeque">Personas contacto:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/ContactDetails/ContactPersons"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">CnoCnae:</font>   
+																				<font class="titulopeque">CnoCnae:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/ContactDetails/CnoCnae"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Código INE:</font>   
+																				<font class="titulopeque">Código INE:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/ContactDetails/INETownCode"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Otros:</font>   
+																				<font class="titulopeque">Otros:</font>
 																				<xsl:value-of select="Parties/SellerParty/LegalEntity/ContactDetails/AdditionalContactDetails"/>
-																			</td>														
+																			</td>
 																		</tr>
 																	</table>
-																</td>        	
+																</td>
 															</tr>
 														</xsl:if>
 													</xsl:if>
@@ -1131,7 +1131,7 @@
 															<td valign="top" width="40%">
 																<xsl:if test='Parties/SellerParty/Individual/AddressInSpain!=""' >
 																	<xsl:value-of select="Parties/SellerParty/Individual/AddressInSpain/Address"/><br/>
-																	<xsl:value-of select="Parties/SellerParty/Individual/AddressInSpain/PostCode"/>  
+																	<xsl:value-of select="Parties/SellerParty/Individual/AddressInSpain/PostCode"/>
 																	<xsl:value-of select="Parties/SellerParty/Individual/AddressInSpain/Town"/><br/>
 																	<xsl:value-of select="Parties/SellerParty/Individual/AddressInSpain/Province"/><br/>
 																	<xsl:value-of select="Parties/SellerParty/Individual/AddressInSpain/CountryCode"/>
@@ -1142,63 +1142,63 @@
 																	<xsl:value-of select="Parties/SellerParty/Individual/OverseasAddress/Province"/><br/>
 																	<xsl:value-of select="Parties/SellerParty/Individual/OverseasAddress/CountryCode"/>
 																</xsl:if>
-															</td>												   	
+															</td>
 														</tr>
 														<xsl:if test='Parties/SellerParty/Individual/ContactDetails!=""' >
-															<tr>											
+															<tr>
 																<td width="30%" colspan="3">
 																<font class="titulopeque">
 																	DATOS DE CONTACTO:
 																</font>
 																</td>
 															</tr>
-															<tr>								
+															<tr>
 																<td colspan="3">
 																	<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Teléfono:</font>   
+																				<font class="titulopeque">Teléfono:</font>
 																				<xsl:value-of select="Parties/SellerParty/Individual/ContactDetails/Telephone"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Fax:</font>   
+																				<font class="titulopeque">Fax:</font>
 																				<xsl:value-of select="Parties/SellerParty/Individual/ContactDetails/TeleFax"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Web:</font>   
+																				<font class="titulopeque">Web:</font>
 																				<xsl:value-of select="Parties/SellerParty/Individual/ContactDetails/WebAddress"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Email:</font>   
+																				<font class="titulopeque">Email:</font>
 																				<xsl:value-of select="Parties/SellerParty/Individual/ContactDetails/ElectronicMail"/>
 																			</td>
 																		</tr>
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Personas contacto:</font>   
+																				<font class="titulopeque">Personas contacto:</font>
 																				<xsl:value-of select="Parties/SellerParty/Individual/ContactDetails/ContactPersons"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">CnoCnae:</font>   
+																				<font class="titulopeque">CnoCnae:</font>
 																				<xsl:value-of select="Parties/SellerParty/Individual/ContactDetails/CnoCnae"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Código INE:</font>   
+																				<font class="titulopeque">Código INE:</font>
 																				<xsl:value-of select="Parties/SellerParty/Individual/ContactDetails/INETownCode"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Otros:</font>   
+																				<font class="titulopeque">Otros:</font>
 																				<xsl:value-of select="Parties/SellerParty/Individual/ContactDetails/AdditionalContactDetails"/>
-																			</td>														
+																			</td>
 																		</tr>
 																	</table>
-																</td>        	
+																</td>
 															</tr>
 															</xsl:if>
 													</xsl:if>
 													<xsl:if test='Parties/SellerParty/AdministrativeCentres!=""' >
 														<tr>
-															<td colspan="3">												
+															<td colspan="3">
 																	<font class="titulopeque">CENTROS</font>
 																	<table border="1" cellpadding="0" cellspacing="0" width="100%">
 																		<tr>
@@ -1235,9 +1235,9 @@
 																						<xsl:apply-templates select="CentreCode"/>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
-																				</xsl:choose>															
+																				</xsl:choose>
 																			</td>
 																			<td valign="top">
 																				<xsl:choose>
@@ -1247,28 +1247,28 @@
 																						</script>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
-																				</xsl:choose>																				
+																				</xsl:choose>
 																			</td>
 																			<td valign="top">
 																				<xsl:choose>
 																					<xsl:when test='(Name!="") or (FirstSurname!="") or (SecondSurname!="")' >
-																						<xsl:value-of select="Name"/> 
-																						<xsl:value-of select="FirstSurname"/> 
-																						<xsl:value-of select="SecondSurname"/> 
+																						<xsl:value-of select="Name"/>
+																						<xsl:value-of select="FirstSurname"/>
+																						<xsl:value-of select="SecondSurname"/>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
-																				</xsl:choose>																				
+																				</xsl:choose>
 																			</td>
 																			<td valign="top">
 																				<xsl:choose>
 																					<xsl:when test='(AddressInSpain!="") or (OverseasAddress!="")' >
 																						<xsl:if test='AddressInSpain!=""' >
 																							<xsl:value-of select="AddressInSpain/Address"/><br/>
-																							<xsl:value-of select="AddressInSpain/PostCode"/>   
+																							<xsl:value-of select="AddressInSpain/PostCode"/>
 																							<xsl:value-of select="AddressInSpain/Town"/><br/>
 																							<xsl:value-of select="AddressInSpain/Province"/><br/>
 																							<xsl:value-of select="AddressInSpain/CountryCode"/>
@@ -1278,10 +1278,10 @@
 																							<xsl:value-of select="OverseasAddress/PostCodeAndTown"/><br/>
 																							<xsl:value-of select="OverseasAddress/Province"/><br/>
 																							<xsl:value-of select="OverseasAddress/CountryCode"/>
-																						</xsl:if>	
+																						</xsl:if>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
 																				</xsl:choose>
 																			</td>
@@ -1291,48 +1291,48 @@
 																						<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																							<tr>
 																								<td width="50%">
-																									<font class="titulopeque">Teléfono:</font> 
+																									<font class="titulopeque">Teléfono:</font>
 																									<xsl:value-of select="ContactDetails/Telephone"/>
 																								</td>
 																								<td width="50%">
-																									<font class="titulopeque">Fax:</font> 
+																									<font class="titulopeque">Fax:</font>
 																									<xsl:value-of select="ContactDetails/TeleFax"/>
 																								</td>
 																							</tr>
 																							<tr>
 																								<td width="50%">
-																									<font class="titulopeque">Web:</font> 
+																									<font class="titulopeque">Web:</font>
 																									<xsl:value-of select="ContactDetails/WebAddress"/>
 																								</td>
 																								<td width="50%">
-																									<font class="titulopeque">Email:</font> 
+																									<font class="titulopeque">Email:</font>
 																									<xsl:value-of select="ContactDetails/ElectronicMail"/>
 																								</td>
 																							</tr>
 																							<tr>
 																								<td width="50%">
-																									<font class="titulopeque">Contacto:</font> 
+																									<font class="titulopeque">Contacto:</font>
 																									<xsl:value-of select="ContactDetails/ContactPersons"/>
 																								</td>
 																								<td width="50%">
-																									<font class="titulopeque">CnoCnae:</font> 
+																									<font class="titulopeque">CnoCnae:</font>
 																									<xsl:value-of select="ContactDetails/CnoCnae"/>
 																								</td>
 																							</tr>
 																							<tr>
 																								<td width="50%">
-																									<font class="titulopeque">Cód. INE:</font> 
+																									<font class="titulopeque">Cód. INE:</font>
 																									<xsl:value-of select="ContactDetails/INETownCode"/>
 																								</td>
 																								<td width="50%">
-																									<font class="titulopeque">Otros:</font> 
+																									<font class="titulopeque">Otros:</font>
 																									<xsl:value-of select="ContactDetails/AdditionalContactDetails"/>
-																								</td>														
+																								</td>
 																							</tr>
 																						</table>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
 																				</xsl:choose>
 																			</td>
@@ -1342,33 +1342,33 @@
 																						<xsl:apply-templates select="PhysicalGLN"/>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
 																				</xsl:choose>
 																			</td>
 																			<td valign="top">
 																				<xsl:choose>
 																					<xsl:when test='LogicalOperationalPoint!=""' >
-																						<xsl:apply-templates select="LogicalOperationalPoint"/>			
+																						<xsl:apply-templates select="LogicalOperationalPoint"/>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
 																				</xsl:choose>
 																			</td>
 																			<td valign="top">
 																				<xsl:choose>
 																					<xsl:when test='CentreDescription!=""' >
-																						<xsl:apply-templates select="CentreDescription"/>	
+																						<xsl:apply-templates select="CentreDescription"/>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
-																				</xsl:choose>		
+																				</xsl:choose>
 																			</td>
 																		</tr>
 																		</xsl:for-each>
-																	</table>					
+																	</table>
 															</td>
 														</tr>
 													</xsl:if>
@@ -1398,49 +1398,49 @@
 																DATOS RECEPTOR
 															</font>
 														</td>
-														<td align="right">											
+														<td align="right">
 															<a id="datosReceptorLink" href="javascript:mostrarCapa('datosReceptor')">Mostrar más datos</a>
-														</td>    	
+														</td>
 													</tr>
 													<tr>
-														<td colspan="3"> </td>        	
+														<td colspan="3"> </td>
 													</tr>
 													<xsl:if test='Parties/BuyerParty/LegalEntity!=""' >
-														<tr>											
+														<tr>
 															<td width="50%" colspan="2">
 																<font class="titulopeque">
 																	RAZÓN SOCIAL:
 																</font>
-																   										
+
 																<xsl:value-of select="Parties/BuyerParty/LegalEntity/CorporateName"/>
 															</td>
 															<td  width="50%">
 																<font class="titulopeque">
 																	NIF/CIF:
 																</font>
-																   
+
 																<xsl:value-of select="Parties/BuyerParty/TaxIdentification/TaxIdentificationNumber"/>
 															</td>
 														</tr>
 													</xsl:if>
 													<xsl:if test='Parties/BuyerParty/Individual!=""' >
-														<tr>											
+														<tr>
 															<td width="50%" colspan="2">
 																<font class="titulopeque">
 																	NOMBRE Y APELLIDOS:
 																</font>
-																   
-																<xsl:value-of select="Parties/BuyerParty/Individual/Name"/> 
-																<xsl:value-of select="Parties/BuyerParty/Individual/FirstSurname"/> 
-																<xsl:value-of select="Parties/BuyerParty/Individual/SecondSurname"/> 
-															</td> 
+
+																<xsl:value-of select="Parties/BuyerParty/Individual/Name"/>
+																<xsl:value-of select="Parties/BuyerParty/Individual/FirstSurname"/>
+																<xsl:value-of select="Parties/BuyerParty/Individual/SecondSurname"/>
+															</td>
 															<td width="50%">
 																<font class="titulopeque">
 																	NIF/CIF:
 																</font>
-																   
+
 																<xsl:value-of select="Parties/BuyerParty/TaxIdentification/TaxIdentificationNumber"/>
-															</td>       	
+															</td>
 														</tr>
 													</xsl:if>
 												</table>
@@ -1448,34 +1448,34 @@
 										</tr>
 										<tr id="datosReceptor" style="display:none">
 											<td width="100%">
-												<table border="0" cellpadding="0" cellspacing="0" width="100%">							
-													<tr>											
+												<table border="0" cellpadding="0" cellspacing="0" width="100%">
+													<tr>
 														<td width="50%" colspan="2">
 															<font class="titulopeque">
 																TIPO PERSONA:
 															</font>
-															   
+
 															<script>
 																document.write(descTipoPersona('<xsl:value-of select="Parties/BuyerParty/TaxIdentification/PersonTypeCode"/>'));
-															</script>																	
-														</td>      
+															</script>
+														</td>
 														<td width="50%">
 															<font class="titulopeque">
 																TIPO RESIDENCIA:
 															</font>
-															   
+
 															<script>
 																document.write(descTipoResidencia('<xsl:value-of select="Parties/BuyerParty/TaxIdentification/ResidenceTypeCode"/>'));
-															</script>															
-														</td>  	
+															</script>
+														</td>
 													</tr>
 													<xsl:if test='Parties/BuyerParty/PartyIdentification!=""' >
-														<tr>											
+														<tr>
 															<td width="50%" colspan="2">
 															<font class="titulopeque">
 																IDENTIFICACIÓN:
 															</font>
-															   										
+
 																<xsl:value-of select="Parties/BuyerParty/PartyIdentification"/>
 															</td>
 														</tr>
@@ -1486,11 +1486,11 @@
 															<font class="titulopeque">
 																DIRECCIÓN:
 															</font>
-															</td>        	
+															</td>
 															<td  width="40%">
 																<xsl:if test='Parties/BuyerParty/LegalEntity/AddressInSpain!=""' >
 																	<xsl:value-of select="Parties/BuyerParty/LegalEntity/AddressInSpain/Address"/><br/>
-																	<xsl:value-of select="Parties/BuyerParty/LegalEntity/AddressInSpain/PostCode"/>   
+																	<xsl:value-of select="Parties/BuyerParty/LegalEntity/AddressInSpain/PostCode"/>
 																	<xsl:value-of select="Parties/BuyerParty/LegalEntity/AddressInSpain/Town"/><br/>
 																	<xsl:value-of select="Parties/BuyerParty/LegalEntity/AddressInSpain/Province"/><br/>
 																	<xsl:value-of select="Parties/BuyerParty/LegalEntity/AddressInSpain/CountryCode"/>
@@ -1507,107 +1507,107 @@
 																	<font class="titulopeque">
 																		NOMBRE COMERCIAL:
 																	</font>
-																	   
+
 																	<xsl:value-of select="Parties/BuyerParty/LegalEntity/TradeName"/>
-																</td>        	
+																</td>
 														</xsl:if>
-														</tr>				
+														</tr>
 														<xsl:if test='Parties/BuyerParty/LegalEntity/RegistrationData!=""' >
-															<tr>											
+															<tr>
 																<td width="30%" colspan="3">
 																<font class="titulopeque">
 																	DATOS REGISTRALES:
 																</font>
 																</td>
 															</tr>
-															<tr>								
+															<tr>
 																<td colspan="3">
 																	<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Libro:</font>   
+																				<font class="titulopeque">Libro:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/RegistrationData/Book"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Registro mercantil:</font>   
+																				<font class="titulopeque">Registro mercantil:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/RegistrationData/RegisterOfCompaniesLocation"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Hoja:</font>   
+																				<font class="titulopeque">Hoja:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/RegistrationData/Sheet"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Folio:</font>   
+																				<font class="titulopeque">Folio:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/RegistrationData/Folio"/>
 																			</td>
 																		</tr>
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Sección:</font>   
+																				<font class="titulopeque">Sección:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/RegistrationData/Section"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Tomo:</font>   
+																				<font class="titulopeque">Tomo:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/RegistrationData/Volume"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Otros:</font>   
+																				<font class="titulopeque">Otros:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/RegistrationData/AdditionalRegistrationData"/>
-																			</td>															
+																			</td>
 																		</tr>
 																	</table>
-																</td>        	
-															</tr>	
+																</td>
+															</tr>
 														</xsl:if>
 														<xsl:if test='Parties/BuyerParty/LegalEntity/ContactDetails!=""' >
-															<tr>											
+															<tr>
 																<td width="30%" colspan="3">
 																<font class="titulopeque">
 																	DATOS DE CONTACTO:
 																</font>
 																</td>
 															</tr>
-															<tr>								
+															<tr>
 																<td colspan="3">
 																	<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Teléfono:</font>   
+																				<font class="titulopeque">Teléfono:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/ContactDetails/Telephone"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Fax:</font>   
+																				<font class="titulopeque">Fax:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/ContactDetails/TeleFax"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Web:</font>   
+																				<font class="titulopeque">Web:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/ContactDetails/WebAddress"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Email:</font>   
+																				<font class="titulopeque">Email:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/ContactDetails/ElectronicMail"/>
 																			</td>
 																		</tr>
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Personas contacto:</font>   
+																				<font class="titulopeque">Personas contacto:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/ContactDetails/ContactPersons"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">CnoCnae:</font>   
+																				<font class="titulopeque">CnoCnae:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/ContactDetails/CnoCnae"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Código INE:</font>   
+																				<font class="titulopeque">Código INE:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/ContactDetails/INETownCode"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Otros:</font>   
+																				<font class="titulopeque">Otros:</font>
 																				<xsl:value-of select="Parties/BuyerParty/LegalEntity/ContactDetails/AdditionalContactDetails"/>
-																			</td>														
+																			</td>
 																		</tr>
 																	</table>
-																</td>        	
+																</td>
 															</tr>
 														</xsl:if>
 													</xsl:if>
@@ -1617,11 +1617,11 @@
 															<font class="titulopeque">
 																DIRECCIÓN:
 															</font>
-															</td>        	
+															</td>
 															<td valign="top" width="40%">
 																<xsl:if test='Parties/BuyerParty/Individual/AddressInSpain!=""' >
 																	<xsl:value-of select="Parties/BuyerParty/Individual/AddressInSpain/Address"/><br/>
-																	<xsl:value-of select="Parties/BuyerParty/Individual/AddressInSpain/PostCode"/>   
+																	<xsl:value-of select="Parties/BuyerParty/Individual/AddressInSpain/PostCode"/>
 																	<xsl:value-of select="Parties/BuyerParty/Individual/AddressInSpain/Town"/><br/>
 																	<xsl:value-of select="Parties/BuyerParty/Individual/AddressInSpain/Province"/><br/>
 																	<xsl:value-of select="Parties/BuyerParty/Individual/AddressInSpain/CountryCode"/>
@@ -1632,63 +1632,63 @@
 																	<xsl:value-of select="Parties/BuyerParty/Individual/OverseasAddress/Province"/><br/>
 																	<xsl:value-of select="Parties/BuyerParty/Individual/OverseasAddress/CountryCode"/>
 																</xsl:if>
-															</td>        	
+															</td>
 														</tr>
 														<xsl:if test='Parties/BuyerParty/Individual/ContactDetails!=""' >
-															<tr>											
+															<tr>
 																<td width="30%" colspan="3">
 																<font class="titulopeque">
 																	DATOS DE CONTACTO:
 																</font>
 																</td>
 															</tr>
-															<tr>								
+															<tr>
 																<td colspan="3">
 																	<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Teléfono:</font>   
+																				<font class="titulopeque">Teléfono:</font>
 																				<xsl:value-of select="Parties/BuyerParty/Individual/ContactDetails/Telephone"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Fax:</font>   
+																				<font class="titulopeque">Fax:</font>
 																				<xsl:value-of select="Parties/BuyerParty/Individual/ContactDetails/TeleFax"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Web:</font>   
+																				<font class="titulopeque">Web:</font>
 																				<xsl:value-of select="Parties/BuyerParty/Individual/ContactDetails/WebAddress"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Email:</font>   
+																				<font class="titulopeque">Email:</font>
 																				<xsl:value-of select="Parties/BuyerParty/Individual/ContactDetails/ElectronicMail"/>
 																			</td>
 																		</tr>
 																		<tr>
 																			<td width="25%">
-																				<font class="titulopeque">Personas contacto:</font>   
+																				<font class="titulopeque">Personas contacto:</font>
 																				<xsl:value-of select="Parties/BuyerParty/Individual/ContactDetails/ContactPersons"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">CnoCnae:</font>   
+																				<font class="titulopeque">CnoCnae:</font>
 																				<xsl:value-of select="Parties/BuyerParty/Individual/ContactDetails/CnoCnae"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Código INE:</font>   
+																				<font class="titulopeque">Código INE:</font>
 																				<xsl:value-of select="Parties/BuyerParty/Individual/ContactDetails/INETownCode"/>
 																			</td>
 																			<td width="25%">
-																				<font class="titulopeque">Otros:</font>   
+																				<font class="titulopeque">Otros:</font>
 																				<xsl:value-of select="Parties/BuyerParty/Individual/ContactDetails/AdditionalContactDetails"/>
-																			</td>														
+																			</td>
 																		</tr>
 																	</table>
-																</td>        	
+																</td>
 															</tr>
 															</xsl:if>
 													</xsl:if>
 													<xsl:if test='Parties/BuyerParty/AdministrativeCentres!=""' >
 														<tr>
-															<td colspan="3">												
+															<td colspan="3">
 																	<font class="titulopeque">CENTROS</font>
 																	<table border="1" cellpadding="0" cellspacing="0" width="100%">
 																		<tr>
@@ -1722,34 +1722,34 @@
 																			<td valign="top">
 																				<xsl:choose>
 																					<xsl:when test='CentreCode!=""' >
-																						<xsl:apply-templates select="CentreCode"/>	
+																						<xsl:apply-templates select="CentreCode"/>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
-																				</xsl:choose>		
+																				</xsl:choose>
 																			</td>
 																			<td valign="top">
 																				<xsl:choose>
 																					<xsl:when test='RoleTypeCode!=""' >
 																						<script>
 																							document.write(descTipoRol('<xsl:value-of select="RoleTypeCode"/>'));
-																						</script>		
+																						</script>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
 																				</xsl:choose>
 																			</td>
 																			<td valign="top">
 																				<xsl:choose>
 																					<xsl:when test='(Name!="") or (FirstSurname!="") or (SecondSurname!="")' >
-																						<xsl:value-of select="Name"/> 
-																						<xsl:value-of select="FirstSurname"/> 
-																						<xsl:value-of select="SecondSurname"/> 
+																						<xsl:value-of select="Name"/>
+																						<xsl:value-of select="FirstSurname"/>
+																						<xsl:value-of select="SecondSurname"/>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
 																				</xsl:choose>
 																			</td>
@@ -1758,7 +1758,7 @@
 																					<xsl:when test='(AddressInSpain!="") or (OverseasAddress!="")' >
 																						<xsl:if test='AddressInSpain!=""' >
 																							<xsl:value-of select="AddressInSpain/Address"/><br/>
-																							<xsl:value-of select="AddressInSpain/PostCode"/>   
+																							<xsl:value-of select="AddressInSpain/PostCode"/>
 																							<xsl:value-of select="AddressInSpain/Town"/><br/>
 																							<xsl:value-of select="AddressInSpain/Province"/><br/>
 																							<xsl:value-of select="AddressInSpain/CountryCode"/>
@@ -1768,10 +1768,10 @@
 																							<xsl:value-of select="OverseasAddress/PostCodeAndTown"/><br/>
 																							<xsl:value-of select="OverseasAddress/Province"/><br/>
 																							<xsl:value-of select="OverseasAddress/CountryCode"/>
-																						</xsl:if>			
+																						</xsl:if>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
 																				</xsl:choose>
 																			</td>
@@ -1781,48 +1781,48 @@
 																						<table border="0" cellpadding="0" cellspacing="0" width="100%">
 																							<tr>
 																								<td width="50%">
-																									<font class="titulopeque">Teléfono:</font> 
+																									<font class="titulopeque">Teléfono:</font>
 																									<xsl:value-of select="ContactDetails/Telephone"/>
 																								</td>
 																								<td width="50%">
-																									<font class="titulopeque">Fax:</font> 
+																									<font class="titulopeque">Fax:</font>
 																									<xsl:value-of select="ContactDetails/TeleFax"/>
 																								</td>
 																							</tr>
 																							<tr>
 																								<td width="50%">
-																									<font class="titulopeque">Web:</font> 
+																									<font class="titulopeque">Web:</font>
 																									<xsl:value-of select="ContactDetails/WebAddress"/>
 																								</td>
 																								<td width="50%">
-																									<font class="titulopeque">Email:</font> 
+																									<font class="titulopeque">Email:</font>
 																									<xsl:value-of select="ContactDetails/ElectronicMail"/>
 																								</td>
 																							</tr>
 																							<tr>
 																								<td width="50%">
-																									<font class="titulopeque">Contacto:</font> 
+																									<font class="titulopeque">Contacto:</font>
 																									<xsl:value-of select="ContactDetails/ContactPersons"/>
 																								</td>
 																								<td width="50%">
-																									<font class="titulopeque">CnoCnae:</font> 
+																									<font class="titulopeque">CnoCnae:</font>
 																									<xsl:value-of select="ContactDetails/CnoCnae"/>
 																								</td>
 																							</tr>
 																							<tr>
 																								<td width="50%">
-																									<font class="titulopeque">Cód. INE:</font> 
+																									<font class="titulopeque">Cód. INE:</font>
 																									<xsl:value-of select="ContactDetails/INETownCode"/>
 																								</td>
 																								<td width="50%">
-																									<font class="titulopeque">Otros:</font> 
+																									<font class="titulopeque">Otros:</font>
 																									<xsl:value-of select="ContactDetails/AdditionalContactDetails"/>
-																								</td>														
+																								</td>
 																							</tr>
 																						</table>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
 																				</xsl:choose>
 																			</td>
@@ -1832,7 +1832,7 @@
 																						<xsl:apply-templates select="PhysicalGLN"/>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
 																				</xsl:choose>
 																			</td>
@@ -1842,23 +1842,23 @@
 																						<xsl:apply-templates select="LogicalOperationalPoint"/>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
 																				</xsl:choose>
 																			</td>
 																			<td valign="top">
 																				<xsl:choose>
 																					<xsl:when test='CentreDescription!=""' >
-																						<xsl:apply-templates select="CentreDescription"/>	
+																						<xsl:apply-templates select="CentreDescription"/>
 																					</xsl:when>
 																					<xsl:otherwise>
-																						 
+
 																					</xsl:otherwise>
-																				</xsl:choose>		
+																				</xsl:choose>
 																			</td>
 																		</tr>
 																		</xsl:for-each>
-																	</table>					
+																	</table>
 															</td>
 														</tr>
 													</xsl:if>
@@ -1868,7 +1868,7 @@
 									</table>
 								</td>
 							</tr>
-							<xsl:apply-templates select="FileHeader/ThirdParty"/>								
+							<xsl:apply-templates select="FileHeader/ThirdParty"/>
 							<xsl:apply-templates select="Invoices/Invoice"/>
 							<tr  id="listadoFacturas" style="display:none">
 								<td width="100%">
@@ -1898,20 +1898,20 @@
 														</td>
 														<td width="20%" align="center">
 															<font class="titulopeque">SERIE</font>
-														</td>											
+														</td>
 														<td width="20%" align="center">
 															<font class="titulopeque">FECHA EXPED.</font>
-														</td>											
+														</td>
 														<td width="20%" align="center">
 															<font class="titulopeque">IMPORTE BRUTO</font>
 														</td>
 														<td width="20%" align="center">
 															<font class="titulopeque">TOTAL EUROS</font>
-														</td>											
+														</td>
 													</tr>
 													<xsl:for-each select="Invoices/Invoice">
 													<tr style="cursor:hand" onclick="mostrarFactura('{InvoiceHeader/InvoiceNumber}')" onMouseOver="this.style.background='#DDEEEE'" onMouseOut="this.style.background='#FFFFFF'">
-														<td>												
+														<td>
 															<xsl:value-of select="InvoiceHeader/InvoiceNumber"/>
 														</td>
 														<td align="center">
@@ -1920,10 +1920,10 @@
 																	<xsl:value-of select="InvoiceHeader/InvoiceSeriesCode"/>
 																</xsl:when>
 																<xsl:otherwise>
-																	 
+
 																</xsl:otherwise>
 															</xsl:choose>
-														</td>											
+														</td>
 														<td align="center">
 															<xsl:value-of select="substring(InvoiceIssueData/IssueDate,9,2)"/>-<xsl:value-of select="substring(InvoiceIssueData/IssueDate,6,2)"/>-<xsl:value-of select="substring(InvoiceIssueData/IssueDate,1,4)"/>
 														</td>
@@ -1932,7 +1932,7 @@
 														</td>
 														<td align="right">
 															<xsl:value-of select="InvoiceTotals/TotalExecutableAmount"/>
-														</td>											
+														</td>
 													</tr>
 													</xsl:for-each>
 												</table>
@@ -1946,19 +1946,19 @@
 							<tr><td><hr/></td></tr>
 							<tr><td> </td></tr>
 							<tr><td> </td></tr>
-							<tr><td> </td></tr>							
+							<tr><td> </td></tr>
 						</table>
 					</center>
 					</div>
 			</body>
 	</xsl:template>
-	<xsl:template match="//m:Facturae/FileHeader/ThirdParty">		 
+	<xsl:template match="//m:Facturae/FileHeader/ThirdParty">
 		<tr id="tercero" style="display:none">
 			 <td width="100%">
 				<table border="0" cellpadding="0" cellspacing="0" width="100%">
 					<tr>
 						 <td width="100%">
-							<table border="0" cellpadding="0" cellspacing="0" width="100%">	
+							<table border="0" cellpadding="0" cellspacing="0" width="100%">
 								<tr>
 									<td colspan="3"> </td>
 								</tr>
@@ -1973,76 +1973,76 @@
 											DATOS TERCERO
 										</font>
 									</td>
-									<td align="right">						
+									<td align="right">
 										<a id="datosTerceroLink" href="javascript:mostrarCapa('datosTercero')">Mostrar más datos</a>
-									</td>         	
+									</td>
 								</tr>
 								<tr>
-									<td colspan="3"> </td>        	
+									<td colspan="3"> </td>
 								</tr>
 								<xsl:if test='LegalEntity!=""' >
-									<tr>											
+									<tr>
 										<td width="50%" colspan="2">
 											<font class="titulopeque">
 												RAZÓN SOCIAL:
 											</font>
-											   
+
 											<xsl:value-of select="LegalEntity/CorporateName"/>
 										</td>
 										<td width="50%">
 											<font class="titulopeque">
 												NIF/CIF:
 											</font>
-											   
+
 											<xsl:value-of select="TaxIdentification/TaxIdentificationNumber"/>
 										</td>
-									</tr>									
+									</tr>
 								</xsl:if>
 								<xsl:if test='Individual!=""' >
-									<tr>											
+									<tr>
 										<td width="50%" colspan="2">
 											<font class="titulopeque">
 												NOMBRE Y APELLIDOS:
 											</font>
-											   
-											<xsl:value-of select="Individual/Name"/> 
-											<xsl:value-of select="Individual/FirstSurname"/> 
-											<xsl:value-of select="Individual/SecondSurname"/> 
+
+											<xsl:value-of select="Individual/Name"/>
+											<xsl:value-of select="Individual/FirstSurname"/>
+											<xsl:value-of select="Individual/SecondSurname"/>
 										</td>
 										<td width="50%">
 											<font class="titulopeque">
 												NIF/CIF:
 											</font>
-											   
+
 											<xsl:value-of select="TaxIdentification/TaxIdentificationNumber"/>
-										</td>        	        	
-									</tr>									
+										</td>
+									</tr>
 								</xsl:if>
 							</table>
 						</td>
-					</tr>	
+					</tr>
 					<tr id="datosTercero" style="display:none">
 						<td width="100%">
-							<table border="0" cellpadding="0" cellspacing="0" width="100%">							
-								<tr>											
+							<table border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tr>
 									<td width="50%" colspan="2">
 										<font class="titulopeque">
 											TIPO PERSONA:
 										</font>
-										   
+
 										<script>
 											document.write(descTipoPersona('<xsl:value-of select="TaxIdentification/PersonTypeCode"/>'));
-										</script>											
+										</script>
 									</td>
 									<td width="50%">
 										<font class="titulopeque">
 											TIPO RESIDENCIA:
 										</font>
-										   
+
 										<script>
 											document.write(descTipoResidencia('<xsl:value-of select="TaxIdentification/ResidenceTypeCode"/>'));
-										</script>										
-									</td>        	
+										</script>
+									</td>
 								</tr>
 								<xsl:if test='LegalEntity!=""' >
 									<tr>
@@ -2050,11 +2050,11 @@
 											<font class="titulopeque">
 												DIRECCIÓN:
 											</font>
-										</td>        	
+										</td>
 										<td valign="top" width="40%">
 											<xsl:if test='LegalEntity/AddressInSpain!=""' >
 												<xsl:value-of select="LegalEntity/AddressInSpain/Address"/><br/>
-												<xsl:value-of select="LegalEntity/AddressInSpain/PostCode"/>   
+												<xsl:value-of select="LegalEntity/AddressInSpain/PostCode"/>
 												<xsl:value-of select="LegalEntity/AddressInSpain/Town"/><br/>
 												<xsl:value-of select="LegalEntity/AddressInSpain/Province"/><br/>
 												<xsl:value-of select="LegalEntity/AddressInSpain/CountryCode"/>
@@ -2071,107 +2071,107 @@
 												<font class="titulopeque">
 													NOMBRE COMERCIAL:
 												</font>
-												   
+
 												<xsl:value-of select="LegalEntity/TradeName"/>
-											</td>        	
+											</td>
 										</xsl:if>
 									</tr>
 									<xsl:if test='LegalEntity/RegistrationData!=""' >
-										<tr>											
+										<tr>
 											<td width="30%" colspan="3">
 											<font class="titulopeque">
 												DATOS REGISTRALES:
 											</font>
 											</td>
 										</tr>
-										<tr>								
+										<tr>
 											<td colspan="3">
 												<table border="0" cellpadding="0" cellspacing="0" width="100%">
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Libro:</font>   
+															<font class="titulopeque">Libro:</font>
 															<xsl:value-of select="LegalEntity/RegistrationData/Book"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Registro mercantil:</font>   
+															<font class="titulopeque">Registro mercantil:</font>
 															<xsl:value-of select="LegalEntity/RegistrationData/RegisterOfCompaniesLocation"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Hoja:</font>   
+															<font class="titulopeque">Hoja:</font>
 															<xsl:value-of select="LegalEntity/RegistrationData/Sheet"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Folio:</font>   
+															<font class="titulopeque">Folio:</font>
 															<xsl:value-of select="LegalEntity/RegistrationData/Folio"/>
 														</td>
 													</tr>
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Sección:</font>   
+															<font class="titulopeque">Sección:</font>
 															<xsl:value-of select="LegalEntity/RegistrationData/Section"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Tomo:</font>   
+															<font class="titulopeque">Tomo:</font>
 															<xsl:value-of select="LegalEntity/RegistrationData/Volume"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Otros:</font>   
+															<font class="titulopeque">Otros:</font>
 															<xsl:value-of select="LegalEntity/RegistrationData/AdditionalRegistrationData"/>
-														</td>															
+														</td>
 													</tr>
 												</table>
-											</td>        	
-										</tr>	
+											</td>
+										</tr>
 									</xsl:if>
 									<xsl:if test='LegalEntity/ContactDetails!=""' >
-										<tr>											
+										<tr>
 											<td width="30%" colspan="3">
 											<font class="titulopeque">
 												DATOS DE CONTACTO:
 											</font>
 											</td>
 										</tr>
-										<tr>								
+										<tr>
 											<td colspan="3">
 												<table border="0" cellpadding="0" cellspacing="0" width="100%">
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Teléfono:</font>   
+															<font class="titulopeque">Teléfono:</font>
 															<xsl:value-of select="LegalEntity/ContactDetails/Telephone"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Fax:</font>   
+															<font class="titulopeque">Fax:</font>
 															<xsl:value-of select="LegalEntity/ContactDetails/TeleFax"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Web:</font>   
+															<font class="titulopeque">Web:</font>
 															<xsl:value-of select="LegalEntity/ContactDetails/WebAddress"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Email:</font>   
+															<font class="titulopeque">Email:</font>
 															<xsl:value-of select="LegalEntity/ContactDetails/ElectronicMail"/>
 														</td>
 													</tr>
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Personas contacto:</font>   
+															<font class="titulopeque">Personas contacto:</font>
 															<xsl:value-of select="LegalEntity/ContactDetails/ContactPersons"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">CnoCnae:</font>   
+															<font class="titulopeque">CnoCnae:</font>
 															<xsl:value-of select="LegalEntity/ContactDetails/CnoCnae"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Código INE:</font>   
+															<font class="titulopeque">Código INE:</font>
 															<xsl:value-of select="LegalEntity/ContactDetails/INETownCode"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Otros:</font>   
+															<font class="titulopeque">Otros:</font>
 															<xsl:value-of select="LegalEntity/ContactDetails/AdditionalContactDetails"/>
-														</td>														
+														</td>
 													</tr>
 												</table>
-											</td>        	
+											</td>
 										</tr>
 									</xsl:if>
 								</xsl:if>
@@ -2181,11 +2181,11 @@
 										<font class="titulopeque">
 											DIRECCIÓN:
 										</font>
-										</td>        	
+										</td>
 										<td valign="top" width="40%">
 											<xsl:if test='Individual/AddressInSpain!=""' >
 												<xsl:value-of select="Individual/AddressInSpain/Address"/><br/>
-												<xsl:value-of select="Individual/AddressInSpain/PostCode"/>   
+												<xsl:value-of select="Individual/AddressInSpain/PostCode"/>
 												<xsl:value-of select="Individual/AddressInSpain/Town"/><br/>
 												<xsl:value-of select="Individual/AddressInSpain/Province"/><br/>
 												<xsl:value-of select="Individual/AddressInSpain/CountryCode"/>
@@ -2196,68 +2196,68 @@
 												<xsl:value-of select="Individual/OverseasAddress/Province"/><br/>
 												<xsl:value-of select="Individual/OverseasAddress/CountryCode"/>
 											</xsl:if>
-										</td>												   	
+										</td>
 									</tr>
 									<xsl:if test='Individual/ContactDetails!=""' >
-										<tr>											
+										<tr>
 											<td width="30%" colspan="3">
 											<font class="titulopeque">
 												DATOS DE CONTACTO:
 											</font>
 											</td>
 										</tr>
-										<tr>								
+										<tr>
 											<td colspan="3">
 												<table border="0" cellpadding="0" cellspacing="0" width="100%">
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Teléfono:</font>   
+															<font class="titulopeque">Teléfono:</font>
 															<xsl:value-of select="Individual/ContactDetails/Telephone"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Fax:</font>   
+															<font class="titulopeque">Fax:</font>
 															<xsl:value-of select="Individual/ContactDetails/TeleFax"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Web:</font>   
+															<font class="titulopeque">Web:</font>
 															<xsl:value-of select="Individual/ContactDetails/WebAddress"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Email:</font>   
+															<font class="titulopeque">Email:</font>
 															<xsl:value-of select="Individual/ContactDetails/ElectronicMail"/>
 														</td>
 													</tr>
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Personas contacto:</font>   
+															<font class="titulopeque">Personas contacto:</font>
 															<xsl:value-of select="Individual/ContactDetails/ContactPersons"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">CnoCnae:</font>   
+															<font class="titulopeque">CnoCnae:</font>
 															<xsl:value-of select="Individual/ContactDetails/CnoCnae"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Código INE:</font>   
+															<font class="titulopeque">Código INE:</font>
 															<xsl:value-of select="Individual/ContactDetails/INETownCode"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Otros:</font>   
+															<font class="titulopeque">Otros:</font>
 															<xsl:value-of select="Individual/ContactDetails/AdditionalContactDetails"/>
-														</td>														
+														</td>
 													</tr>
 												</table>
-											</td>        	
+											</td>
 										</tr>
 										</xsl:if>
-								</xsl:if>					
+								</xsl:if>
 							</table>
 						</td>
-					</tr>		
+					</tr>
 				</table>
 			</td>
-		</tr> 
+		</tr>
 	</xsl:template>
-	<xsl:template match="//m:Facturae/FileHeader/FactoringAssignmentData">		 
+	<xsl:template match="//m:Facturae/FileHeader/FactoringAssignmentData">
 		 <tr id="cesionario">
 			 <td width="100%">
 				<table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -2266,7 +2266,7 @@
 							<table border="0" cellpadding="0" cellspacing="0" width="100%">
 								<tr>
 									<td colspan="3">
-										 
+
 									</td>
 								</tr>
 								<tr>
@@ -2280,12 +2280,12 @@
 											DATOS CESIONARIO
 										</font>
 									</td>
-									<td align="right">							
+									<td align="right">
 										<a id="datosCesionarioLink" href="javascript:mostrarCapa('datosCesionario')">Mostrar más datos</a>
 									</td>
 								</tr>
 								<tr>
-									<td colspan="3"> </td>        	
+									<td colspan="3"> </td>
 								</tr>
 								<tr>
 									<xsl:if test='Assignee/LegalEntity!=""' >
@@ -2293,63 +2293,63 @@
 											<font class="titulopeque">
 												RAZÓN SOCIAL:
 											</font>
-											   
-											<xsl:value-of select="Assignee/LegalEntity/CorporateName"/>								
-										</td>        	
+
+											<xsl:value-of select="Assignee/LegalEntity/CorporateName"/>
+										</td>
 									</xsl:if>
 									<xsl:if test='Assignee/Individual!=""' >
 										<td  width="50%" colspan="2">
 											<font class="titulopeque">
 												NOMBRE Y APELLIDOS:
 											</font>
-											   
-											<xsl:value-of select="Assignee/Individual/Name"/> 
-											<xsl:value-of select="Assignee/Individual/FirstSurname"/> 
-											<xsl:value-of select="Assignee/Individual/SecondSurname"/> 
-										</td>        	
+
+											<xsl:value-of select="Assignee/Individual/Name"/>
+											<xsl:value-of select="Assignee/Individual/FirstSurname"/>
+											<xsl:value-of select="Assignee/Individual/SecondSurname"/>
+										</td>
 									</xsl:if>
 									<td width="50%">
 										<font class="titulopeque">
 											NIF / CIF:
 										</font>
-										   
+
 										<xsl:value-of select="Assignee/TaxIdentification/TaxIdentificationNumber"/>
 									</td>
-								</tr>								
+								</tr>
 							</table>
 						</td>
 					</tr>
 					<tr id="datosCesionario" style="display:none">
 						<td width="100%">
-							<table border="0" cellpadding="0" cellspacing="0" width="100%">							
-								<tr>											
+							<table border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tr>
 									<td width="50%" colspan="2">
 										<font class="titulopeque">
 											TIPO PERSONA:
 										</font>
-										   
+
 										<script>
 											document.write(descTipoPersona('<xsl:value-of select="Assignee/TaxIdentification/PersonTypeCode"/>'));
-										</script>										
+										</script>
 									</td>
 									<td width="50%">
 										<font class="titulopeque">
 											TIPO RESIDENCIA:
 										</font>
-										   
+
 										<script>
 											document.write(descTipoResidencia('<xsl:value-of select="Assignee/TaxIdentification/ResidenceTypeCode"/>'));
-										</script>										
+										</script>
 									</td>
 								</tr>
-								<tr>									
+								<tr>
 									<td width="100%" colspan="3">
 										<font class="titulopeque">
 											CLÁUSULA:
 										</font>
-										   
-										<xsl:value-of select="FactoringAssignmentClauses"/>								
-									</td>        	
+
+										<xsl:value-of select="FactoringAssignmentClauses"/>
+									</td>
 								</tr>
 								<xsl:if test='Assignee/LegalEntity!=""' >
 									<tr>
@@ -2357,11 +2357,11 @@
 											<font class="titulopeque">
 												DIRECCIÓN:
 											</font>
-										</td>        	
+										</td>
 										<td valign="top" width="40%">
 											<xsl:if test='Assignee/LegalEntity/AddressInSpain!=""' >
 												<xsl:value-of select="Assignee/LegalEntity/AddressInSpain/Address"/><br/>
-												<xsl:value-of select="Assignee/LegalEntity/AddressInSpain/PostCode"/>   
+												<xsl:value-of select="Assignee/LegalEntity/AddressInSpain/PostCode"/>
 												<xsl:value-of select="Assignee/LegalEntity/AddressInSpain/Town"/><br/>
 												<xsl:value-of select="Assignee/LegalEntity/AddressInSpain/Province"/><br/>
 												<xsl:value-of select="Assignee/LegalEntity/AddressInSpain/CountryCode"/>
@@ -2378,107 +2378,107 @@
 												<font class="titulopeque">
 													NOMBRE COMERCIAL:
 												</font>
-												   
+
 												<xsl:value-of select="Assignee/LegalEntity/TradeName"/>
-											</td>        	
+											</td>
 										</xsl:if>
-									</tr>									
+									</tr>
 									<xsl:if test='Assignee/LegalEntity/RegistrationData!=""' >
-										<tr>											
+										<tr>
 											<td width="30%" colspan="3">
 											<font class="titulopeque">
 												DATOS REGISTRALES:
 											</font>
 											</td>
 										</tr>
-										<tr>								
+										<tr>
 											<td colspan="3">
 												<table border="0" cellpadding="0" cellspacing="0" width="100%">
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Libro:</font>   
+															<font class="titulopeque">Libro:</font>
 															<xsl:value-of select="Assignee/LegalEntity/RegistrationData/Book"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Registro mercantil:</font>   
+															<font class="titulopeque">Registro mercantil:</font>
 															<xsl:value-of select="Assignee/LegalEntity/RegistrationData/RegisterOfCompaniesLocation"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Hoja:</font>   
+															<font class="titulopeque">Hoja:</font>
 															<xsl:value-of select="Assignee/LegalEntity/RegistrationData/Sheet"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Folio:</font>   
+															<font class="titulopeque">Folio:</font>
 															<xsl:value-of select="Assignee/LegalEntity/RegistrationData/Folio"/>
 														</td>
 													</tr>
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Sección:</font>   
+															<font class="titulopeque">Sección:</font>
 															<xsl:value-of select="Assignee/LegalEntity/RegistrationData/Section"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Tomo:</font>   
+															<font class="titulopeque">Tomo:</font>
 															<xsl:value-of select="Assignee/LegalEntity/RegistrationData/Volume"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Otros:</font>   
+															<font class="titulopeque">Otros:</font>
 															<xsl:value-of select="Assignee/LegalEntity/RegistrationData/AdditionalRegistrationData"/>
-														</td>															
+														</td>
 													</tr>
 												</table>
-											</td>        	
-										</tr>	
+											</td>
+										</tr>
 									</xsl:if>
 									<xsl:if test='Assignee/LegalEntity/ContactDetails!=""' >
-										<tr>											
+										<tr>
 											<td width="30%" colspan="3">
 											<font class="titulopeque">
 												DATOS DE CONTACTO:
 											</font>
 											</td>
 										</tr>
-										<tr>								
+										<tr>
 											<td colspan="3">
 												<table border="0" cellpadding="0" cellspacing="0" width="100%">
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Teléfono:</font>   
+															<font class="titulopeque">Teléfono:</font>
 															<xsl:value-of select="Assignee/LegalEntity/ContactDetails/Telephone"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Fax:</font>   
+															<font class="titulopeque">Fax:</font>
 															<xsl:value-of select="Assignee/LegalEntity/ContactDetails/TeleFax"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Web:</font>   
+															<font class="titulopeque">Web:</font>
 															<xsl:value-of select="Assignee/LegalEntity/ContactDetails/WebAddress"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Email:</font>   
+															<font class="titulopeque">Email:</font>
 															<xsl:value-of select="Assignee/LegalEntity/ContactDetails/ElectronicMail"/>
 														</td>
 													</tr>
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Personas contacto:</font>   
+															<font class="titulopeque">Personas contacto:</font>
 															<xsl:value-of select="Assignee/LegalEntity/ContactDetails/ContactPersons"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">CnoCnae:</font>   
+															<font class="titulopeque">CnoCnae:</font>
 															<xsl:value-of select="Assignee/LegalEntity/ContactDetails/CnoCnae"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Código INE:</font>   
+															<font class="titulopeque">Código INE:</font>
 															<xsl:value-of select="Assignee/LegalEntity/ContactDetails/INETownCode"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Otros:</font>   
+															<font class="titulopeque">Otros:</font>
 															<xsl:value-of select="Assignee/LegalEntity/ContactDetails/AdditionalContactDetails"/>
-														</td>														
+														</td>
 													</tr>
 												</table>
-											</td>        	
+											</td>
 										</tr>
 									</xsl:if>
 								</xsl:if>
@@ -2488,11 +2488,11 @@
 											<font class="titulopeque">
 												DIRECCIÓN:
 											</font>
-										</td>        	
+										</td>
 										<td valign="top" width="40%">
 											<xsl:if test='Assignee/Individual/AddressInSpain!=""' >
 												<xsl:value-of select="Assignee/Individual/AddressInSpain/Address"/><br/>
-												<xsl:value-of select="Assignee/Individual/AddressInSpain/PostCode"/>   
+												<xsl:value-of select="Assignee/Individual/AddressInSpain/PostCode"/>
 												<xsl:value-of select="Assignee/Individual/AddressInSpain/Town"/><br/>
 												<xsl:value-of select="Assignee/Individual/AddressInSpain/Province"/><br/>
 												<xsl:value-of select="Assignee/Individual/AddressInSpain/CountryCode"/>
@@ -2503,57 +2503,57 @@
 												<xsl:value-of select="Assignee/Individual/OverseasAddress/Province"/><br/>
 												<xsl:value-of select="Assignee/Individual/OverseasAddress/CountryCode"/>
 											</xsl:if>
-										</td>        	
+										</td>
 									</tr>
 									<xsl:if test='Assignee/Individual/ContactDetails!=""' >
-										<tr>											
+										<tr>
 											<td width="30%" colspan="3">
 											<font class="titulopeque">
 												DATOS DE CONTACTO:
 											</font>
 											</td>
 										</tr>
-										<tr>								
+										<tr>
 											<td colspan="3">
 												<table border="0" cellpadding="0" cellspacing="0" width="100%">
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Teléfono:</font>   
+															<font class="titulopeque">Teléfono:</font>
 															<xsl:value-of select="Assignee/Individual/ContactDetails/Telephone"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Fax:</font>   
+															<font class="titulopeque">Fax:</font>
 															<xsl:value-of select="Assignee/Individual/ContactDetails/TeleFax"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Web:</font>   
+															<font class="titulopeque">Web:</font>
 															<xsl:value-of select="Assignee/Individual/ContactDetails/WebAddress"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Email:</font>   
+															<font class="titulopeque">Email:</font>
 															<xsl:value-of select="Assignee/Individual/ContactDetails/ElectronicMail"/>
 														</td>
 													</tr>
 													<tr>
 														<td width="25%">
-															<font class="titulopeque">Personas contacto:</font>   
+															<font class="titulopeque">Personas contacto:</font>
 															<xsl:value-of select="Assignee/Individual/ContactDetails/ContactPersons"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">CnoCnae:</font>   
+															<font class="titulopeque">CnoCnae:</font>
 															<xsl:value-of select="Assignee/Individual/ContactDetails/CnoCnae"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Código INE:</font>   
+															<font class="titulopeque">Código INE:</font>
 															<xsl:value-of select="Assignee/Individual/ContactDetails/INETownCode"/>
 														</td>
 														<td width="25%">
-															<font class="titulopeque">Otros:</font>   
+															<font class="titulopeque">Otros:</font>
 															<xsl:value-of select="Assignee/Individual/ContactDetails/AdditionalContactDetails"/>
-														</td>														
+														</td>
 													</tr>
 												</table>
-											</td>        	
+											</td>
 										</tr>
 									</xsl:if>
 								</xsl:if>
@@ -2561,9 +2561,9 @@
 									<td width="100%" colspan="3">
 										<font class="titulopeque">
 											DATOS DE PAGO:
-										</font>										
-									</td>									        	
-								</tr>								
+										</font>
+									</td>
+								</tr>
 								<tr>
 									<td width="100%" colspan="3">
 										<table border="1" cellpadding="0" cellspacing="0" width="100%">
@@ -2599,7 +2599,7 @@
 														<xsl:value-of select="substring(InstallmentDueDate,9,2)"/>-<xsl:value-of select="substring(InstallmentDueDate,6,2)"/>-<xsl:value-of select="substring(InstallmentDueDate,1,4)"/>
 													</td>
 													<td width="6%" valign="top" align="right">
-														<xsl:value-of select="InstallmentAmount"/>								
+														<xsl:value-of select="InstallmentAmount"/>
 													</td>
 													<td width="10%" valign="top"  align="center">
 														<script>
@@ -2609,7 +2609,7 @@
 													<td width="26%" valign="top"  align="center">
 														<xsl:choose>
 															<xsl:when test='AccountToBeCredited!=""' >
-																<table border="0" cellpadding="0" cellspacing="0" width="95%" align="center">											
+																<table border="0" cellpadding="0" cellspacing="0" width="95%" align="center">
 																	<xsl:if test='AccountToBeCredited/IBAN!=""' >
 																		<tr>
 																			<td width="30%">
@@ -2665,13 +2665,13 @@
 																			</td>
 																			<td>
 																				<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/Address"/><br/>
-																				<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/PostCode"/>   
+																				<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/PostCode"/>
 																				<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/Town"/><br/>
 																				<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/Province"/><br/>
 																				<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/CountryCode"/>
 																			</td>
-																		</tr>	
-																	</xsl:if>													
+																		</tr>
+																	</xsl:if>
 																	<xsl:if test='AccountToBeCredited/OverseasBranchAddress!=""' >
 																		<tr>
 																			<td valign="top">
@@ -2708,7 +2708,7 @@
 																				<xsl:apply-templates select="AccountToBeDebited/AccountNumber"/>
 																			</td>
 																		</tr>
-																	</xsl:if>											
+																	</xsl:if>
 																	<xsl:if test='AccountToBeDebited/BankCode!=""' >
 																		<tr>
 																			<td>
@@ -2744,13 +2744,13 @@
 																			</td>
 																			<td>
 																				<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/Address"/><br/>
-																				<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/PostCode"/>   
+																				<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/PostCode"/>
 																				<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/Town"/><br/>
 																				<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/Province"/><br/>
 																				<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/CountryCode"/>
 																			</td>
-																		</tr>	
-																	</xsl:if>													
+																		</tr>
+																	</xsl:if>
 																	<xsl:if test='AccountToBeDebited/OverseasBranchAddress!=""' >
 																		<tr>
 																			<td valign="top">
@@ -2767,7 +2767,7 @@
 																</table>
 															</xsl:when>
 															<xsl:otherwise>
-																 
+
 															</xsl:otherwise>
 														</xsl:choose>
 													</td>
@@ -2777,7 +2777,7 @@
 																<xsl:apply-templates select="PaymentReconciliationReference"/>
 															</xsl:when>
 															<xsl:otherwise>
-																 
+
 															</xsl:otherwise>
 														</xsl:choose>
 													</td>
@@ -2787,7 +2787,7 @@
 																<xsl:apply-templates select="DebitReconciliationReference"/>
 															</xsl:when>
 															<xsl:otherwise>
-																 
+
 															</xsl:otherwise>
 														</xsl:choose>
 													</td>
@@ -2797,7 +2797,7 @@
 																<xsl:apply-templates select="RegulatoryReportingData"/>
 															</xsl:when>
 															<xsl:otherwise>
-																 
+
 															</xsl:otherwise>
 														</xsl:choose>
 													</td>
@@ -2807,7 +2807,7 @@
 																<xsl:apply-templates select="CollectionAdditionalInformation"/>
 															</xsl:when>
 															<xsl:otherwise>
-																 
+
 															</xsl:otherwise>
 														</xsl:choose>
 													</td>
@@ -2823,11 +2823,11 @@
 			</td>
 		</tr>
 	</xsl:template>
-	<xsl:template match="//m:Facturae/Invoices/Invoice">	
-		<xsl:variable name="numFactura" select="InvoiceHeader/InvoiceNumber"/>		
+	<xsl:template match="//m:Facturae/Invoices/Invoice">
+		<xsl:variable name="numFactura" select="InvoiceHeader/InvoiceNumber"/>
 		<tr id="{$numFactura}">
 			<td width="100%">
-				<table border="0" cellpadding="0" cellspacing="0" width="100%">					
+				<table border="0" cellpadding="0" cellspacing="0" width="100%">
 					<tr>
 						<td> </td>
 					</tr>
@@ -2854,7 +2854,7 @@
 												<td align="center" width="20%">
 													<font class="titulopeque">NUMERO</font>
 													<br/><xsl:value-of select="InvoiceHeader/InvoiceNumber"/>
-												</td>																	
+												</td>
 												<td align="center" width="20%">
 													<font class="titulopeque">SERIE</font>
 													<br/>
@@ -2865,7 +2865,7 @@
 														<xsl:otherwise>
 															-
 														</xsl:otherwise>
-													</xsl:choose>																			
+													</xsl:choose>
 												</td>
 												<td align="center" width="20%">
 													<font class="titulopeque">TIPO</font>
@@ -2878,7 +2878,7 @@
 														</xsl:when>
 														<xsl:when test='InvoiceHeader/InvoiceDocumentType="AF"' >
 															AutoFactura
-														</xsl:when>																			
+														</xsl:when>
 														<xsl:otherwise>
 															<xsl:value-of select="InvoiceHeader/InvoiceDocumentType"/>
 														</xsl:otherwise>
@@ -2961,19 +2961,19 @@
 														</xsl:otherwise>
 													</xsl:choose>
 												</td>
-												<td align="center" width="25%">																		
+												<td align="center" width="25%">
 													<font class="titulopeque">PERIODO FACT.</font>
 													<br/>
 													<xsl:choose>
 														<xsl:when test='InvoiceIssueData/InvoicingPeriod!=""' >
-															<xsl:value-of select="substring(InvoiceIssueData/InvoicingPeriod/StartDate,9,2)"/>-<xsl:value-of select="substring(InvoiceIssueData/InvoicingPeriod/StartDate,6,2)"/>-<xsl:value-of select="substring(InvoiceIssueData/InvoicingPeriod/StartDate,1,4)"/> - 
+															<xsl:value-of select="substring(InvoiceIssueData/InvoicingPeriod/StartDate,9,2)"/>-<xsl:value-of select="substring(InvoiceIssueData/InvoicingPeriod/StartDate,6,2)"/>-<xsl:value-of select="substring(InvoiceIssueData/InvoicingPeriod/StartDate,1,4)"/> -
 															<xsl:value-of select="substring(InvoiceIssueData/InvoicingPeriod/EndDate,9,2)"/>-<xsl:value-of select="substring(InvoiceIssueData/InvoicingPeriod/EndDate,6,2)"/>-<xsl:value-of select="substring(InvoiceIssueData/InvoicingPeriod/EndDate,1,4)"/>
 														</xsl:when>
 														<xsl:otherwise>
 															-
 														</xsl:otherwise>
 													</xsl:choose>
-												</td>												
+												</td>
 											</tr>
 										</table>
 									</td>
@@ -3005,8 +3005,8 @@
 									</td>
 								</tr>
 							</table>
-						</td>											
-					</tr>					
+						</td>
+					</tr>
 					<xsl:apply-templates select="InvoiceHeader/Corrective"/>
 					<tr>
 						<td> </td>
@@ -3055,7 +3055,7 @@
 													<xsl:value-of select="substring(TransactionDate,9,2)"/>-<xsl:value-of select="substring(TransactionDate,6,2)"/>-<xsl:value-of select="substring(TransactionDate,1,4)"/>
 												</xsl:when>
 												<xsl:otherwise>
-													 
+
 												</xsl:otherwise>
 											</xsl:choose>
 										</td>
@@ -3116,7 +3116,7 @@
 								</tr>
 								<xsl:if test='InvoiceTotals/GeneralDiscounts!=""' >
 								<tr>
-									<td>									
+									<td>
 										<font class="titulopeque"><i>DESCUENTOS</i></font>
 										<table border="1" cellpadding="0" cellspacing="0" width="100%">
 											<tr>
@@ -3154,7 +3154,7 @@
 																		<xsl:otherwise>
 																			-
 																		</xsl:otherwise>
-																	</xsl:choose>																	
+																	</xsl:choose>
 																</td>
 															</tr>
 														</xsl:for-each>
@@ -3172,7 +3172,7 @@
 													</table>
 												</td>
 											</tr>
-										</table>							
+										</table>
 									</td>
 								</tr>
 								<tr>
@@ -3213,7 +3213,7 @@
 								</xsl:if>
 								<xsl:if test='InvoiceTotals/GeneralSurcharges!=""' >
 								<tr>
-									<td>									
+									<td>
 										<font class="titulopeque"><i>RECARGOS</i></font>
 										<table border="1" cellpadding="0" cellspacing="0" width="100%">
 											<tr>
@@ -3269,7 +3269,7 @@
 													</table>
 												</td>
 											</tr>
-										</table>					
+										</table>
 									</td>
 								</tr>
 								<tr>
@@ -3328,7 +3328,7 @@
 								</tr>
 								<xsl:if test='TaxesOutputs!=""' >
 								<tr>
-									<td>									
+									<td>
 										<font class="titulopeque"><i>IMPUESTOS REPERCUTIDOS</i></font>
 										<xsl:choose>
 											<xsl:when test='//m:Facturae/FileHeader/Batch/InvoiceCurrencyCode="EUR"'>
@@ -3357,7 +3357,7 @@
 																	<font class="titulopeque">CUOTA</font>
 																</td>
 															</xsl:otherwise>
-														</xsl:choose>														
+														</xsl:choose>
 														<td width="10%" valign="top" align="center">
 															<font class="titulopeque">RECARGO EQUIV. (%)</font>
 														</td>
@@ -3405,11 +3405,11 @@
 																			<xsl:choose>
 																				<xsl:when test='SpecialTaxableBase!=""' >
 																					<xsl:value-of select="SpecialTaxableBase/TotalAmount"/>
-																				</xsl:when>																				
+																				</xsl:when>
 																				<xsl:otherwise>
 																					<xsl:value-of select="TaxableBase/TotalAmount"/>
 																				</xsl:otherwise>
-																			</xsl:choose>																		
+																			</xsl:choose>
 																		</td>
 																	</tr>
 																</xsl:for-each>
@@ -3448,7 +3448,7 @@
 																				<xsl:otherwise>
 																					-
 																				</xsl:otherwise>
-																			</xsl:choose>																		
+																			</xsl:choose>
 																		</td>
 																	</tr>
 																</xsl:for-each>
@@ -3501,7 +3501,7 @@
 																	<font class="titulopeque">CUOTA</font>
 																</td>
 															</xsl:otherwise>
-														</xsl:choose>	
+														</xsl:choose>
 														<td width="7%" valign="top" align="center" rowspan="2">
 															<font class="titulopeque">RECARGO EQUIV. (%)</font>
 														</td>
@@ -3516,13 +3516,13 @@
 														<td valign="top" align="center">
 															<font class="titulopeque">Contravalor</font>
 														</td>
-														<td valign="top" align="center">														
+														<td valign="top" align="center">
 															<font class="titulopeque">Importe</font>
 														</td>
 														<td valign="top" align="center">
 															<font class="titulopeque">Contravalor</font>
 														</td>
-														<td valign="top" align="center">														
+														<td valign="top" align="center">
 															<font class="titulopeque">Importe</font>
 														</td>
 														<td valign="top" align="center">
@@ -3569,7 +3569,7 @@
 																			<xsl:choose>
 																				<xsl:when test='SpecialTaxableBase!=""' >
 																					<xsl:value-of select="SpecialTaxableBase/TotalAmount"/>
-																				</xsl:when>																				
+																				</xsl:when>
 																				<xsl:otherwise>
 																					<xsl:value-of select="TaxableBase/TotalAmount"/>
 																				</xsl:otherwise>
@@ -3587,7 +3587,7 @@
 																			<xsl:choose>
 																				<xsl:when test='SpecialTaxableBase!=""' >
 																					<xsl:value-of select="SpecialTaxableBase/EquivalentInEuros"/>
-																				</xsl:when>																				
+																				</xsl:when>
 																				<xsl:otherwise>
 																					<xsl:value-of select="TaxableBase/EquivalentInEuros"/>
 																				</xsl:otherwise>
@@ -3608,7 +3608,7 @@
 																				</xsl:when>
 																				<xsl:when test='TaxAmount!=""' >
 																					<xsl:value-of select="TaxAmount/TotalAmount"/>
-																				</xsl:when>						
+																				</xsl:when>
 																				<xsl:otherwise>
 																					-
 																				</xsl:otherwise>
@@ -3730,7 +3730,7 @@
 								</xsl:if>
 								<xsl:if test='TaxesWithheld!=""' >
 								<tr>
-									<td>									
+									<td>
 										<font class="titulopeque"><i>IMPUESTOS RETENIDOS</i></font>
 										<xsl:choose>
 											<xsl:when test='//m:Facturae/FileHeader/Batch/InvoiceCurrencyCode="EUR"'>
@@ -3843,7 +3843,7 @@
 														<td valign="top" align="center">
 															<font class="titulopeque">Contravalor</font>
 														</td>
-														<td valign="top" align="center">														
+														<td valign="top" align="center">
 															<font class="titulopeque">Importe</font>
 														</td>
 														<td valign="top" align="center">
@@ -3956,7 +3956,7 @@
 													</tr>
 												</table>
 											</xsl:otherwise>
-										</xsl:choose>														
+										</xsl:choose>
 									</td>
 								</tr>
 								<tr>
@@ -3987,7 +3987,7 @@
 								<tr>
 									<td> </td>
 								</tr>
-								</xsl:if>	
+								</xsl:if>
 								<tr>
 									<td width="100%">
 										<table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -4012,10 +4012,10 @@
 								</tr>
 								<tr>
 									<td> </td>
-								</tr>	
+								</tr>
 								<xsl:if test='InvoiceTotals/Subsidies!=""' >
 								<tr>
-									<td>									
+									<td>
 										<font class="titulopeque"><i>SUBVENCIONES</i></font>
 										<table border="1" cellpadding="0" cellspacing="0" width="100%">
 											<tr>
@@ -4071,7 +4071,7 @@
 													</table>
 												</td>
 											</tr>
-										</table>					
+										</table>
 									</td>
 								</tr>
 								<tr>
@@ -4080,7 +4080,7 @@
 								</xsl:if>
 								<xsl:if test='InvoiceTotals/PaymentsOnAccount!=""' >
 								<tr>
-									<td align="right">									
+									<td align="right">
 										<table border="0" cellpadding="0" cellspacing="0" width="40%">
 											<tr>
 												<td><font class="titulopeque"><i>ANTICIPOS</i></font></td>
@@ -4119,7 +4119,7 @@
 													</table>
 												</td>
 											</tr>
-										</table>									
+										</table>
 									</td>
 								</tr>
 								<tr>
@@ -4153,7 +4153,7 @@
 								</xsl:if>
 								<xsl:if test='InvoiceTotals/ReimbursableExpenses!=""' >
 								<tr>
-									<td align="right">									
+									<td align="right">
 										<table border="0" cellpadding="0" cellspacing="0" width="100%">
 											<tr>
 												<td><font class="titulopeque"><i>SUPLIDOS</i></font></td>
@@ -4182,43 +4182,43 @@
 											</tr>
 											<xsl:for-each select="InvoiceTotals/ReimbursableExpenses/ReimbursableExpenses">
 												<tr>
-													<td width="20%" valign="top" align="center">														
+													<td width="20%" valign="top" align="center">
 														<xsl:choose>
 															<xsl:when test='ReimbursableExpensesSellerParty/PersonTypeCode!=""' >
 																<script>
 																	document.write(descTipoPersona('<xsl:value-of select="ReimbursableExpensesSellerParty/PersonTypeCode"/>'));
-																</script>																
+																</script>
 																-
 																<script>
 																	document.write(descTipoResidencia('<xsl:value-of select="ReimbursableExpensesSellerParty/ResidenceTypeCode"/>'));
-																</script>																
+																</script>
 																-
 																<xsl:value-of select="ReimbursableExpensesSellerParty/TaxIdentificationNumber"/>
 															</xsl:when>
 															<xsl:otherwise>
 																-
 															</xsl:otherwise>
-														</xsl:choose>															
+														</xsl:choose>
 													</td>
-													<td width="20%" valign="top" align="center">														
+													<td width="20%" valign="top" align="center">
 														<xsl:choose>
 															<xsl:when test='ReimbursableExpensesBuyerParty/PersonTypeCode!=""' >
 																<script>
 																	document.write(descTipoPersona('<xsl:value-of select="ReimbursableExpensesBuyerParty/PersonTypeCode"/>'));
-																</script>																
+																</script>
 																-
 																<script>
 																	document.write(descTipoResidencia('<xsl:value-of select="ReimbursableExpensesBuyerParty/ResidenceTypeCode"/>'));
-																</script>																
+																</script>
 																-
 																<xsl:value-of select="ReimbursableExpensesBuyerParty/TaxIdentificationNumber"/>
 															</xsl:when>
 															<xsl:otherwise>
 																-
 															</xsl:otherwise>
-														</xsl:choose>																	
+														</xsl:choose>
 													</td>
-													<td width="15%" valign="top" align="center">														
+													<td width="15%" valign="top" align="center">
 														<xsl:choose>
 															<xsl:when test='IssueDate!=""' >
 																<xsl:value-of select="substring(IssueDate,9,2)"/>-<xsl:value-of select="substring(IssueDate,6,2)"/>-<xsl:value-of select="substring(IssueDate,1,4)"/>
@@ -4228,7 +4228,7 @@
 															</xsl:otherwise>
 														</xsl:choose>
 													</td>
-													<td width="15%" valign="top" align="center">														
+													<td width="15%" valign="top" align="center">
 														<xsl:choose>
 															<xsl:when test='InvoiceNumber!=""' >
 																<xsl:value-of select="InvoiceNumber"/>
@@ -4236,9 +4236,9 @@
 															<xsl:otherwise>
 																-
 															</xsl:otherwise>
-														</xsl:choose>		
+														</xsl:choose>
 													</td>
-													<td width="15%" valign="top" align="center">														
+													<td width="15%" valign="top" align="center">
 														<xsl:choose>
 															<xsl:when test='InvoiceSeriesCode!=""' >
 																<xsl:value-of select="InvoiceSeriesCode"/>
@@ -4248,12 +4248,12 @@
 															</xsl:otherwise>
 														</xsl:choose>
 													</td>
-													<td width="15%" valign="top" align="right">														
+													<td width="15%" valign="top" align="right">
 														<xsl:value-of select="ReimbursableExpensesAmount"/>
 													</td>
 												</tr>
 											</xsl:for-each>
-										</table>									
+										</table>
 									</td>
 								</tr>
 								<tr>
@@ -4339,7 +4339,7 @@
 								</tr>
 								<xsl:if test='InvoiceTotals/AmountsWithheld!=""' >
 								<tr>
-									<td>									
+									<td>
 										<font class="titulopeque"><i>RETENCIÓN GARANTÍA</i></font>
 										<table border="1" cellpadding="0" cellspacing="0" width="100%">
 											<tr>
@@ -4371,7 +4371,7 @@
 													<xsl:value-of select="InvoiceTotals/AmountsWithheld/WithholdingAmount"/>
 												</td>
 											</tr>
-										</table>					
+										</table>
 									</td>
 								</tr>
 								<tr>
@@ -4405,7 +4405,7 @@
 					</tr>
 					<xsl:apply-templates select="PaymentDetails"/>
 					<xsl:apply-templates select="LegalLiterals"/>
-					<xsl:apply-templates select="AdditionalData"/>					
+					<xsl:apply-templates select="AdditionalData"/>
 				</table>
 			</td>
 		</tr>
@@ -4425,7 +4425,7 @@
 			<td>
 				<hr/>
 			</td>
-		</tr>	
+		</tr>
 		<tr>
 			<td width="100%">
 				<table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -4440,44 +4440,44 @@
 					<tr>
 						<td width="50%">
 							<font class="titulopeque">NUMERO:</font>
-							   
+
 							<xsl:value-of select="InvoiceNumber"/><br/>
 						</td>
 						<xsl:if test='InvoiceSeriesCode!=""'>
 							<td width="50%">
 								<font class="titulopeque">SERIE:</font>
-								   
+
 								<xsl:value-of select="InvoiceSeriesCode"/><br/>
 							</td>
 					</xsl:if>
-					</tr>					
+					</tr>
 					<tr>
 						<td width="50%">
 							<font class="titulopeque">MOTIVO:</font>
-							   
+
 							<xsl:value-of select="ReasonCode"/> - <xsl:value-of select="ReasonDescription"/>
 						</td>
 						<td width="50%">
 							<font class="titulopeque">CRITERIO RECTIFICACIÓN:</font>
-							   
+
 							<xsl:value-of select="CorrectionMethod"/> - <xsl:value-of select="CorrectionMethodDescription"/>
 						</td>
 					</tr>
 					<tr>
 						<td valign="top" colspan="2">
 							<font class="titulopeque">PERIODO IMPOSITIVO:</font>
-						</td>						
+						</td>
 					</tr>
-					<tr>								
+					<tr>
 						<td colspan="2">
 							<table border="0" cellpadding="0" cellspacing="0" width="100%">
 								<tr>
 									<td width="50%">
-										<font class="titulopeque">Fecha inicio:</font>   
+										<font class="titulopeque">Fecha inicio:</font>
 										<xsl:value-of select="substring(TaxPeriod/StartDate,9,2)"/>-<xsl:value-of select="substring(TaxPeriod/StartDate,6,2)"/>-<xsl:value-of select="substring(TaxPeriod/StartDate,1,4)"/>
 									</td>
 									<td width="50%">
-										<font class="titulopeque">Fecha fin:</font>   
+										<font class="titulopeque">Fecha fin:</font>
 										<xsl:value-of select="substring(TaxPeriod/EndDate,9,2)"/>-<xsl:value-of select="substring(TaxPeriod/EndDate,6,2)"/>-<xsl:value-of select="substring(TaxPeriod/EndDate,1,4)"/>
 									</td>
 								</tr>
@@ -4488,10 +4488,10 @@
 						<tr>
 							<td width="100%" colspan="2">
 								<font class="titulopeque">AMPLIACIÓN MOTIVO DE LA RECTIFICACIÓN:</font>
-								   
+
 								<xsl:value-of select="AdditionalReasonDescription"/><br/>
-							</td>						
-						</tr>	
+							</td>
+						</tr>
 					</xsl:if>
 				</table>
 			</td>
@@ -4549,7 +4549,7 @@
 								<xsl:value-of select="substring(InstallmentDueDate,9,2)"/>-<xsl:value-of select="substring(InstallmentDueDate,6,2)"/>-<xsl:value-of select="substring(InstallmentDueDate,1,4)"/>
 							</td>
 							<td width="6%" valign="top" align="right">
-								<xsl:value-of select="InstallmentAmount"/>								
+								<xsl:value-of select="InstallmentAmount"/>
 							</td>
 							<td width="10%" valign="top"  align="center">
 								<script>
@@ -4559,7 +4559,7 @@
 							<td width="26%" valign="top"  align="center">
 								<xsl:choose>
 									<xsl:when test='AccountToBeCredited!=""' >
-										<table border="0" cellpadding="0" cellspacing="0" width="95%" align="center">											
+										<table border="0" cellpadding="0" cellspacing="0" width="95%" align="center">
 											<xsl:if test='AccountToBeCredited/IBAN!=""' >
 												<tr>
 													<td width="30%">
@@ -4615,13 +4615,13 @@
 													</td>
 													<td>
 														<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/Address"/><br/>
-														<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/PostCode"/>   
+														<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/PostCode"/>
 														<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/Town"/><br/>
 														<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/Province"/><br/>
 														<xsl:value-of select="AccountToBeCredited/BranchInSpainAddress/CountryCode"/>
 													</td>
-												</tr>	
-											</xsl:if>													
+												</tr>
+											</xsl:if>
 											<xsl:if test='AccountToBeCredited/OverseasBranchAddress!=""' >
 												<tr>
 													<td valign="top">
@@ -4658,7 +4658,7 @@
 														<xsl:apply-templates select="AccountToBeDebited/AccountNumber"/>
 													</td>
 												</tr>
-											</xsl:if>											
+											</xsl:if>
 											<xsl:if test='AccountToBeDebited/BankCode!=""' >
 												<tr>
 													<td>
@@ -4694,13 +4694,13 @@
 													</td>
 													<td>
 														<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/Address"/><br/>
-														<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/PostCode"/>   
+														<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/PostCode"/>
 														<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/Town"/><br/>
 														<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/Province"/><br/>
 														<xsl:value-of select="AccountToBeDebited/BranchInSpainAddress/CountryCode"/>
 													</td>
-												</tr>	
-											</xsl:if>													
+												</tr>
+											</xsl:if>
 											<xsl:if test='AccountToBeDebited/OverseasBranchAddress!=""' >
 												<tr>
 													<td valign="top">
@@ -4717,7 +4717,7 @@
 										</table>
 									</xsl:when>
 									<xsl:otherwise>
-										 
+
 									</xsl:otherwise>
 								</xsl:choose>
 							</td>
@@ -4727,7 +4727,7 @@
 										<xsl:apply-templates select="PaymentReconciliationReference"/>
 									</xsl:when>
 									<xsl:otherwise>
-										 
+
 									</xsl:otherwise>
 								</xsl:choose>
 							</td>
@@ -4737,7 +4737,7 @@
 										<xsl:apply-templates select="DebitReconciliationReference"/>
 									</xsl:when>
 									<xsl:otherwise>
-										 
+
 									</xsl:otherwise>
 								</xsl:choose>
 							</td>
@@ -4747,7 +4747,7 @@
 										<xsl:apply-templates select="RegulatoryReportingData"/>
 									</xsl:when>
 									<xsl:otherwise>
-										 
+
 									</xsl:otherwise>
 								</xsl:choose>
 							</td>
@@ -4757,7 +4757,7 @@
 										<xsl:apply-templates select="CollectionAdditionalInformation"/>
 									</xsl:when>
 									<xsl:otherwise>
-										 
+
 									</xsl:otherwise>
 								</xsl:choose>
 							</td>
@@ -4790,13 +4790,13 @@
 					<tr>
 						<td align="center">
 							<font class="titulopeque">MENCIÓN</font>
-						</td>						
+						</td>
 					</tr>
 					<xsl:for-each select="LegalReference">
 						<tr>
 							<td align="center">
 								<xsl:value-of select="."/>
-							</td>						
+							</td>
 						</tr>
 					</xsl:for-each>
 				</table>
@@ -4819,7 +4819,7 @@
 						<td colspan="2">
 							<font class="titulo2">DATOS ADICIONALES</font>
 						</td>
-						<td align="right">			
+						<td align="right">
 							<xsl:if test='RelatedDocuments!=""'>
 								<a id="datosAdicLink" href="javascript:mostrarCapa('datosAdic')">Mostrar más datos</a>
 							</xsl:if>
@@ -4832,7 +4832,7 @@
 						<tr>
 							<td width="50%" colspan="2">
 								<font class="titulopeque">FACTURA ASOCIADA:</font>
-								   									
+
 								<xsl:value-of select="RelatedInvoice"/><br/>
 							</td>
 						</tr>
@@ -4841,14 +4841,14 @@
 						<tr>
 							<td width="50%" colspan="2">
 								<font class="titulopeque">OBSERVACIONES:</font>
-								   
-								<xsl:apply-templates select="InvoiceAdditionalInformation"/>							
+
+								<xsl:apply-templates select="InvoiceAdditionalInformation"/>
 							</td>
 						</tr>
-					</xsl:if>					
+					</xsl:if>
 					<xsl:if test='RelatedDocuments!=""'>
 						<tr  id="datosAdic" style="display:none">
-							<td colspan="2">									
+							<td colspan="2">
 								<font class="titulopeque">DOCUMENTOS RELACIONADOS</font>
 								<table border="1" cellpadding="0" cellspacing="0" width="100%">
 									<tr>
@@ -4960,15 +4960,15 @@
 											</table>
 										</td>
 									</tr>
-								</table>							
+								</table>
 							</td>
 						</tr>
-					</xsl:if>					
+					</xsl:if>
 				</table>
 			</td>
 		</tr>
 	</xsl:template>
-	<xsl:template match="//m:Facturae/Invoices/Invoice/Items/InvoiceLine">		
+	<xsl:template match="//m:Facturae/Invoices/Invoice/Items/InvoiceLine">
 		<xsl:param name="nFactura"/>
 		<table width="100%">
 		<tr id="{$nFactura}_{position()}_{ItemDescription}" style="display:none">
@@ -4977,7 +4977,7 @@
 					<tr>
 						<td align="center" colspan="2">
 							<font class="titulo1"><xsl:value-of select="ItemDescription"/></font>
-						</td>											
+						</td>
 					</tr>
 					<tr>
 						<td align="right">
@@ -4989,7 +4989,7 @@
 					</tr>
 					<tr>
 						<td width="100%">
-							<table border="1" cellpadding="0" cellspacing="0" width="100%">													
+							<table border="1" cellpadding="0" cellspacing="0" width="100%">
 								<tr>
 									<td>
 										<table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -5010,11 +5010,11 @@
 													<font class="titulopeque">CANTIDAD</font>
 													<br/><xsl:value-of select="Quantity"/>
 												</td>
-												<td align="center" width="33%">																		
+												<td align="center" width="33%">
 													<font class="titulopeque">UNIDAD DE MEDIDA</font>
-													<br/>	
+													<br/>
 													<xsl:choose>
-														<xsl:when test='UnitOfMeasure!=""' >	
+														<xsl:when test='UnitOfMeasure!=""' >
 															<script>
 																document.write(descUnidadMedida('<xsl:value-of select="UnitOfMeasure"/>'));
 															</script>
@@ -5022,8 +5022,8 @@
 														<xsl:otherwise>
 															-
 														</xsl:otherwise>
-													</xsl:choose>													
-												</td>																	
+													</xsl:choose>
+												</td>
 											</tr>
 										</table>
 									</td>
@@ -5048,7 +5048,7 @@
 														<font class="titulopeque">PERÍODO DETALLE</font><br/>
 														<xsl:choose>
 															<xsl:when test='LineItemPeriod!=""' >
-																<xsl:value-of select="substring(LineItemPeriod/StartDate,9,2)"/>-<xsl:value-of select="substring(LineItemPeriod/StartDate,6,2)"/>-<xsl:value-of select="substring(LineItemPeriod/StartDate,1,4)"/> - 
+																<xsl:value-of select="substring(LineItemPeriod/StartDate,9,2)"/>-<xsl:value-of select="substring(LineItemPeriod/StartDate,6,2)"/>-<xsl:value-of select="substring(LineItemPeriod/StartDate,1,4)"/> -
 																<xsl:value-of select="substring(LineItemPeriod/EndDate,9,2)"/>-<xsl:value-of select="substring(LineItemPeriod/EndDate,6,2)"/>-<xsl:value-of select="substring(LineItemPeriod/EndDate,1,4)"/>
 															</xsl:when>
 															<xsl:otherwise>
@@ -5067,7 +5067,7 @@
 																-
 															</xsl:otherwise>
 														</xsl:choose>
-													</td>																		
+													</td>
 												</tr>
 											</table>
 										</td>
@@ -5089,7 +5089,7 @@
 																-
 															</xsl:otherwise>
 														</xsl:choose>
-													</td>																	
+													</td>
 													<td align="center" width="50%">
 														<font class="titulopeque">FECHA CONTRATACIÓN EMISOR</font>
 														<br/>
@@ -5122,7 +5122,7 @@
 															<xsl:otherwise>
 																-
 															</xsl:otherwise>
-														</xsl:choose>																			
+														</xsl:choose>
 													</td>
 													<td align="center" width="50%">
 														<font class="titulopeque">FECHA OPERACIÓN/PEDIDO EMISOR</font>
@@ -5134,8 +5134,8 @@
 															<xsl:otherwise>
 																-
 															</xsl:otherwise>
-														</xsl:choose>																			
-													</td>																	
+														</xsl:choose>
+													</td>
 												</tr>
 											</table>
 										</td>
@@ -5145,7 +5145,7 @@
 									<tr>
 										<td>
 											<table border="0" cellpadding="0" cellspacing="0" width="100%">
-												<tr>																	
+												<tr>
 													<td align="center" width="50%">
 														<font class="titulopeque">EXPEDIENTE CONTRATACIÓN RECEPTOR</font>
 														<br/>
@@ -5202,8 +5202,8 @@
 															<xsl:otherwise>
 																-
 															</xsl:otherwise>
-														</xsl:choose>																			
-													</td>																	
+														</xsl:choose>
+													</td>
 												</tr>
 											</table>
 										</td>
@@ -5224,7 +5224,7 @@
 															<xsl:otherwise>
 																-
 															</xsl:otherwise>
-														</xsl:choose>																			
+														</xsl:choose>
 													</td>
 													<td align="center" width="50%">
 														<font class="titulopeque">FECHA EXPEDIENTE</font>
@@ -5236,8 +5236,8 @@
 															<xsl:otherwise>
 																-
 															</xsl:otherwise>
-														</xsl:choose>																			
-													</td>																	
+														</xsl:choose>
+													</td>
 												</tr>
 											</table>
 										</td>
@@ -5256,7 +5256,7 @@
 															</xsl:when>
 															<xsl:when test='SpecialTaxableEvent/SpecialTaxableEventCode="02"' >
 																Operación no sujeta
-															</xsl:when>																			
+															</xsl:when>
 															<xsl:otherwise>
 																<xsl:value-of select="SpecialTaxableEvent/SpecialTaxableEventCode"/>
 															</xsl:otherwise>
@@ -5266,14 +5266,14 @@
 														<font class="titulopeque">JUSTIFICACIÓN FISCALIDAD ESPECIAL</font>
 														<br/>
 														<xsl:value-of select="SpecialTaxableEvent/SpecialTaxableEventReason"/>
-													</td>																		
+													</td>
 												</tr>
 											</table>
 										</td>
 									</tr>
 								</xsl:if>
 							</table>
-						</td>											
+						</td>
 					</tr>
 					<xsl:apply-templates select="DeliveryNotesReferences"/>
 					<tr>
@@ -5344,7 +5344,7 @@
 					</tr>
 					<xsl:if test='DiscountsAndRebates!=""' >
 					<tr>
-						<td>									
+						<td>
 							<font class="titulopeque"><i>DESCUENTOS</i></font>
 							<table border="1" cellpadding="0" cellspacing="0" width="100%">
 								<tr>
@@ -5382,7 +5382,7 @@
 															<xsl:otherwise>
 																-
 															</xsl:otherwise>
-														</xsl:choose>																	
+														</xsl:choose>
 													</td>
 												</tr>
 											</xsl:for-each>
@@ -5400,16 +5400,16 @@
 										</table>
 									</td>
 								</tr>
-							</table>							
+							</table>
 						</td>
 					</tr>
 					<tr>
 						<td> </td>
-					</tr>							
+					</tr>
 					</xsl:if>
 					<xsl:if test='Charges!=""' >
 					<tr>
-						<td>									
+						<td>
 							<font class="titulopeque"><i>CARGOS</i></font>
 							<table border="1" cellpadding="0" cellspacing="0" width="100%">
 								<tr>
@@ -5465,12 +5465,12 @@
 										</table>
 									</td>
 								</tr>
-							</table>					
+							</table>
 						</td>
 					</tr>
 					<tr>
 						<td> </td>
-					</tr>							
+					</tr>
 					</xsl:if>
 					<tr>
 						<td width="100%">
@@ -5499,7 +5499,7 @@
 					</tr>
 					<xsl:if test='TaxesOutputs!=""' >
 					<tr>
-						<td>									
+						<td>
 							<font class="titulopeque"><i>IMPUESTOS REPERCUTIDOS</i></font>
 							<xsl:choose>
 								<xsl:when test='//m:Facturae/FileHeader/Batch/InvoiceCurrencyCode="EUR"'>
@@ -5576,11 +5576,11 @@
 																<xsl:choose>
 																	<xsl:when test='SpecialTaxableBase!=""' >
 																		<xsl:value-of select="SpecialTaxableBase/TotalAmount"/>
-																	</xsl:when>																				
+																	</xsl:when>
 																	<xsl:otherwise>
 																		<xsl:value-of select="TaxableBase/TotalAmount"/>
 																	</xsl:otherwise>
-																</xsl:choose>																		
+																</xsl:choose>
 															</td>
 														</tr>
 													</xsl:for-each>
@@ -5619,7 +5619,7 @@
 																	<xsl:otherwise>
 																		-
 																	</xsl:otherwise>
-																</xsl:choose>																		
+																</xsl:choose>
 															</td>
 														</tr>
 													</xsl:for-each>
@@ -5687,13 +5687,13 @@
 											<td valign="top" align="center">
 												<font class="titulopeque">Contravalor</font>
 											</td>
-											<td valign="top" align="center">														
+											<td valign="top" align="center">
 												<font class="titulopeque">Importe</font>
 											</td>
 											<td valign="top" align="center">
 												<font class="titulopeque">Contravalor</font>
 											</td>
-											<td valign="top" align="center">														
+											<td valign="top" align="center">
 												<font class="titulopeque">Importe</font>
 											</td>
 											<td valign="top" align="center">
@@ -5740,7 +5740,7 @@
 																<xsl:choose>
 																	<xsl:when test='SpecialTaxableBase!=""' >
 																		<xsl:value-of select="SpecialTaxableBase/TotalAmount"/>
-																	</xsl:when>																				
+																	</xsl:when>
 																	<xsl:otherwise>
 																		<xsl:value-of select="TaxableBase/TotalAmount"/>
 																	</xsl:otherwise>
@@ -5758,7 +5758,7 @@
 																<xsl:choose>
 																	<xsl:when test='SpecialTaxableBase!=""' >
 																		<xsl:value-of select="SpecialTaxableBase/EquivalentInEuros"/>
-																	</xsl:when>																				
+																	</xsl:when>
 																	<xsl:otherwise>
 																		<xsl:value-of select="TaxableBase/EquivalentInEuros"/>
 																	</xsl:otherwise>
@@ -5779,7 +5779,7 @@
 																	</xsl:when>
 																	<xsl:when test='TaxAmount!=""' >
 																		<xsl:value-of select="TaxAmount/TotalAmount"/>
-																	</xsl:when>						
+																	</xsl:when>
 																	<xsl:otherwise>
 																		-
 																	</xsl:otherwise>
@@ -5872,11 +5872,11 @@
 					</tr>
 					<tr>
 						<td> </td>
-					</tr>							
+					</tr>
 					</xsl:if>
 					<xsl:if test='TaxesWithheld!=""' >
 					<tr>
-						<td>									
+						<td>
 							<font class="titulopeque"><i>IMPUESTOS RETENIDOS</i></font>
 							<xsl:choose>
 								<xsl:when test='//m:Facturae/FileHeader/Batch/InvoiceCurrencyCode="EUR"'>
@@ -5989,7 +5989,7 @@
 											<td valign="top" align="center">
 												<font class="titulopeque">Contravalor</font>
 											</td>
-											<td valign="top" align="center">														
+											<td valign="top" align="center">
 												<font class="titulopeque">Importe</font>
 											</td>
 											<td valign="top" align="center">
@@ -6103,12 +6103,12 @@
 										</tr>
 									</table>
 								</xsl:otherwise>
-							</xsl:choose>														
+							</xsl:choose>
 						</td>
 					</tr>
 					<tr>
 						<td> </td>
-					</tr>							
+					</tr>
 					</xsl:if>
 					<xsl:if test='AdditionalLineItemInformation!=""' >
 						<tr>
@@ -6130,7 +6130,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td colspan="2"> </td>        	
+										<td colspan="2"> </td>
 									</tr>
 									<tr>
 										<td width="100%">
@@ -6166,7 +6166,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2"> </td>        	
+						<td colspan="2"> </td>
 					</tr>
 					<tr>
 						<td width="100%">
@@ -6195,5 +6195,5 @@
 				</table>
 			</td>
 		</tr>
-	</xsl:template>	
+	</xsl:template>
 </xsl:stylesheet>
