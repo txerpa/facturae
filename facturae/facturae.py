@@ -314,7 +314,7 @@ class Invoice(XmlModel):
         self.invoiceheader = InvoiceHeader()
         self.invoiceissuedata = InvoiceIssueData()
         self.taxesoutputs = Taxes('TaxesOutputs')
-        self.taxeswithhelds = Taxes('TaxesWithhelds')
+        self.taxeswithhelds = Taxes('TaxesWithheld')
         self.invoicetotals = InvoiceTotals()
         self.items = Items()
         self.paymentdetails = PaymentDetails()
