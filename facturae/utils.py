@@ -28,6 +28,7 @@ XSL_MAP_VERSIONS = (
     ("3.2.2", "322")
 )
 
+DEFAULT_VERSION = "3.2.1"
 
 POLICY_ENDPOINT = (
         "politica_de_firma_formato_facturae/"
@@ -60,7 +61,8 @@ class FacturaeUtils(object):
         return f"../xsl/Visualizador{_version}.xsl"
 
     @staticmethod
-    def validate_xml(xml_string, version):
+    def validate_xml(xml_string, version=None):
+        version = version or DEFAULT_VERSION
         xsd_file_name = FacturaeUtils.get_xsd_file(version)
         path = os.path.join(os.path.abspath(os.path.dirname(__file__)), xsd_file_name)
         _logger.debug(f"XSD: {path}")
