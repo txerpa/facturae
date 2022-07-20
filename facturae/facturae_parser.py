@@ -21,12 +21,11 @@ class FacturaeParser(object):
     _issuer_type = list()
     _vat_source = list()
     _vat_destination = list()
+    _version = None
 
     def __init__(self, xml_data):
         """Construir Facturae Parser"""
         self._xml_data = xml_data
-        self.version = self.get_version()
-        _logger.debug(f'Version {self.version}')
 
     @staticmethod
     def _deserialization(xml_data):
@@ -100,13 +99,15 @@ class FacturaeParser(object):
             self._invoices = [invoice for invoice in self.xml_dict.get('Invoices')]
         return self._invoices
 
-
-    def get_version(self):
-        try:
-            header = self.xml_obj.find('FileHeader')
-            return header.SchemaVersion.text
-        except Exception as e:
-            raise VersionNotFound(e)
+    @property
+    def version(self):
+        if not self._version:
+            try:
+                header = self.xml_obj.find('FileHeader')
+                self._version = header.SchemaVersion.text
+            except Exception as e:
+                raise VersionNotFound(e)
+        return self._version
 
     def parse_xml(self):
         res = {}
