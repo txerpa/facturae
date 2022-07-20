@@ -3,6 +3,8 @@ import os
 import xmlsig
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
+import tempfile
+
 from lxml import etree
 from xml.etree import ElementTree
 from OpenSSL import crypto
@@ -11,23 +13,20 @@ from xades import utils, template, XAdESContext
 from xades.policy import GenericPolicyId
 import logging
 
+from facturae.exceptions import FacturaeSignError, FacturaeValidationError
+
 _logger = logging.getLogger(__name__)
 
+XSD_MAP_VERSIONS = (
+    ("3.2.1", "3_2_1"),
+    ("3.2.2", "3_2_2")
+)
 
-class FacturaeError(Exception):
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return repr(self.value)
-
-
-class FacturaeValidationError(FacturaeError):
-    pass
-
-
-class FacturaeSignError(FacturaeError):
-    pass
+XSL_MAP_VERSIONS = (
+    ("3.2", "32"),
+    ("3.2.1", "321"),
+    ("3.2.2", "322")
+)
 
 
 POLICY_ENDPOINT = (
@@ -49,11 +48,22 @@ SIGNER_ROLE = (
 class FacturaeUtils(object):
 
     @staticmethod
-    def validate_xml(xml_string):
-        path = os.path.join(
-            os.path.abspath(os.path.dirname(__file__)),
-            "../xsd/Facturaev3_2_1.xsd"
-        )
+    def get_xsd_file(version):
+        mapped_versions = dict(XSD_MAP_VERSIONS)
+        _version = mapped_versions[version]
+        return f"../xsd/Facturaev{_version}.xsd"
+
+    @staticmethod
+    def get_xsl_file(version):
+        mapped_versions = dict(XSL_MAP_VERSIONS)
+        _version = mapped_versions[version]
+        return f"../xsl/Visualizador{_version}.xsl"
+
+    @staticmethod
+    def validate_xml(xml_string, version):
+        xsd_file_name = FacturaeUtils.get_xsd_file(version)
+        path = os.path.join(os.path.abspath(os.path.dirname(__file__)), xsd_file_name)
+        _logger.debug(f"XSD: {path}")
         facturae_schema = etree.XMLSchema(
             etree.parse(open(path, 'r'))
         )
@@ -63,6 +73,17 @@ class FacturaeUtils(object):
             raise FacturaeValidationError(
                 'The XML is not valid against the official '
                 'XML schema definition. Produced error: %s' % str(e))
+
+    @staticmethod
+    def to_html(xml_string, version):
+        xsl_file = FacturaeUtils.get_xsl_file(version)
+        xsl_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), xsl_file)
+        _logger.debug(f"XSL: {xsl_path}")
+        with open(xsl_path, "rb") as f:
+            xslt_root = etree.parse(f)
+        transform = etree.XSLT(xslt_root)
+        result = transform(etree.XML(xml_string))
+        return bytes(result)  # html
 
     @staticmethod
     def sign_xmldsig(xml_string, certificate, private_key):

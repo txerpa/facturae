@@ -5,3 +5,4 @@
 .bzrignore
 .idea
 facturae.egg-info/
+ignore__*

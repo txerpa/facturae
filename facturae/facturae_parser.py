@@ -1,35 +1,121 @@
 # -*- coding: utf-8 -*-
+import logging
 from functools import reduce
+
 from lxml import objectify
+
+from facturae.exceptions import VersionNotFound
+
+_logger = logging.getLogger(__name__)
 
 
 class FacturaeParser(object):
 
+    _xml_obj = list()
+    _xml_dict = list()
+    _sollicitud = list()
+    _num_factures = list()
+    _total_factures = list()
+    _seller = list()
+    _buyer = list()
+    _issuer_type = list()
+    _vat_source = list()
+    _vat_destination = list()
+
     def __init__(self, xml_data):
         """Construir Facturae Parser"""
-        self.xml_data = xml_data
+        self._xml_data = xml_data
+        self.version = self.get_version()
+        _logger.debug(f'Version {self.version}')
+
+    @staticmethod
+    def _deserialization(xml_data):
+        """ Deserialization data (string --> obj) """
+        return objectify.fromstring(xml_data)
+
+    @property
+    def xml_obj(self):
+        """ Deserialization data (string --> obj) """
+        if not len(self._xml_obj):
+            self._xml_obj = self._deserialization(self._xml_data)
+        return self._xml_obj
+
+    @property
+    def xml_dict(self):
+        if not self._xml_dict:
+            self._xml_dict = self.parse_xml()
+        return self._xml_dict
+
+    @property
+    def sollicitud(self):
+        if not self._sollicitud:
+            self._sollicitud = self.xml_dict.get('BatchIdentifier', False)
+        return self._sollicitud
+
+    @property
+    def num_factures(self):
+        if not self._num_factures:
+            self._num_factures = self.xml_dict.get('InvoicesCount', False)
+        return self._num_factures
+
+    @property
+    def total_factures(self):
+        if not self._total_factures:
+            self._total_factures = self.xml_dict.get('TotalInvoicesAmount', False)
+        return self._total_factures
+
+    @property
+    def seller(self):
+        if not self._seller:
+            self._seller = self.xml_dict.get('seller', False)
+        return self._seller
+
+    @property
+    def buyer(self):
+        if not self._buyer:
+            self._buyer = self.xml_dict.get('buyer', False)
+        return self._buyer
+
+    @property
+    def issuer_type(self):
+        if not self._issuer_type:
+            self._issuer_type = self.xml_dict.get('InvoiceIssuerType')
+        return self._issuer_type
+
+    @property
+    def vat_source(self):
+        if not self._vat_source:
+            self._vat_source = self._get_from_dict(self.xml_dict, ['seller', 'TaxIdentificationNumber'])
+        return self._vat_source
+
+    @property
+    def vat_destination(self):
+        if not self._vat_destination:
+            self._vat_destination = self._get_from_dict(self.xml_dict, ['buyer', 'TaxIdentificationNumber'])
+        return self._vat_destination
+
+    @property
+    def invoices(self):
+        if not self._invoices:
+            self._invoices = [invoice for invoice in self.xml_dict.get('Invoices')]
+        return self._invoices
+
+
+    def get_version(self):
         try:
-            self.xml_obj = objectify.fromstring(self.xml_data)
-            self.xml_dict = self.parse_xml()
-            self.sollicitud = self.xml_dict.get('BatchIdentifier', False)
-            self.num_factures = self.xml_dict.get('InvoicesCount', False)
-            self.total_factures = self.xml_dict.get('TotalInvoicesAmount', False)
-            self.seller = self.xml_dict.get('seller', False)
-            self.buyer = self.xml_dict.get('buyer', False)
-            self.issuer_type = self.xml_dict.get('InvoiceIssuerType')
-            self.vat_source = self._get_from_dict(self.xml_dict, ['seller', 'TaxIdentificationNumber'])
-            self.vat_destination = self._get_from_dict(self.xml_dict, ['buyer', 'TaxIdentificationNumber'])
-            self.factures = [invoice for invoice in self.xml_dict.get('Invoices')]
-        except:
-            print('Something went really wrong.')
+            header = self.xml_obj.find('FileHeader')
+            return header.SchemaVersion.text
+        except Exception as e:
+            raise VersionNotFound(e)
 
     def parse_xml(self):
         res = {}
-
+        _logger.debug(f'Initial Parssing {self.version}')
         res.update(self.get_header_dict(self.xml_obj))
         res.update(self.get_parties_dict(self.xml_obj))
         res.update(self.get_invoices_dict(self.xml_obj))
 
+        self._xml_dict = res
         return res
 
     def get_header_dict(self, xml_obj):
@@ -48,7 +134,6 @@ class FacturaeParser(object):
                     'InvoiceIssuerType') is not None else False,
             })
 
-        if batch is not None:
             res.update({
                 'BatchIdentifier': batch.BatchIdentifier.text if batch.find(
                     'BatchIdentifier') is not None else False,
@@ -84,7 +169,6 @@ class FacturaeParser(object):
 
     def _get_party_data(self, party):
         res = {}
-
         tax_identification = party.find('TaxIdentification')
         legal_entity = party.find('LegalEntity')
 
@@ -283,4 +367,3 @@ class FacturaeParser(object):
     def _get_from_dict(self,dataDict, mapList):
         """Iterate nested dictionary"""
         return reduce(dict.get, mapList, dataDict)
-
