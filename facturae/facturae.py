@@ -12,7 +12,7 @@ class FacturaeRoot(XmlModel):
     def __init__(self):
 
         nsmap = {'ds': 'http://www.w3.org/2000/09/xmldsig#',
-                 'fe': 'http://www.facturae.es/Facturae/2014/v3.2.1/Facturae'}
+                 'fe': 'http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml'}
 
         self.root = XmlField('Facturae', namespace=nsmap['fe'],
                              attributes={'nsmap': nsmap})
@@ -314,7 +314,7 @@ class Invoice(XmlModel):
         self.invoiceheader = InvoiceHeader()
         self.invoiceissuedata = InvoiceIssueData()
         self.taxesoutputs = Taxes('TaxesOutputs')
-        self.taxeswithhelds = Taxes('TaxesWithhelds')
+        self.taxeswithhelds = Taxes('TaxesWithheld')
         self.invoicetotals = InvoiceTotals()
         self.items = Items()
         self.paymentdetails = PaymentDetails()
@@ -347,7 +347,7 @@ class Corrective(XmlModel):
     _sort_order = ('corrective', 'invoicenumber', 'invoiceseriescode',
                    'reasoncode', 'reasondescription', 'taxperiod',
                    'correctionmethod', 'correctionmethoddescription',
-                   'additionalreasondescription')
+                   'additionalreasondescription', 'invoiceissuedate')
 
     def __init__(self):
         self.corrective = XmlField('Corrective')
@@ -361,6 +361,7 @@ class Corrective(XmlModel):
                                             'CorrectionMethodDescription')
         self.additionalreasondescription = XmlField(
                                             'AdditionalReasonDescription')
+        self.invoiceissuedate = XmlField('InvoiceIssueDate')
         super(Corrective, self).__init__('Corrective', 'corrective')
 
 # 3.1.1.5.5
@@ -368,7 +369,7 @@ class Corrective(XmlModel):
 
 class TaxPeriod(XmlModel):
 
-    _sort_order = ()
+    _sort_order = ('taxperiod', 'startdate', 'enddate')
 
     def __init__(self):
         self.taxperiod = XmlField('TaxPeriod')
@@ -383,7 +384,8 @@ class InvoiceIssueData(XmlModel):
 
     _sort_order = ('invoiceissuedata', 'issuedate', 'operationdate',
                    'placeofissue', 'invoicingperiod', 'invoicecurrencycode',
-                   'exchangeratedetails', 'taxcurrencycode', 'languagename')
+                   'exchangeratedetails', 'taxcurrencycode', 'languagename',
+                   'invoicedescription')
 
     def __init__(self):
         self.invoiceissuedata = XmlField('InvoiceIssueData')
@@ -395,6 +397,7 @@ class InvoiceIssueData(XmlModel):
         self.exchangeratedetails = ExchangeRateDetails()
         self.taxcurrencycode = XmlField('TaxCurrencyCode')
         self.languagename = XmlField('LanguageName')
+        self.invoicedescription = XmlField('InvoiceDescription')
         super(InvoiceIssueData, self).__init__('InvoiceIssueData',
                                                'invoiceissuedata')
 

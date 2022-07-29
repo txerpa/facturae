@@ -3,7 +3,8 @@ import os
 import xmlsig
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
-import tempfile
+from .constants import XSD_MAP_VERSIONS, XSL_MAP_VERSIONS, DEFAULT_VERSION, \
+    SIGN_POLICY, SIGNER_ROLE
 
 from lxml import etree
 from xml.etree import ElementTree
@@ -16,33 +17,6 @@ import logging
 from facturae.exceptions import FacturaeSignError, FacturaeValidationError
 
 _logger = logging.getLogger(__name__)
-
-XSD_MAP_VERSIONS = (
-    ("3.2.1", "3_2_1"),
-    ("3.2.2", "3_2_2")
-)
-
-XSL_MAP_VERSIONS = (
-    ("3.2", "32"),
-    ("3.2.1", "321"),
-    ("3.2.2", "322")
-)
-
-
-POLICY_ENDPOINT = (
-        "politica_de_firma_formato_facturae/"
-        "politica_de_firma_formato_facturae_v3_1"
-        ".pdf"
-    )
-SIGN_POLICY = f"http://www.facturae.es/{POLICY_ENDPOINT}"
-SIGNER_ROLE = (
-    "supplier",
-    "emisor",
-    "customer",
-    "receptor",
-    "third party",
-    "tercero"
-)
 
 
 class FacturaeUtils(object):
@@ -60,7 +34,8 @@ class FacturaeUtils(object):
         return f"../xsl/Visualizador{_version}.xsl"
 
     @staticmethod
-    def validate_xml(xml_string, version):
+    def validate_xml(xml_string, version=None):
+        version = version or DEFAULT_VERSION
         xsd_file_name = FacturaeUtils.get_xsd_file(version)
         path = os.path.join(os.path.abspath(os.path.dirname(__file__)), xsd_file_name)
         _logger.debug(f"XSD: {path}")
