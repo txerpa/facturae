@@ -1,5 +1,3 @@
-
-
 class FacturaeError(Exception):
     """Base class for all Facturae exceptions."""
 
@@ -24,12 +22,11 @@ class VersionNotFound(FacturaeError):
 
     def __init__(self, e, msg=None):
         self.original_error = e
-        self.msg = msg or f'Version not found in XML - {str(e)}'
+        self.msg = msg or f"Version not found in XML - {str(e)}"
         super().__init__(self.msg, self.original_error)
 
 
 class AccountantValidation(FacturaeError):
-
     def __init__(self, msg):
-        self.msg = f'Accountant Validation - {msg}'
+        self.msg = f"Accountant Validation - {msg}"
         super().__init__(self.msg)
