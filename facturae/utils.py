@@ -33,10 +33,10 @@ class FacturaeUtils(object):
         _version = mapped_versions[version]
         return f"../xsl/Visualizador{_version}.xsl"
 
-    @staticmethod
-    def validate_xml(xml_string, version=None):
+    @classmethod
+    def validate_xml(cls, xml_string, version=None):
         version = version or DEFAULT_VERSION
-        xsd_file_name = FacturaeUtils.get_xsd_file(version)
+        xsd_file_name = cls.get_xsd_file(version)
         path = os.path.join(os.path.abspath(os.path.dirname(__file__)), xsd_file_name)
         _logger.debug(f"XSD: {path}")
         facturae_schema = etree.XMLSchema(
@@ -49,9 +49,9 @@ class FacturaeUtils(object):
                 'The XML is not valid against the official '
                 'XML schema definition. Produced error: %s' % str(e))
 
-    @staticmethod
-    def to_html(xml_string, version):
-        xsl_file = FacturaeUtils.get_xsl_file(version)
+    @classmethod
+    def to_html(cls, xml_string, version):
+        xsl_file = cls.get_xsl_file(version)
         xsl_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), xsl_file)
         _logger.debug(f"XSL: {xsl_path}")
         with open(xsl_path, "rb") as f:
@@ -173,7 +173,7 @@ class FacturaeUtils(object):
             pk=certificate, passwd=password
         )
         try:
-            string_signed_root = FacturaeUtils.sign_xmldsig(
+            string_signed_root = cls.sign_xmldsig(
                 xml, pkcs12_cert, pkcs12_key
             )
         except Exception as e:
@@ -206,7 +206,7 @@ class FacturaeUtils(object):
             _logger.error(f'Error occurred while trying to load key and '
                           f'certificate from a X509 certificate: {e}')
             raise FacturaeSignError('Fail to load key and certificate')
-        string_signed_root = FacturaeUtils.sign_xmldsig(xml, cert, priv_key)
+        string_signed_root = cls.sign_xmldsig(xml, cert, priv_key)
         return string_signed_root
 
     @staticmethod
