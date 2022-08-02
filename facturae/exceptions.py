@@ -9,7 +9,7 @@ class FacturaeError(Exception):
         return repr(self.message)
 
 
-class FacturaeValidationError(FacturaeError):
+class SchemaValidationError(FacturaeError):
     pass
 
 

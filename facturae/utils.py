@@ -19,7 +19,7 @@ from xades import utils, template, XAdESContext
 from xades.policy import GenericPolicyId
 import logging
 
-from facturae.exceptions import FacturaeSignError, FacturaeValidationError
+from facturae.exceptions import FacturaeSignError, SchemaValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -31,12 +31,6 @@ class FacturaeUtils(object):
         _version = mapped_versions[version]
         return f"../xsd/Facturaev{_version}.xsd"
 
-    @staticmethod
-    def get_xsl_file(version):
-        mapped_versions = dict(XSL_MAP_VERSIONS)
-        _version = mapped_versions[version]
-        return f"../xsl/Visualizador{_version}.xsl"
-
     @classmethod
     def validate_xml(cls, xml_string, version=None):
         version = version or DEFAULT_VERSION
@@ -47,10 +41,16 @@ class FacturaeUtils(object):
         try:
             facturae_schema.assertValid(etree.fromstring(xml_string))
         except Exception as e:
-            raise FacturaeValidationError(
+            raise SchemaValidationError(
                 "The XML is not valid against the official "
-                "XML schema definition. Produced error: %s" % str(e)
+                f"XML schema definition {version}. Produced error: {str(e)}"
             )
+
+    @staticmethod
+    def get_xsl_file(version):
+        mapped_versions = dict(XSL_MAP_VERSIONS)
+        _version = mapped_versions[version]
+        return f"../xsl/Visualizador{_version}.xsl"
 
     @classmethod
     def to_html(cls, xml_string, version):
