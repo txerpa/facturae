@@ -1,35 +1,20 @@
+XSD_MAP_VERSIONS = (("3.2.1", "3_2_1"), ("3.2.2", "3_2_2"))
 
-XSD_MAP_VERSIONS = (
-    ("3.2.1", "3_2_1"),
-    ("3.2.2", "3_2_2")
-)
-
-XSL_MAP_VERSIONS = (
-    ("3.2", "32"),
-    ("3.2.1", "321"),
-    ("3.2.2", "322")
-)
+XSL_MAP_VERSIONS = (("3.2", "32"), ("3.2.1", "321"), ("3.2.2", "322"))
 
 VERSION_3_2_2 = "3.2.2"
 
 DEFAULT_VERSION = VERSION_3_2_2
 
 POLICY_ENDPOINT = (
-        "politica_de_firma_formato_facturae/"
-        "politica_de_firma_formato_facturae_v3_1"
-        ".pdf"
-    )
+    "politica_de_firma_formato_facturae/"
+    "politica_de_firma_formato_facturae_v3_1"
+    ".pdf"
+)
 
 SIGN_POLICY = f"http://www.facturae.es/{POLICY_ENDPOINT}"
 
-SIGNER_ROLE = (
-    "supplier",
-    "emisor",
-    "customer",
-    "receptor",
-    "third party",
-    "tercero"
-)
+SIGNER_ROLE = ("supplier", "emisor", "customer", "receptor", "third party", "tercero")
 
 
 class MODALITY:
@@ -40,6 +25,7 @@ class MODALITY:
     take the value "1". If it is a "batch" (L), the value of field InvoicesCount
     will always be > "1".
     """
+
     SINGLE = "I"  # Individual
     BATCH = "L"  # Lote
 
@@ -58,6 +44,7 @@ class InvoiceClass:
     When the “type” takes the value “OR” or “CR” (correctives), fields of group Corrective
     must be filled in.
     """
+
     ORIGINAL = "OO"
     ORIGINAL_CORRECTIVE = "OR"
     ORIGINAL_SUMMARY = "OC"
@@ -72,6 +59,7 @@ class InvoiceDocumentType:
         FC - “Complete Invoice”
         FA - “Abbreviated.”
     """
+
     COMPLETE = "FC"
     ABBREVIATED = "FA"
 
@@ -84,6 +72,7 @@ class InvoiceIssuerType:
         TE - “Third Party”
     If the value "TE" (Issuer type) is chosen, all sections of group ThirdParty must be filled in.
     """
+
     SELLER = "EM"
     BUYER = "RE"
     THIRD_PARTY = "TE"
@@ -91,6 +80,7 @@ class InvoiceIssuerType:
 
 class CorrectiveInvoiceReasonCode:
     """Código numérico del motivo de rectificación"""
+
     INVOICE_NUMBER = "01"
     INVOICE_SERIAL_NUMBER = "02"
     ISSUE_DATE = "03"
@@ -148,6 +138,7 @@ class CorrectionMethodType:
         "03" - Rectification due to discount for the volume of operations during a period.
         "04" - Authorized by the Tax Agency.
     """
+
     FULL_ITEMS = "01"
     CORRECTED_ITEMS_ONLY = "02"
     BULK_DEAL = "03"
@@ -163,6 +154,7 @@ class CorrectionMethodType:
 
 class ResidenceTypeCode:
     """It identifies whether the person is resident or non-resident"""
+
     FOREIGN = "E"
     RESIDENT = "R"
     EU_RESIDENT = "U"
@@ -204,6 +196,7 @@ class TaxTypeCode:
     IGFEI = "27"  # Impuesto sobre los Gases Fluorados de Efecto Invernadero
     IRNR = "28"  # Impuesto sobre la Renta de No Residentes
     IS = "29"  # Impuesto sobre Sociedades
+
 
 # Payment Means Type
 # Each installment may be paid using a specific payment means
