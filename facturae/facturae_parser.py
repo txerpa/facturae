@@ -4,12 +4,13 @@ from functools import reduce
 
 from lxml import objectify
 
+from facturae.accountant_validation import Validation
 from facturae.exceptions import VersionNotFound
 
 _logger = logging.getLogger(__name__)
 
 
-class FacturaeParser(object):
+class FacturaeParser(Validation):
 
     _xml_obj = list()
     _xml_dict = list()
