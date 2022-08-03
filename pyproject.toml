@@ -1,0 +1,11 @@
+[tool.isort]
+skip = [".gitignore", ".tox"]
+extend_skip = [".md", ".json"]
+atomic = true
+known_first_party = ["facturae", "tests"]
+profile = "black"
+
+[tool.coverage.run]
+source = "."
+include = ["facturae/*", "tests/*"]
+branch = 1

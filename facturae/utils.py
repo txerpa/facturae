@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*-
+import logging
 import os
+from xml.etree import ElementTree
+
 import xmlsig
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
+from lxml import etree
+from OpenSSL import crypto
+from signxml import XMLSigner
+from xades import XAdESContext, template, utils
+from xades.policy import GenericPolicyId
+
+from facturae.exceptions import FacturaeSignError, SchemaValidationError
+
 from .constants import (
-    XSD_MAP_VERSIONS,
-    XSL_MAP_VERSIONS,
     DEFAULT_VERSION,
     SIGN_POLICY,
     SIGNER_ROLE,
+    XSD_MAP_VERSIONS,
+    XSL_MAP_VERSIONS,
 )
-
-from lxml import etree
-from xml.etree import ElementTree
-from OpenSSL import crypto
-from signxml import XMLSigner
-from xades import utils, template, XAdESContext
-from xades.policy import GenericPolicyId
-import logging
-
-from facturae.exceptions import FacturaeSignError, SchemaValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -37,7 +38,8 @@ class FacturaeUtils(object):
         xsd_file_name = cls.get_xsd_file(version)
         path = os.path.join(os.path.abspath(os.path.dirname(__file__)), xsd_file_name)
         _logger.debug(f"XSD: {path}")
-        facturae_schema = etree.XMLSchema(etree.parse(open(path, "r")))
+        with open(path, "r") as f:
+            facturae_schema = etree.XMLSchema(etree.parse(f))
         try:
             facturae_schema.assertValid(etree.fromstring(xml_string))
         except Exception as e:
