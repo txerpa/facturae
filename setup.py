@@ -1,28 +1,30 @@
 # -*- coding: utf-8 -*-
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
+
 from facturae import __version__
-
-with open("requirements/requirements.txt", "r") as f:
-    INSTALL_REQUIRES = f.readlines()
-
-with open("requirements/requirements-dev.txt", "r") as f:
-    TESTS_REQUIRES = f.readlines()
 
 setup(
     name="facturae",
     version=__version__,
     url="http://www.gisce.net",
-    author="GISCE-TI, S.L.",
-    author_email="devel@gisce.net",
-    original_author="Electrica Sollerense, S.A.U.",
-    original_author_email="informatica@el-gas.es",
+    author="Electrica Sollerense, S.A.U.",
+    author_email="informatica@el-gas.es",
     packages=find_packages(exclude=["tests*"]),
-    install_requires=INSTALL_REQUIRES,
-    tests_require=TESTS_REQUIRES,
+    install_requires=[
+        "lxml>=4.9.0",
+        "libComXML===3.1.0",
+        "signxml===2.9.0",
+        "xades===0.2.4",
+        "crypto===1.4.1",
+        "xmlsig===0.1.9",
+    ],
+    zip_safe=False,
+    keywords=["facturae"],
     license="GPLv3",
     description="Facturae",
     long_description=open("README.md").read(),
+    python_requires=">=3.8",
     classifiers=[
         "Operating System :: OS Independent",
         "Programming Language :: Python",
