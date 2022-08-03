@@ -6,6 +6,6 @@ known_first_party = ["facturae", "tests"]
 profile = "black"
 
 [tool.coverage.run]
-source = "."
+source = ["facturae/"]
 include = ["facturae/*", "tests/*"]
 branch = true
