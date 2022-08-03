@@ -1,0 +1,23 @@
+name: Codecov
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+      - name: Install Coverage
+        run: |
+          pip install -r requirements/requirements_test.txt
+          pip install -e .
+      - name: Execute coverage
+        run: |
+          # execute tests with coverage
+          pytest --cov-report=xml --cov=facturae tests/
+          export CODECOV_TOKEN="${{ secrets.CODECOV_TOKEN }}"
+          bash <(curl -s https://codecov.io/bash)
