@@ -1,6 +1,0 @@
-lxml
-libcomxml
-signxml
-xmlsig
-xades
-crypto
