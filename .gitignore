@@ -1,8 +1,26 @@
+*.py[cod]
+__pycache__
+
+# Packages
+*.egg
+*.egg-info
 .project
 .pydevproject
 .settings
-*.pyc
 .bzrignore
 .idea
 facturae.egg-info/
 ignore__*
+
+
+# Unit test / coverage reports
+/coverage/
+.coverage
+codecov
+coverage.xml
+.tox
+nosetests.xml
+/htmlcov/
+
+# Pycharm/Intellij
+.idea
