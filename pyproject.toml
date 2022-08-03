@@ -8,4 +8,4 @@ profile = "black"
 [tool.coverage.run]
 source = "."
 include = ["facturae/*", "tests/*"]
-branch = 1
+branch = true
