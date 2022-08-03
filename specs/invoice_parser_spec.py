@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from expects import *
+
 from facturae.facturae_parser import FacturaeParser
 
 with description("Facturae Invoice"):

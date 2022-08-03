@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-from lxml import etree
-from libcomxml.core import XmlModel, XmlField
-from .utils import FacturaeUtils
-from signxml import XMLVerifier
 from xml.etree import ElementTree
+
+from libcomxml.core import XmlField, XmlModel
+from lxml import etree
+from signxml import XMLVerifier
+
+from .utils import FacturaeUtils
 
 
 class FacturaeRoot(XmlModel):

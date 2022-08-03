@@ -1,25 +1,21 @@
 # -*- coding: utf-8 -*-
+import logging
 import os
+from xml.etree import ElementTree
+
 import xmlsig
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
-from .constants import (
-    XSD_MAP_VERSIONS,
-    XSL_MAP_VERSIONS,
-    DEFAULT_VERSION,
-    SIGN_POLICY,
-    SIGNER_ROLE,
-)
-
 from lxml import etree
-from xml.etree import ElementTree
 from OpenSSL import crypto
 from signxml import XMLSigner
-from xades import utils, template, XAdESContext
+from xades import XAdESContext, template, utils
 from xades.policy import GenericPolicyId
-import logging
 
 from facturae.exceptions import FacturaeSignError, SchemaValidationError
+
+from .constants import (DEFAULT_VERSION, SIGN_POLICY, SIGNER_ROLE,
+                        XSD_MAP_VERSIONS, XSL_MAP_VERSIONS)
 
 _logger = logging.getLogger(__name__)
 
