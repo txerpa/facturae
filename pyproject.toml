@@ -9,3 +9,8 @@ profile = "black"
 source = ["facturae/"]
 include = ["facturae/*", "tests/*"]
 branch = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -v"
+testpaths = ["tests",]
