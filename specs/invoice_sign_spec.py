@@ -4,11 +4,12 @@ import sys
 
 sys.path.insert(0, ".")
 
-from facturae import facturae
-import signxml
-import specs as test_data
-
 import logging
+
+import signxml
+
+import specs as test_data
+from facturae import facturae
 
 # logging.basicConfig(level=logging.DEBUG)
 
