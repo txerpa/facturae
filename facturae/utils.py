@@ -12,7 +12,11 @@ from signxml import XMLSigner
 from xades import XAdESContext, template, utils
 from xades.policy import GenericPolicyId
 
-from facturae.exceptions import FacturaeSignError, SchemaValidationError
+from facturae.exceptions import (
+    FacturaeSignError,
+    SchemaValidationError,
+    VersionNotExpected,
+)
 
 from .constants import (
     DEFAULT_VERSION,
@@ -28,8 +32,11 @@ _logger = logging.getLogger(__name__)
 class FacturaeUtils(object):
     @staticmethod
     def get_xsd_file(version):
-        mapped_versions = dict(XSD_MAP_VERSIONS)
-        _version = mapped_versions[version]
+        try:
+            mapped_versions = dict(XSD_MAP_VERSIONS)
+            _version = mapped_versions[version]
+        except KeyError as e:
+            raise VersionNotExpected(e)
         return f"../xsd/Facturaev{_version}.xsd"
 
     @classmethod
