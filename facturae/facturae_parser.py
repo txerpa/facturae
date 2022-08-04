@@ -4,13 +4,13 @@ from functools import reduce
 
 from lxml import objectify
 
-from facturae.accountant_validation import Validation
-from facturae.exceptions import VersionNotFound
+from facturae.accountant_validation import InvoiceValidation
+from facturae.exceptions import VersionXmlNotFound
 
 _logger = logging.getLogger(__name__)
 
 
-class FacturaeParser(Validation):
+class FacturaeParser(InvoiceValidation):
 
     _xml_obj = list()
     _xml_dict = list()
@@ -112,7 +112,7 @@ class FacturaeParser(Validation):
                 header = self.xml_obj.find("FileHeader")
                 self._version = header.SchemaVersion.text
             except Exception as e:
-                raise VersionNotFound(e)
+                raise VersionXmlNotFound(e)
         return self._version
 
     def parse_xml(self):
