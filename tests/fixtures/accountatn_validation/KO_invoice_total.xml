@@ -120,14 +120,14 @@
                 </Tax>
             </TaxesWithheld>
             <InvoiceTotals>
-                <TotalGrossAmount>1150.00</TotalGrossAmount>
+                <TotalGrossAmount>1250.00</TotalGrossAmount>
                 <TotalGeneralDiscounts>0.00</TotalGeneralDiscounts>
                 <TotalGrossAmountBeforeTaxes>1250.00</TotalGrossAmountBeforeTaxes>
                 <TotalTaxOutputs>262.50</TotalTaxOutputs>
                 <TotalTaxesWithheld>187.50</TotalTaxesWithheld>
-                <InvoiceTotal>1325.00</InvoiceTotal>
+                <InvoiceTotal>1.00</InvoiceTotal>
                 <TotalFinancialExpenses>0.00</TotalFinancialExpenses>
-                <TotalOutstandingAmount>1325.00</TotalOutstandingAmount>
+                <TotalOutstandingAmount>3.00</TotalOutstandingAmount>
                 <TotalPaymentsOnAccount>0.00</TotalPaymentsOnAccount>
                 <TotalExecutableAmount>1325.00</TotalExecutableAmount>
             </InvoiceTotals>

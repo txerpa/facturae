@@ -1,4 +1,4 @@
-KO_XML_V3_2_2 = """
+<?xml version="1.0" encoding="UTF-8"?>
 <facturae:Facturae xmlns:facturae="http://www.facturae.gob.es/formato/Versiones/Facturaev3_2_2.xml">
     <FileHeader>
         <SchemaVersion>3.2.2</SchemaVersion>
@@ -175,4 +175,3 @@ KO_XML_V3_2_2 = """
         </Invoice>
     </Invoices>
 </facturae:Facturae>
-"""
