@@ -45,6 +45,12 @@ class InvoiceClass:
     SUMMARY_DUPLICATED = 'CC'
 
 
+class InvoiceDocumentType:
+    COMPLETE_INVOICE = 'FC'
+    ABBREVIATED = 'FA'
+    SELF_INVOICE = 'AF'
+
+
 class InvoiceIssuerType:
     SELLER = 'EM'
     BUYER = 'RE'
