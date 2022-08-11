@@ -8,6 +8,7 @@ from facturae.accountant_validation import InvoiceValidation
 from facturae.exceptions import AccountantValidation
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "items_gross_amount, total_gross_amount, expect",
     [
