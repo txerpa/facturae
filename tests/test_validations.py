@@ -1,68 +1,122 @@
+from contextlib import nullcontext as does_not_raise
+from decimal import Decimal
+from unittest.mock import MagicMock, patch
+
 import pytest
 
+from facturae.accountant_validation import InvoiceValidation
 from facturae.exceptions import AccountantValidation
-from tests import get_xml_obj__parser
 
 
-def test_validate_invoice_tax_assert():
-    path = "fixtures/accountatn_validation/KO_invoice_tax_output.xml"
-    xml_obj, parser = get_xml_obj__parser(path)
+@pytest.mark.parametrize(
+    "items_gross_amount, total_gross_amount, expect",
+    [
+        (["12.21", "2.44", "3.23"], "17.88", does_not_raise()),
+        (["12.21", "2.44", "3.23"], "17.86", pytest.raises(AccountantValidation)),
+        (["12.21", "2.44", "3.23"], "17.87", pytest.raises(AccountantValidation)),
+    ],
+)
+def test_validate_invoice_gross_amount(items_gross_amount, total_gross_amount, expect):
+    invoice_elem = MagicMock()
+    invoice_elem.InvoiceTotals.TotalGrossAmount.text = total_gross_amount
+    items_list = []
+    for amount in items_gross_amount:
+        items = MagicMock()
+        items.GrossAmount.text = amount
+        items_list.append(items)
+    invoice_elem.Items.iterfind.return_value = iter(items_list)
 
-    with pytest.raises(
-        AssertionError, match=r".*[\"TaxesOutputs\", \"TaxesWithheld\"].*"
-    ):
-        parser._sum_tax_amount(xml_obj.find("Invoices"))
-
-
-def test_validate_invoice_gross_amount():
-    path = "fixtures/accountatn_validation/KO_xml_v3_2_2.xml"
-    xml_obj, parser = get_xml_obj__parser(path)
-
-    with pytest.raises(AccountantValidation):
-        for invoice in xml_obj.find("Invoices").iterfind("Invoice"):
-            parser.validate_invoice_gross_amount(invoice)
-
-
-def test_validate_invoice_tax_output():
-    path = "fixtures/accountatn_validation/KO_invoice_tax_output.xml"
-    xml_obj, parser = get_xml_obj__parser(path)
-
-    with pytest.raises(AccountantValidation):
-        for invoice in xml_obj.find("Invoices").iterfind("Invoice"):
-            parser.validate_invoice_tax_output(invoice)
+    with expect:
+        InvoiceValidation().validate_invoice_gross_amount(invoice_elem)
 
 
-def test_validate_invoice_tax_withheld():
-    path = "fixtures/accountatn_validation/KO_invoice_tax_withheld.xml"
-    xml_obj, parser = get_xml_obj__parser(path)
+@pytest.mark.parametrize(
+    "elem_type, taxes_amount, amount_tax, expect",
+    [
+        ("TaxesOutputs", ["12.21", "2.44", "3.23"], Decimal(17.88), does_not_raise()),
+        ("TaxesWithheld", ["12.21", "2.44", "3.23"], Decimal(17.88), does_not_raise()),
+        (
+            "TaxesOutputs",
+            ["12.21", "2.44", "3.23"],
+            Decimal(17.82),
+            pytest.raises(AssertionError),
+        ),
+        (
+            "TaxesWithheld",
+            ["12.21", "2.44", "3.23"],
+            Decimal(17.87),
+            pytest.raises(AssertionError),
+        ),
+        (
+            "Fail",
+            ["12.21", "2.44", "3.23"],
+            Decimal(17.88),
+            pytest.raises(
+                AssertionError, match=r".*[\"TaxesOutputs\", \"TaxesWithheld\"].*"
+            ),
+        ),
+        (
+            "Fail",
+            ["12.21", "2.44", "3.23"],
+            Decimal(17.88),
+            pytest.raises(
+                AssertionError, match=r".*[\"TaxesOutputs\", \"TaxesWithheld\"].*"
+            ),
+        ),
+    ],
+)
+def test_sum_tax_amount(elem_type, taxes_amount, amount_tax, expect):
+    parent_elem = MagicMock()
+    parent_elem.tag = elem_type
+    tax_list = []
+    for tax_amount in taxes_amount:
+        tax = MagicMock()
+        tax.TaxAmount.TotalAmount.text = tax_amount
+        tax_list.append(tax)
+    parent_elem.iterfind.return_value = iter(tax_list)
+    with expect:
+        sum_taxes = InvoiceValidation()._sum_tax_amount(parent_elem)
+        assert amount_tax.__round__(2) == sum_taxes.__round__(
+            2
+        ), "The sum does not add up."
 
-    with pytest.raises(AccountantValidation):
-        for invoice in xml_obj.find("Invoices").iterfind("Invoice"):
-            parser.validate_invoice_tax_withheld(invoice)
+
+@pytest.mark.parametrize(
+    "sum_response, total_tax_outputs, expect",
+    [
+        ("17.88", "17.88", does_not_raise()),
+        ("17.85", "17.86", pytest.raises(AccountantValidation)),
+        ("17.88", "17.87", pytest.raises(AccountantValidation)),
+    ],
+)
+def test_unit_validate_invoice_tax_output(sum_response, total_tax_outputs, expect):
+    invoice_elem = MagicMock()
+    invoice_elem.InvoiceTotals.TotalTaxOutputs.text = total_tax_outputs
+    mixin_validation = InvoiceValidation()
+    with expect:
+        with patch.object(
+            InvoiceValidation, "_sum_tax_amount", return_value=Decimal(sum_response)
+        ) as mock_method:
+            mixin_validation.validate_invoice_tax_output(invoice_elem)
+            mock_method.assert_called_once()
 
 
-def test_validate_invoice_total():
-    path = "fixtures/accountatn_validation/KO_invoice_total.xml"
-    xml_obj, parser = get_xml_obj__parser(path)
-
-    with pytest.raises(AccountantValidation):
-        for invoice in xml_obj.find("Invoices").iterfind("Invoice"):
-            parser.validate_invoice_total(invoice)
-
-
-def test_validate_total_outstanding_amount():
-    path = "fixtures/accountatn_validation/KO_invoice_total.xml"
-    xml_obj, parser = get_xml_obj__parser(path)
-
-    with pytest.raises(AccountantValidation):
-        for invoice in xml_obj.find("Invoices").iterfind("Invoice"):
-            parser.validate_total_outstanding_amount(invoice)
-
-
-def test_validate_tax_currency_code():
-    path = "fixtures/accountatn_validation/KO_xml_v3_2_2.xml"
-    xml_obj, parser = get_xml_obj__parser(path)
-
-    with pytest.raises(AccountantValidation):
-        for invoice in xml_obj.find("Invoices").iterfind("Invoice"):
-            parser.validate_tax_currency_code(invoice)
+@pytest.mark.parametrize(
+    "sum_response, total_tax_withheld, expect",
+    [
+        ("17.88", "17.88", does_not_raise()),
+        ("17.85", "17.86", pytest.raises(AccountantValidation)),
+        ("17.88", "17.87", pytest.raises(AccountantValidation)),
+    ],
+)
+def test_unit_validate_invoice_tax_withheld(sum_response, total_tax_withheld, expect):
+    invoice_elem = MagicMock()
+    invoice_elem.InvoiceTotals.TotalTaxesWithheld.text = total_tax_withheld
+    invoice_elem.TaxesWithheld = MagicMock()
+    mixin_validation = InvoiceValidation()
+    with expect:
+        with patch.object(
+            InvoiceValidation, "_sum_tax_amount", return_value=Decimal(sum_response)
+        ) as mock_method:
+            mixin_validation.validate_invoice_tax_withheld(invoice_elem)
+            mock_method.assert_called_once()
