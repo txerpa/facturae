@@ -64,6 +64,12 @@ class InvoiceDocumentType:
     ABBREVIATED = "FA"
 
 
+class InvoiceDocumentType:
+    COMPLETE_INVOICE = 'FC'
+    ABBREVIATED = 'FA'
+    SELF_INVOICE = 'AF'
+
+
 class InvoiceIssuerType:
     """
     Party who signs the invoice.
