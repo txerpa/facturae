@@ -65,9 +65,9 @@ class InvoiceDocumentType:
 
 
 class InvoiceDocumentType:
-    COMPLETE_INVOICE = 'FC'
-    ABBREVIATED = 'FA'
-    SELF_INVOICE = 'AF'
+    COMPLETE_INVOICE = "FC"
+    ABBREVIATED = "FA"
+    SELF_INVOICE = "AF"
 
 
 class InvoiceIssuerType:
