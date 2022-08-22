@@ -56,18 +56,13 @@ class InvoiceClass:
 class InvoiceDocumentType:
     """
     Tipo documento factura. Puede tomar 3 valores:
-        FC - “Complete Invoice”
-        FA - “Abbreviated.”
+    FC - “Complete Invoice”
+    FA - “Abbreviated.”
     """
 
-    COMPLETE = "FC"
+    COMPLETE_INVOICE = "FC"
     ABBREVIATED = "FA"
-
-
-class InvoiceDocumentType:
-    COMPLETE_INVOICE = 'FC'
-    ABBREVIATED = 'FA'
-    SELF_INVOICE = 'AF'
+    SELF_INVOICE = "AF"
 
 
 class InvoiceIssuerType:
