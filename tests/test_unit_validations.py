@@ -86,6 +86,7 @@ def test_sum_tax_amount(elem_type, taxes_amount, amount_tax, expect):
     "sum_response, total_tax_outputs, expect",
     [
         ("17.88", "17.88", does_not_raise()),
+        ("17.8832", "17.88", pytest.raises(AccountantValidation)),
         ("17.85", "17.86", pytest.raises(AccountantValidation)),
         ("17.88", "17.87", pytest.raises(AccountantValidation)),
     ],

@@ -31,12 +31,16 @@ class InvoiceValidation(BaseValidation):
         assert (
             parent_elem.tag in valid_parents
         ), f"Parent elem must be one of {valid_parents}"
-        return sum(
-            map(
-                lambda tax: Decimal(tax.TaxAmount.TotalAmount.text),
-                parent_elem.iterfind("Tax"),
-            )
-        ) or Decimal(0)
+
+        num_decimals = 2
+        list_taxes = []
+        for tax in parent_elem.iterfind("Tax"):
+            amount = Decimal(tax.TaxAmount.TotalAmount.text)
+            list_taxes.append(amount)
+            decimals = abs(amount.as_tuple().exponent)
+            if decimals > num_decimals:
+                num_decimals = decimals
+        return sum(list_taxes).__round__(num_decimals) or Decimal(0)
 
     def validate_invoice(self, invoice_elem):
         self.validate_invoice_gross_amount(invoice_elem)
