@@ -34,24 +34,35 @@ def test_validate_invoice_gross_amount(items_gross_amount, total_gross_amount, e
 @pytest.mark.parametrize(
     "elem_type, taxes_amount, amount_tax, expect",
     [
-        ("TaxesOutputs", ["12.21", "2.44", "3.23"], Decimal(17.88), does_not_raise()),
-        ("TaxesWithheld", ["12.21", "2.44", "3.23"], Decimal(17.88), does_not_raise()),
+        ("TaxesOutputs", ["12.21", "2.44", "3.23"], Decimal("17.88"), does_not_raise()),
+        (
+            "TaxesOutputs",
+            ["12.21", "2.44", "3.233"],
+            Decimal("17.883"),
+            does_not_raise(),
+        ),
+        (
+            "TaxesWithheld",
+            ["12.21", "2.44", "3.23"],
+            Decimal("17.88"),
+            does_not_raise(),
+        ),
         (
             "TaxesOutputs",
             ["12.21", "2.44", "3.23"],
-            Decimal(17.82),
+            Decimal("17.82"),
             pytest.raises(AssertionError),
         ),
         (
             "TaxesWithheld",
             ["12.21", "2.44", "3.23"],
-            Decimal(17.87),
+            Decimal("17.87"),
             pytest.raises(AssertionError),
         ),
         (
             "Fail",
             ["12.21", "2.44", "3.23"],
-            Decimal(17.88),
+            Decimal("17.88"),
             pytest.raises(
                 AssertionError, match=r".*[\"TaxesOutputs\", \"TaxesWithheld\"].*"
             ),
@@ -59,7 +70,7 @@ def test_validate_invoice_gross_amount(items_gross_amount, total_gross_amount, e
         (
             "Fail",
             ["12.21", "2.44", "3.23"],
-            Decimal(17.88),
+            Decimal("17.88"),
             pytest.raises(
                 AssertionError, match=r".*[\"TaxesOutputs\", \"TaxesWithheld\"].*"
             ),
@@ -77,9 +88,7 @@ def test_sum_tax_amount(elem_type, taxes_amount, amount_tax, expect):
     parent_elem.iterfind.return_value = iter(tax_list)
     with expect:
         sum_taxes = InvoiceValidation()._sum_tax_amount(parent_elem)
-        assert amount_tax.__round__(2) == sum_taxes.__round__(
-            2
-        ), "The sum does not add up."
+        assert amount_tax == sum_taxes, "The sum does not add up."
 
 
 @pytest.mark.parametrize(

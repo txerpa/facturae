@@ -32,7 +32,7 @@ class InvoiceValidation(BaseValidation):
             parent_elem.tag in valid_parents
         ), f"Parent elem must be one of {valid_parents}"
 
-        num_decimals = 2
+        num_decimals = 0
         list_taxes = []
         for tax in parent_elem.iterfind("Tax"):
             amount = Decimal(tax.TaxAmount.TotalAmount.text)
