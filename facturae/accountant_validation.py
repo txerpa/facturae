@@ -4,25 +4,7 @@ from facturae.constants import TaxTypeCode
 from facturae.exceptions import AccountantValidation
 
 
-class BaseValidation:
-    def _validate_tax_amount(self, tax):
-        tax_rate = Decimal(tax.TaxRate.text)
-        total_amount = Decimal(tax.TaxableBase.TotalAmount.text)
-        percentage = tax_rate / Decimal("100")
-        tax_amount = total_amount * percentage
-        if tax_amount != Decimal(tax.TaxAmount.TotalAmount.text):
-            raise AccountantValidation("Tax error calculation")
-
-
-class InvoiceValidation(BaseValidation):
-    def validate_taxes_outputs_amount(self, invoice_elem):
-        for tax in invoice_elem.TaxesOutputs.iterfind("Tax"):
-            self._validate_tax_amount(tax)
-
-    def validate_taxes_withheld_amount(self, invoice_elem):
-        for tax in invoice_elem.TaxesWithheld.iterfind("Tax"):
-            self._validate_tax_amount(tax)
-
+class InvoiceValidation:
     def _sum_tax_amount(self, parent_elem):
         """
         Sum tax amount from TaxesOutputs or TaxesWithheld
