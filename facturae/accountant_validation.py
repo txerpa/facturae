@@ -1,3 +1,4 @@
+import inspect
 from decimal import Decimal
 
 from facturae.constants import TaxTypeCode
@@ -5,7 +6,17 @@ from facturae.exceptions import AccountantValidation
 
 
 class InvoiceValidation:
-    def _sum_tax_amount(self, parent_elem):
+    @staticmethod
+    def run_all_validations(invoice_elem):
+        for name, func in dict(
+            inspect.getmembers(InvoiceValidation, predicate=inspect.isfunction)
+        ).items():
+            if name.startswith("validate_"):
+                print(func)
+                func(invoice_elem)
+
+    @staticmethod
+    def _sum_tax_amount(parent_elem):
         """
         Sum tax amount from TaxesOutputs or TaxesWithheld
         """
@@ -24,13 +35,8 @@ class InvoiceValidation:
                 num_decimals = decimals
         return sum(list_taxes).__round__(num_decimals) or Decimal(0)
 
-    def validate_invoice(self, invoice_elem):
-        self.validate_invoice_gross_amount(invoice_elem)
-        self.validate_invoice_tax_output(invoice_elem)
-        self.validate_invoice_tax_withheld(invoice_elem)
-        self.validate_invoice_total(invoice_elem)
-
-    def validate_invoice_gross_amount(self, invoice_elem):
+    @staticmethod
+    def validate_invoice_gross_amount(invoice_elem):
         sum_gross_amount = Decimal(0)
         total_gross_amount = Decimal(invoice_elem.InvoiceTotals.TotalGrossAmount.text)
 
@@ -39,23 +45,30 @@ class InvoiceValidation:
         if total_gross_amount != sum_gross_amount:
             raise AccountantValidation("total amount")
 
-    def validate_invoice_tax_output(self, invoice_elem):
+    @staticmethod
+    def validate_invoice_tax_output(invoice_elem):
         total_tax_outputs = Decimal(invoice_elem.InvoiceTotals.TotalTaxOutputs.text)
-        sum_taxes_taxes_outputs = self._sum_tax_amount(invoice_elem.TaxesOutputs)
+        sum_taxes_taxes_outputs = InvoiceValidation._sum_tax_amount(
+            invoice_elem.TaxesOutputs
+        )
         if total_tax_outputs != sum_taxes_taxes_outputs:
             raise AccountantValidation("Taxes output totals")
 
-    def validate_invoice_tax_withheld(self, invoice_elem):
+    @staticmethod
+    def validate_invoice_tax_withheld(invoice_elem):
         total_taxes_withheld = Decimal(
             invoice_elem.InvoiceTotals.TotalTaxesWithheld.text
         )
         sum_taxes_taxes_withheld = Decimal(0)
         if hasattr(invoice_elem, "TaxesWithheld"):
-            sum_taxes_taxes_withheld = self._sum_tax_amount(invoice_elem.TaxesWithheld)
+            sum_taxes_taxes_withheld = InvoiceValidation._sum_tax_amount(
+                invoice_elem.TaxesWithheld
+            )
         if total_taxes_withheld != sum_taxes_taxes_withheld:
             raise AccountantValidation("Taxes Withheld totals")
 
-    def validate_invoice_total(self, invoice_elem):
+    @staticmethod
+    def validate_invoice_total(invoice_elem):
         invoice_total = Decimal(invoice_elem.InvoiceTotals.InvoiceTotal.text)
         total_tax_outputs = Decimal(invoice_elem.InvoiceTotals.TotalTaxOutputs.text)
         total_taxes_withheld = Decimal(
@@ -78,7 +91,8 @@ class InvoiceValidation:
                 f'"TotalTaxesWithheld" (TotalImpuestosRetenidos)'
             )
 
-    def validate_total_outstanding_amount(self, invoice_elem):
+    @staticmethod
+    def validate_total_outstanding_amount(invoice_elem):
 
         total_outstanding_amount = Decimal(
             invoice_elem.InvoiceTotals.TotalOutstandingAmount.text
@@ -109,24 +123,75 @@ class InvoiceValidation:
             invoice_num = invoice_elem.InvoiceHeader.InvoiceNumber.text
             raise AccountantValidation(
                 f"Error en la factura nº{invoice_num}. "
-                f'Desde el elemento "InvoiceTotals", '
-                f'"TotalOutstandingAmount" (TotalAPagar) no es igual a '
-                f'"InvoiceTotal" (TotalFactura ) + '
-                f'"Sum Subsidy" (Sumatorio de ImporteSubvencion) - '
-                f'"TotalPaymentsOnAccount" (TotalAnticipos)'
+                f'Desde el elemento "Invoice Totals", '
+                f'"TotalOutstandingAmount" (Total a Pagar) no es igual a '
+                f'"InvoiceTotal" (Total Factura ) + '
+                f'"Sum Subsidy" (Sumatorio de Importe Subvencion) - '
+                f'"TotalPaymentsOnAccount" (Total Anticipos)'
             )
 
-    # todo:
-    """
-    El fichero seleccionado no es validable:
-    Error en su lectura: TotalAEjecutar(TotalExecutableAmount) de la factura número 1 no es igual a
+    @staticmethod
+    def validate_total_executable_amount(invoice_elem):
+        total_executable_amount = Decimal(
+            invoice_elem.InvoiceTotals.TotalExecutableAmount.text
+        )
 
-    TotalAPagar(TotalOutstandingAmount)
-    - Total de Cantidades retenidas (AmountsWithheld)
-    - ImportePagoEnEspecie (PaymentInKindAmount)
-    + TotalSuplidos (ReimbursableExpenses)
-    + TotalGastosFinancieros (TotalFinancialExpenses), debería ser : 2207.5
-    """
+        amounts_withheld = Decimal(0)
+        if hasattr(invoice_elem.InvoiceTotals, "AmountsWithheld"):
+            amounts_withheld = Decimal(
+                invoice_elem.InvoiceTotals.AmountsWithheld.WithholdingAmount.text
+            )
+        payment_in_kind_amount = Decimal(0)
+        if hasattr(invoice_elem.InvoiceTotals, "PaymentInKind"):
+            payment_in_kind_amount = Decimal(
+                invoice_elem.InvoiceTotals.PaymentInKind.PaymentInKindAmount.text
+            )
+        total_financial_expenses = Decimal(0)
+        if hasattr(invoice_elem.InvoiceTotals, "TotalFinancialExpenses"):
+            total_financial_expenses = Decimal(
+                invoice_elem.InvoiceTotals.TotalFinancialExpenses.text
+            )
+
+        total_reimbursable_expenses = Decimal(0)
+        if hasattr(invoice_elem.InvoiceTotals, "TotalReimbursableExpenses"):
+            total_reimbursable_expenses = Decimal(
+                invoice_elem.InvoiceTotals.TotalReimbursableExpenses.text
+            )
+
+        total_outstanding_amount = Decimal(
+            invoice_elem.InvoiceTotals.TotalOutstandingAmount.text
+        )
+
+        calc_total_executable_amount = (
+            total_outstanding_amount
+            - amounts_withheld
+            - payment_in_kind_amount
+            + total_reimbursable_expenses
+            + total_financial_expenses
+        )
+
+        if calc_total_executable_amount != total_executable_amount:
+            invoice_num = invoice_elem.InvoiceHeader.InvoiceNumber.text
+            raise AccountantValidation(
+                f"Error en la factura nº{invoice_num}. "
+                f'Desde el elemento "InvoiceTotals", '
+                f"TotalExecutableAmount (Total a ejecutar). Es el Resultado de: "
+                f'"TotalOutstandingAmount" (Total a Pagar ) - '
+                f'"AmountsWithheld" (Total de Cantidades retenidas ) - '
+                f'"PaymentInKindAmount" (Importe Pago en Especie ) + '
+                f'"TotalReimbursableExpenses" (Total Suplidos ) + '
+                f'"TotalFinancialExpenses" (Total Gastos Financieros ). \n'
+                f"En Total de Cantidades retenidas se sumaran las cantidades"
+                f"especificadas en los bloques AmountsWithheld"
+                ""
+            )
+
+    @staticmethod
+    def validate_tax_currency_code(invoice_elem):
+        if invoice_elem.InvoiceIssueData.TaxCurrencyCode != "EUR":
+            raise AccountantValidation(
+                "El nodo MonedaImpuesto(TaxCurrencyCode) debe ser obligatoriamente EUR"
+            )
 
     # LOTE
 
@@ -188,9 +253,3 @@ class InvoiceValidation:
     """
      El nodo MonedaImpuesto(TaxCurrencyCode) debe ser obligatoriamente EUR
     """
-
-    def validate_tax_currency_code(self, invoice_elem):
-        if invoice_elem.InvoiceIssueData.TaxCurrencyCode != "EUR":
-            raise AccountantValidation(
-                "El nodo MonedaImpuesto(TaxCurrencyCode) debe ser obligatoriamente EUR"
-            )

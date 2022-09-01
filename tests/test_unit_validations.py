@@ -28,7 +28,7 @@ def test_validate_invoice_gross_amount(items_gross_amount, total_gross_amount, e
     invoice_elem.Items.iterfind.return_value = iter(items_list)
 
     with expect:
-        InvoiceValidation().validate_invoice_gross_amount(invoice_elem)
+        InvoiceValidation.validate_invoice_gross_amount(invoice_elem)
 
 
 @pytest.mark.parametrize(
@@ -87,7 +87,7 @@ def test_sum_tax_amount(elem_type, taxes_amount, amount_tax, expect):
         tax_list.append(tax)
     parent_elem.iterfind.return_value = iter(tax_list)
     with expect:
-        sum_taxes = InvoiceValidation()._sum_tax_amount(parent_elem)
+        sum_taxes = InvoiceValidation._sum_tax_amount(parent_elem)
         assert amount_tax == sum_taxes, "The sum does not add up."
 
 
@@ -103,12 +103,11 @@ def test_sum_tax_amount(elem_type, taxes_amount, amount_tax, expect):
 def test_unit_validate_invoice_tax_output(sum_response, total_tax_outputs, expect):
     invoice_elem = MagicMock()
     invoice_elem.InvoiceTotals.TotalTaxOutputs.text = total_tax_outputs
-    mixin_validation = InvoiceValidation()
     with expect:
         with patch.object(
             InvoiceValidation, "_sum_tax_amount", return_value=Decimal(sum_response)
         ) as mock_method:
-            mixin_validation.validate_invoice_tax_output(invoice_elem)
+            InvoiceValidation.validate_invoice_tax_output(invoice_elem)
             mock_method.assert_called_once()
 
 

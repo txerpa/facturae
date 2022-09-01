@@ -10,7 +10,7 @@ from facturae.exceptions import VersionXmlNotFound
 _logger = logging.getLogger(__name__)
 
 
-class FacturaeParser(InvoiceValidation):
+class FacturaeParser:
 
     _xml_obj = list()
     _xml_dict = list()
