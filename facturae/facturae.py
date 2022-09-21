@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from lxml import etree
 from libcomxml.core import XmlModel, XmlField
+
+from .constants import DECIMAL_PLACES
 from .utils import FacturaeUtils
 from signxml import XMLVerifier
 from xml.etree import ElementTree
@@ -465,16 +467,25 @@ class Tax(XmlModel):
                    'taxamount', 'specialtaxablebase', 'specialtaxamount',
                    'equivalencesurcharge', 'equivalencesurchargeamount')
 
-    def __init__(self):
+    def __init__(self, decimal_places=None):
         self.tax = XmlField('Tax')
         self.taxtypecode = XmlField('TaxTypeCode')
         self.taxrate = XmlField('TaxRate', rep=lambda x: '%.8f' % x)
-        self.taxablebase = TaxData('TaxableBase')
-        self.taxamount = TaxData('TaxAmount')
+        self.taxablebase = TaxData(
+            'TaxableBase',
+            decimal_places=decimal_places
+        )
+        self.taxamount = TaxData(
+            'TaxAmount',
+            decimal_places=decimal_places
+        )
         self.specialtaxablebase = TaxData('SpecialTaxableBase')
         self.specialtaxamount = TaxData('SpecialTaxAmount')
         self.equivalencesurcharge = XmlField('EquivalenceSurcharge')
-        self.equivalencesurchargeamount = TaxData('EquivalenceSurchargeAmount')
+        self.equivalencesurchargeamount = TaxData(
+            'EquivalenceSurchargeAmount',
+            decimal_places=decimal_places
+        )
         super(Tax, self).__init__('Tax', 'tax')
 
 # 3.1.3.1.3
@@ -488,11 +499,18 @@ class TaxData(XmlModel):
 
     _sort_order = ('taxdata', 'totalamount', 'equivalentineuros')
 
-    def __init__(self, tag):
+    def __init__(self, tag, decimal_places=None):
+        decimal_places = decimal_places or DECIMAL_PLACES
         self.taxdata = XmlField(tag)
-        self.totalamount = XmlField('TotalAmount', rep=lambda x: '%.2f' % x)
-        self.equivalentineuros = XmlField('EquivalentInEuros',
-                                          rep=lambda x: '%.2f' % x)
+        decimal_formater = f'%.{decimal_places}f'
+        self.totalamount = XmlField(
+            'TotalAmount',
+            rep=lambda x: decimal_formater % x
+        )
+        self.equivalentineuros = XmlField(
+            'EquivalentInEuros',
+            rep=lambda x: f'%.2f' % x
+        )
         super(TaxData, self).__init__(tag, 'taxdata')
 
 # 3.1.5
