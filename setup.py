@@ -14,10 +14,10 @@ setup(
     install_requires=[
         "lxml>=4.9.0",
         "libComXML==3.1.0",
-        "signxml==2.9.0",
+        "signxml==2.10.1",
         "xades==0.2.4",
         "crypto==1.4.1",
-        "xmlsig==0.1.9",
+        "xmlsig==0.1.9"
     ],
     zip_safe=False,
     keywords=["facturae"],
