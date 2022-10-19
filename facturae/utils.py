@@ -1,31 +1,59 @@
 # -*- coding: utf-8 -*-
+import logging
 import os
+from xml.etree import ElementTree
+
 import xmlsig
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
-from .constants import XSD_MAP_VERSIONS, XSL_MAP_VERSIONS, DEFAULT_VERSION, \
-    SIGN_POLICY, SIGNER_ROLE
-
 from lxml import etree
-from xml.etree import ElementTree
 from OpenSSL import crypto
 from signxml import XMLSigner
-from xades import utils, template, XAdESContext
+from xades import XAdESContext, template, utils
 from xades.policy import GenericPolicyId
-import logging
 
-from facturae.exceptions import FacturaeSignError, FacturaeValidationError
+from facturae.exceptions import (
+    FacturaeSignError,
+    SchemaValidationError,
+    VersionNotExpected,
+)
+
+from .constants import (
+    DEFAULT_VERSION,
+    SIGN_POLICY,
+    SIGNER_ROLE,
+    XSD_MAP_VERSIONS,
+    XSL_MAP_VERSIONS,
+)
 
 _logger = logging.getLogger(__name__)
 
 
 class FacturaeUtils(object):
-
     @staticmethod
     def get_xsd_file(version):
-        mapped_versions = dict(XSD_MAP_VERSIONS)
-        _version = mapped_versions[version]
+        try:
+            mapped_versions = dict(XSD_MAP_VERSIONS)
+            _version = mapped_versions[version]
+        except KeyError as e:
+            raise VersionNotExpected(e)
         return f"../xsd/Facturaev{_version}.xsd"
+
+    @classmethod
+    def validate_xml(cls, xml_string, version=None):
+        version = version or DEFAULT_VERSION
+        xsd_file_name = cls.get_xsd_file(version)
+        path = os.path.join(os.path.abspath(os.path.dirname(__file__)), xsd_file_name)
+        _logger.debug(f"XSD: {path}")
+        with open(path, "r") as f:
+            facturae_schema = etree.XMLSchema(etree.parse(f))
+        try:
+            facturae_schema.assertValid(etree.fromstring(xml_string))
+        except Exception as e:
+            raise SchemaValidationError(
+                "The XML is not valid against the official "
+                f"XML schema definition {version}. Produced error: {str(e)}"
+            )
 
     @staticmethod
     def get_xsl_file(version):
@@ -33,25 +61,9 @@ class FacturaeUtils(object):
         _version = mapped_versions[version]
         return f"../xsl/Visualizador{_version}.xsl"
 
-    @staticmethod
-    def validate_xml(xml_string, version=None):
-        version = version or DEFAULT_VERSION
-        xsd_file_name = FacturaeUtils.get_xsd_file(version)
-        path = os.path.join(os.path.abspath(os.path.dirname(__file__)), xsd_file_name)
-        _logger.debug(f"XSD: {path}")
-        facturae_schema = etree.XMLSchema(
-            etree.parse(open(path, 'r'))
-        )
-        try:
-            facturae_schema.assertValid(etree.fromstring(xml_string))
-        except Exception as e:
-            raise FacturaeValidationError(
-                'The XML is not valid against the official '
-                'XML schema definition. Produced error: %s' % str(e))
-
-    @staticmethod
-    def to_html(xml_string, version):
-        xsl_file = FacturaeUtils.get_xsl_file(version)
+    @classmethod
+    def to_html(cls, xml_string, version):
+        xsl_file = cls.get_xsl_file(version)
         xsl_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), xsl_file)
         _logger.debug(f"XSL: {xsl_path}")
         with open(xsl_path, "rb") as f:
@@ -71,9 +83,13 @@ class FacturaeUtils(object):
         return string_signed_root
 
     @staticmethod
-    def sign_xades(xml: str, public_cert: str, private_key: str,
-                   signer_role: str = None,
-                   signature_production_place: dict = None):
+    def sign_xades(
+        xml: str,
+        public_cert: str,
+        private_key: str,
+        signer_role: str = None,
+        signature_production_place: dict = None,
+    ):
         """
         Apply XADES-EPES signature to XML
         :param xml: XML to sign
@@ -105,9 +121,10 @@ class FacturaeUtils(object):
         xmlsig.template.add_transform(ref, xmlsig.constants.TransformEnveloped)
         # 5.Add the other references
         xmlsig.template.add_reference(
-            signature, xmlsig.constants.TransformSha1,
+            signature,
+            xmlsig.constants.TransformSha1,
             uri="#" + signature_id,
-            uri_type="http://uri.etsi.org/01903/v1.2.2#SignedProperties"
+            uri_type="http://uri.etsi.org/01903/v1.2.2#SignedProperties",
         )
         key_info_id = utils.get_unique_id()
         xmlsig.template.add_reference(
@@ -122,18 +139,16 @@ class FacturaeUtils(object):
         xmlsig.template.x509_issuer_serial_add_serial_number(serial)
         xmlsig.template.add_key_value(ki)
         qualifying = template.create_qualifying_properties(
-            signature, name=utils.get_unique_id(), etsi='xades'
+            signature, name=utils.get_unique_id(), etsi="xades"
         )
         # Add additional data por the signature
-        props = template.create_signed_properties(
-            qualifying, name=signature_id
-        )
+        props = template.create_signed_properties(qualifying, name=signature_id)
         # Additional data for signature
         if signer_role:
             if signer_role not in SIGNER_ROLE:
                 raise FacturaeSignError(
-                    f'Signer role \'{signer_role}\' is invalid. '
-                    f'Has to be one of the following roles: {SIGNER_ROLE}'
+                    f"Signer role '{signer_role}' is invalid. "
+                    f"Has to be one of the following roles: {SIGNER_ROLE}"
                 )
             template.add_claimed_role(props, signer_role)
         if signature_production_place:
@@ -153,9 +168,7 @@ class FacturaeUtils(object):
         # Load the certificate and private key to the ctx
         # and perform the signing
         with open(public_cert, "rb") as public_cert_file:
-            certificate = x509.load_pem_x509_certificate(
-                public_cert_file.read()
-            )
+            certificate = x509.load_pem_x509_certificate(public_cert_file.read())
         ctx.x509 = certificate
         ctx.public_key = certificate.public_key()
         with open(private_key, "rb") as private_key_file:
@@ -173,13 +186,13 @@ class FacturaeUtils(object):
             pk=certificate, passwd=password
         )
         try:
-            string_signed_root = FacturaeUtils.sign_xmldsig(
-                xml, pkcs12_cert, pkcs12_key
-            )
+            string_signed_root = cls.sign_xmldsig(xml, pkcs12_cert, pkcs12_key)
         except Exception as e:
-            _logger.error(f'Error occurred while trying to sign facturae '
-                          f'xml with provided certificate: {e}')
-            raise FacturaeSignError('Fail to sign facturae')
+            _logger.error(
+                f"Error occurred while trying to sign facturae "
+                f"xml with provided certificate: {e}"
+            )
+            raise FacturaeSignError("Fail to sign facturae")
         return string_signed_root
 
     @classmethod
@@ -195,18 +208,16 @@ class FacturaeUtils(object):
             certificate = crypto.load_certificate(crypto.FILETYPE_PEM, certificate)
             private_key = crypto.load_privatekey(crypto.FILETYPE_PEM, private_key)
 
-            priv_key = crypto.dump_privatekey(
-                crypto.FILETYPE_PEM, private_key
-            )
+            priv_key = crypto.dump_privatekey(crypto.FILETYPE_PEM, private_key)
 
-            cert = crypto.dump_certificate(
-                crypto.FILETYPE_PEM, certificate
-            )
+            cert = crypto.dump_certificate(crypto.FILETYPE_PEM, certificate)
         except Exception as e:
-            _logger.error(f'Error occurred while trying to load key and '
-                          f'certificate from a X509 certificate: {e}')
-            raise FacturaeSignError('Fail to load key and certificate')
-        string_signed_root = FacturaeUtils.sign_xmldsig(xml, cert, priv_key)
+            _logger.error(
+                f"Error occurred while trying to load key and "
+                f"certificate from a X509 certificate: {e}"
+            )
+            raise FacturaeSignError("Fail to load key and certificate")
+        string_signed_root = cls.sign_xmldsig(xml, cert, priv_key)
         return string_signed_root
 
     @staticmethod
@@ -221,17 +232,15 @@ class FacturaeUtils(object):
         try:
             p12 = crypto.load_pkcs12(pk, passwd)
 
-            priv_key = crypto.dump_privatekey(
-                crypto.FILETYPE_PEM, p12.get_privatekey()
-            )
+            priv_key = crypto.dump_privatekey(crypto.FILETYPE_PEM, p12.get_privatekey())
 
-            cert = crypto.dump_certificate(
-                crypto.FILETYPE_PEM, p12.get_certificate()
-            )
+            cert = crypto.dump_certificate(crypto.FILETYPE_PEM, p12.get_certificate())
 
             return priv_key, cert
 
         except Exception as e:
-            _logger.error(f'Error occurred while trying to load key and '
-                          f'certificate from a PKCS12 certificate: {e}')
-            raise FacturaeSignError('Fail to load key and certificate')
+            _logger.error(
+                f"Error occurred while trying to load key and "
+                f"certificate from a PKCS12 certificate: {e}"
+            )
+            raise FacturaeSignError("Fail to load key and certificate")

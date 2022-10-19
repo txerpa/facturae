@@ -1,24 +1,31 @@
 repos:
- - repo: https://github.com/pre-commit/pre-commit-hooks
-   rev: v4.2.0
-   hooks:
-   - id: check-docstring-first
-   - id: check-added-large-files
-   - id: check-case-conflict
-   - id: check-merge-conflict
-   - id: check-symlinks
-   - id: check-json
-   - id: check-yaml
-   - id: check-toml
-   - id: trailing-whitespace
-     exclude: ^.*\.cfg|\.xsl|\.xml|\.xsd$
-     language: python
-     types: [ text ]
-#- repo: https://github.com/psf/black
-#  rev: 22.3.0
-#  hooks:
-#  - id: black
-#    language_version: python3.8
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+    - id: check-docstring-first
+    - id: check-added-large-files
+    - id: check-case-conflict
+    - id: check-merge-conflict
+    - id: check-symlinks
+    - id: check-json
+    - id: check-yaml
+    - id: check-toml
+    - id: trailing-whitespace
+      exclude: ^.*\.cfg$
+      language: python
+      types: [ text ]
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+    - id: black
+      language_version: python3.8
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+ci:
+  autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
+  autoupdate_commit_msg: ⬆ [pre-commit.ci] pre-commit autoupdate
 #- repo: https://github.com/pycqa/isort
 #  rev: 5.10.1
 #  hooks:

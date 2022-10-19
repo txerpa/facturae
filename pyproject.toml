@@ -1,0 +1,16 @@
+[tool.isort]
+skip = [".gitignore", ".tox"]
+extend_skip = [".md", ".json"]
+atomic = true
+known_first_party = ["facturae", "tests"]
+profile = "black"
+
+[tool.coverage.run]
+source = ["facturae/"]
+include = ["facturae/*", "tests/*"]
+branch = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -v"
+testpaths = ["tests",]
