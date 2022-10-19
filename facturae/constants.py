@@ -6,6 +6,8 @@ VERSION_3_2_2 = "3.2.2"
 
 DEFAULT_VERSION = VERSION_3_2_2
 
+DECIMAL_PLACES = 2
+
 POLICY_ENDPOINT = (
     "politica_de_firma_formato_facturae/"
     "politica_de_firma_formato_facturae_v3_1"
