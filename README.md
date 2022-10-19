@@ -6,7 +6,7 @@ Originally it allows you to build Facturae xml format based on v3.2.1
 
 It depends on [libComXML](https://github.com/gisce/libComXML)
 
-#### Tested on: 
+#### Tested on:
 * python 3.8
 * python 3.9
 * python 3.10
